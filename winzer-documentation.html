@@ -380,92 +380,134 @@
 - Review SNS notification frequency</p>
 <hr />
 <h2 id="content-management">Content Management</h2>
-<p><strong>Content Inventory:</strong><br />
-- <strong>Pages:</strong> 39 pages across all sites<br />
-- <strong>Blog Posts:</strong> 44 posts (OneSource), 0 (FastServ), 0 (Corp)<br />
-- <strong>Collections:</strong> 1,200+ collections with custom metafields<br />
-- <strong>Products:</strong> 15,000+ products with extensive metafield data</p>
+<p><strong>Content Inventory:</strong></p>
+<ul>
+  <li><strong>Pages:</strong> 39 pages across all sites</li>
+  <li><strong>Blog Posts:</strong> 44 posts (OneSource), 0 (FastServ), 0 (Corp)</li>
+  <li><strong>Collections:</strong> 1,200+ collections with custom metafields</li>
+  <li><strong>Products:</strong> 15,000+ products with extensive metafield data</li>
+</ul>
 <h3 id="page-templates-content-structure">Page Templates &amp; Content Structure</h3>
 <p><strong>Template Architecture:</strong><br />
 The Winzer theme uses a modular section-based approach for content management, allowing flexible page layouts through customizable content blocks.</p>
 <p><strong>Core Page Templates:</strong></p>
-<p><strong>1. Homepage Template (<code>index.json</code>)</strong><br />
-- <strong>Primary Sections:</strong><br />
-  - <code>image-banner</code>: Hero section with custom messaging<br />
-  - <code>icon-list</code>: Category navigation with 12 product categories<br />
-  - <code>featured-links</code>: Promotional content blocks (3-4 featured items)<br />
-  - <code>rich-text</code>: Brand messaging and value propositions<br />
-  - <code>image-with-text</code>: Brand storytelling sections<br />
-  - <code>cards</code>: Partner/vendor logo displays<br />
-  - <code>searchspring-recommendations</code>: Dynamic product recommendations</p>
-<p><strong>2. Standard Page Template (<code>page.json</code>)</strong><br />
-- <strong>Default Structure:</strong><br />
-  - <code>info-accordion</code>: FAQ-style content blocks (up to 12 accordion items)<br />
-  - <code>main-page</code>: Standard page content with rich text editor<br />
-- <strong>Content Blocks:</strong><br />
-  - Accordion dropdowns with custom headings and content<br />
-  - Rich text content with HTML support<br />
-  - Custom styling and color options</p>
-<p><strong>3. Article Template (<code>article.json</code>)</strong><br />
-- <strong>Structure:</strong><br />
-  - <code>main-article</code>: Blog post content with featured image, title, and content<br />
-  - <code>featured_image</code>: Hero image for blog posts<br />
-  - <code>title</code>: Article headline<br />
-  - <code>content</code>: Rich text article body<br />
-  - <code>share</code>: Social sharing functionality</p>
-<p><strong>4. Blog Template (<code>blog.json</code>)</strong><br />
-- <strong>Structure:</strong><br />
-  - <code>main-blog</code>: Blog listing page with post grid<br />
-  - <strong>Features:</strong><br />
-    - Pagination support<br />
-    - Category filtering<br />
-    - Search functionality<br />
-    - Featured post highlighting</p>
+<p><strong>1. Homepage Template (<code>index.json</code>)</strong></p>
+<ul>
+  <li><strong>Primary Sections:</strong>
+    <ul>
+      <li><code>image-banner</code>: Hero section with custom messaging</li>
+      <li><code>icon-list</code>: Category navigation with 12 product categories</li>
+      <li><code>featured-links</code>: Promotional content blocks (3-4 featured items)</li>
+      <li><code>rich-text</code>: Brand messaging and value propositions</li>
+      <li><code>image-with-text</code>: Brand storytelling sections</li>
+      <li><code>cards</code>: Partner/vendor logo displays</li>
+      <li><code>searchspring-recommendations</code>: Dynamic product recommendations</li>
+    </ul>
+  </li>
+</ul>
+<p><strong>2. Standard Page Template (<code>page.json</code>)</strong></p>
+<ul>
+  <li><strong>Default Structure:</strong>
+    <ul>
+      <li><code>info-accordion</code>: FAQ-style content blocks (up to 12 accordion items)</li>
+      <li><code>main-page</code>: Standard page content with rich text editor</li>
+    </ul>
+  </li>
+  <li><strong>Content Blocks:</strong>
+    <ul>
+      <li>Accordion dropdowns with custom headings and content</li>
+      <li>Rich text content with HTML support</li>
+      <li>Custom styling and color options</li>
+    </ul>
+  </li>
+</ul>
+<p><strong>3. Article Template (<code>article.json</code>)</strong></p>
+<ul>
+  <li><strong>Structure:</strong>
+    <ul>
+      <li><code>main-article</code>: Blog post content with featured image, title, and content</li>
+      <li><code>featured_image</code>: Hero image for blog posts</li>
+      <li><code>title</code>: Article headline</li>
+      <li><code>content</code>: Rich text article body</li>
+      <li><code>share</code>: Social sharing functionality</li>
+    </ul>
+  </li>
+</ul>
+<p><strong>4. Blog Template (<code>blog.json</code>)</strong></p>
+<ul>
+  <li><strong>Structure:</strong>
+    <ul>
+      <li><code>main-blog</code>: Blog listing page with post grid</li>
+    </ul>
+  </li>
+  <li><strong>Features:</strong>
+    <ul>
+      <li>Pagination support</li>
+      <li>Category filtering</li>
+      <li>Search functionality</li>
+      <li>Featured post highlighting</li>
+    </ul>
+  </li>
+</ul>
 <p><strong>5. Page Template Variants:</strong></p>
-<p><strong>A. Brand Pages (<code>page.brands.json</code>)</strong><br />
-- <strong>Purpose:</strong> Showcase brand partnerships and product lines<br />
-- <strong>Structure:</strong> Hero banner + multiple icon-list sections for brand logos<br />
-- <strong>Sections Used:</strong> <code>image-banner</code>, <code>icon-list</code> (multiple instances)<br />
-- <strong>Content Entry:</strong> Brand logos, links to brand collections, hero messaging<br />
-- <strong>Example:</strong> OneSource brands page with 3M, Gates, Lenox, Loctite, etc.<br />
-- <strong>Wrapper Class:</strong> <code>div.customer-service-page</code></p>
-<p><strong>B. About Pages (<code>page.about.json</code>)</strong><br />
-- <strong>Purpose:</strong> Company information and value propositions<br />
-- <strong>Structure:</strong> Hero + features list + image-with-text sections + testimonials<br />
-- <strong>Sections Used:</strong> <code>image-banner</code>, <code>features-list</code>, <code>image-with-text</code>, <code>info-carousel</code><br />
-- <strong>Content Entry:</strong> Company stats, mission content, team photos, testimonials<br />
-- <strong>Example:</strong> OneSource about page with company stats (65,000+ products, 46+ years)<br />
-- <strong>Wrapper Class:</strong> <code>div.about-us</code></p>
-<p><strong>C. Contact Pages (<code>page.contact.json</code>)</strong><br />
-- <strong>Purpose:</strong> Customer service and contact information<br />
-- <strong>Structure:</strong> Hero banner + menu bar + customer service section<br />
-- <strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code><br />
-- <strong>Content Entry:</strong> Contact forms, service hours, contact information<br />
-- <strong>Features:</strong> Contact form integration, service hours display<br />
-- <strong>Wrapper Class:</strong> <code>div.customer-service-page</code></p>
-<p><strong>D. FAQ Pages (<code>page.faqs.json</code>)</strong><br />
-- <strong>Purpose:</strong> Customer service and frequently asked questions<br />
-- <strong>Structure:</strong> Hero + menu bar + collapsible FAQ sections<br />
-- <strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code> (with collapsible tabs)<br />
-- <strong>Content Entry:</strong> FAQ questions/answers, quick links, policy information<br />
-- <strong>Features:</strong> Collapsible accordion interface, quick navigation links<br />
-- <strong>Wrapper Class:</strong> <code>div.faqs-page</code></p>
-<p><strong>E. Customer Service Pages (<code>page.customer-service.json</code>)</strong><br />
-- <strong>Purpose:</strong> General customer service information<br />
-- <strong>Structure:</strong> Hero + menu bar + customer service content<br />
-- <strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code><br />
-- <strong>Content Entry:</strong> Service information, contact details, forms<br />
-- <strong>Wrapper Class:</strong> <code>div.customer-service-page</code></p>
-<p><strong>F. Classic Orders Page (<code>page.classic_orders.json</code>)</strong><br />
-- <strong>Purpose:</strong> Legacy order management interface<br />
-- <strong>Structure:</strong> Single section for order management<br />
-- <strong>Sections Used:</strong> <code>page-classic-orders</code><br />
-- <strong>Content Entry:</strong> Order management interface</p>
-<p><strong>G. Style Guide Page (<code>page.styleguide.json</code>)</strong><br />
-- <strong>Purpose:</strong> Design system documentation<br />
-- <strong>Structure:</strong> Single section for style guide content<br />
-- <strong>Sections Used:</strong> <code>main-page-styleguide</code><br />
-- <strong>Content Entry:</strong> Design system documentation</p>
+<p><strong>A. Brand Pages (<code>page.brands.json</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Showcase brand partnerships and product lines</li>
+  <li><strong>Structure:</strong> Hero banner + multiple icon-list sections for brand logos</li>
+  <li><strong>Sections Used:</strong> <code>image-banner</code>, <code>icon-list</code> (multiple instances)</li>
+  <li><strong>Content Entry:</strong> Brand logos, links to brand collections, hero messaging</li>
+  <li><strong>Example:</strong> OneSource brands page with 3M, Gates, Lenox, Loctite, etc.</li>
+  <li><strong>Wrapper Class:</strong> <code>div.customer-service-page</code></li>
+</ul>
+<p><strong>B. About Pages (<code>page.about.json</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Company information and value propositions</li>
+  <li><strong>Structure:</strong> Hero + features list + image-with-text sections + testimonials</li>
+  <li><strong>Sections Used:</strong> <code>image-banner</code>, <code>features-list</code>, <code>image-with-text</code>, <code>info-carousel</code></li>
+  <li><strong>Content Entry:</strong> Company stats, mission content, team photos, testimonials</li>
+  <li><strong>Example:</strong> OneSource about page with company stats (65,000+ products, 46+ years)</li>
+  <li><strong>Wrapper Class:</strong> <code>div.about-us</code></li>
+</ul>
+<p><strong>C. Contact Pages (<code>page.contact.json</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Customer service and contact information</li>
+  <li><strong>Structure:</strong> Hero banner + menu bar + customer service section</li>
+  <li><strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code></li>
+  <li><strong>Content Entry:</strong> Contact forms, service hours, contact information</li>
+  <li><strong>Features:</strong> Contact form integration, service hours display</li>
+  <li><strong>Wrapper Class:</strong> <code>div.customer-service-page</code></li>
+</ul>
+<p><strong>D. FAQ Pages (<code>page.faqs.json</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Customer service and frequently asked questions</li>
+  <li><strong>Structure:</strong> Hero + menu bar + collapsible FAQ sections</li>
+  <li><strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code> (with collapsible tabs)</li>
+  <li><strong>Content Entry:</strong> FAQ questions/answers, quick links, policy information</li>
+  <li><strong>Features:</strong> Collapsible accordion interface, quick navigation links</li>
+  <li><strong>Wrapper Class:</strong> <code>div.faqs-page</code></li>
+</ul>
+<p><strong>E. Customer Service Pages (<code>page.customer-service.json</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> General customer service information</li>
+  <li><strong>Structure:</strong> Hero + menu bar + customer service content</li>
+  <li><strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code></li>
+  <li><strong>Content Entry:</strong> Service information, contact details, forms</li>
+  <li><strong>Wrapper Class:</strong> <code>div.customer-service-page</code></li>
+</ul>
+<p><strong>F. Classic Orders Page (<code>page.classic_orders.json</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Legacy order management interface</li>
+  <li><strong>Structure:</strong> Single section for order management</li>
+  <li><strong>Sections Used:</strong> <code>page-classic-orders</code></li>
+  <li><strong>Content Entry:</strong> Order management interface</li>
+</ul>
+<p><strong>G. Style Guide Page (<code>page.styleguide.json</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Design system documentation</li>
+  <li><strong>Structure:</strong> Single section for style guide content</li>
+  <li><strong>Sections Used:</strong> <code>main-page-styleguide</code></li>
+  <li><strong>Content Entry:</strong> Design system documentation</li>
+</ul>
 <p><strong>Winzer Corp Page Templates:</strong></p>
 <p><strong>H. About Page (<code>page.about.json</code>)</strong><br />
 - <strong>Purpose:</strong> Corporate about page with company statistics and values<br />
@@ -1089,60 +1131,97 @@ The Winzer theme uses a modular section-based approach for content management, a
   - Standard Shopify fields: Author, tags, featured image<br />
   - Custom content through rich text editor</p>
 <h3 id="content-management-workflows">Content Management Workflows</h3>
-<p><strong>1. Page Creation Workflow:</strong><br />
-1. <strong>Access:</strong> Shopify Admin → Online Store → Pages<br />
-2. <strong>Template Selection:</strong> Choose appropriate template (page.json, article.json)<br />
-3. <strong>Content Entry:</strong><br />
-   - Add page title and handle<br />
-   - Select template suffix if needed<br />
-   - Add content using rich text editor<br />
-4. <strong>Metafield Configuration:</strong><br />
-   - Set custom title tag<br />
-   - Add meta description<br />
-   - Configure any custom metafields<br />
-5. <strong>Section Configuration:</strong><br />
-   - Add and configure content sections<br />
-   - Set section-specific settings (colors, spacing, animations)<br />
-   - Preview and test responsive behavior<br />
-6. <strong>Publishing:</strong><br />
-   - Set visibility and publication date<br />
-   - Test on staging environment<br />
-   - Publish to live site</p>
-<p><strong>2. Blog Post Creation Workflow:</strong><br />
-1. <strong>Access:</strong> Shopify Admin → Online Store → Blog posts<br />
-2. <strong>Content Creation:</strong><br />
-   - Add title and content using rich text editor<br />
-   - Upload featured image<br />
-   - Set author and publication date<br />
-   - Add relevant tags<br />
-3. <strong>SEO Configuration:</strong><br />
-   - Set custom title tag<br />
-   - Add meta description<br />
-   - Configure social sharing settings<br />
-4. <strong>Publishing:</strong><br />
-   - Preview content<br />
-   - Schedule or publish immediately<br />
-   - Verify on live site</p>
-<p><strong>3. Collection Page Enhancement:</strong><br />
-1. <strong>Access:</strong> Shopify Admin → Products → Collections<br />
-2. <strong>Metafield Configuration:</strong><br />
-   - Set <code>cql.seo_collection_heading</code><br />
-   - Add <code>cql.seo_collection_tagline</code><br />
-   - Upload <code>cql.seo_collection_image</code><br />
-   - Configure <code>cql.featured_image_mobile</code><br />
-3. <strong>Template Configuration:</strong><br />
-   - Select collection template<br />
-   - Configure banner section settings<br />
-   - Set SEO content section parameters</p>
+<p><strong>1. Page Creation Workflow:</strong></p>
+<ol>
+  <li><strong>Access:</strong> Shopify Admin → Online Store → Pages</li>
+  <li><strong>Template Selection:</strong> Choose appropriate template (page.json, article.json)</li>
+  <li><strong>Content Entry:</strong>
+    <ul>
+      <li>Add page title and handle</li>
+      <li>Select template suffix if needed</li>
+      <li>Add content using rich text editor</li>
+    </ul>
+  </li>
+  <li><strong>Metafield Configuration:</strong>
+    <ul>
+      <li>Set custom title tag</li>
+      <li>Add meta description</li>
+      <li>Configure any custom metafields</li>
+    </ul>
+  </li>
+  <li><strong>Section Configuration:</strong>
+    <ul>
+      <li>Add and configure content sections</li>
+      <li>Set section-specific settings (colors, spacing, animations)</li>
+      <li>Preview and test responsive behavior</li>
+    </ul>
+  </li>
+  <li><strong>Publishing:</strong>
+    <ul>
+      <li>Set visibility and publication date</li>
+      <li>Test on staging environment</li>
+      <li>Publish to live site</li>
+    </ul>
+  </li>
+</ol>
+<p><strong>2. Blog Post Creation Workflow:</strong></p>
+<ol>
+  <li><strong>Access:</strong> Shopify Admin → Online Store → Blog posts</li>
+  <li><strong>Content Creation:</strong>
+    <ul>
+      <li>Add title and content using rich text editor</li>
+      <li>Upload featured image</li>
+      <li>Set author and publication date</li>
+      <li>Add relevant tags</li>
+    </ul>
+  </li>
+  <li><strong>SEO Configuration:</strong>
+    <ul>
+      <li>Set custom title tag</li>
+      <li>Add meta description</li>
+      <li>Configure social sharing settings</li>
+    </ul>
+  </li>
+  <li><strong>Publishing:</strong>
+    <ul>
+      <li>Preview content</li>
+      <li>Schedule or publish immediately</li>
+      <li>Verify on live site</li>
+    </ul>
+  </li>
+</ol>
+<p><strong>3. Collection Page Enhancement:</strong></p>
+<ol>
+  <li><strong>Access:</strong> Shopify Admin → Products → Collections</li>
+  <li><strong>Metafield Configuration:</strong>
+    <ul>
+      <li>Set <code>cql.seo_collection_heading</code></li>
+      <li>Add <code>cql.seo_collection_tagline</code></li>
+      <li>Upload <code>cql.seo_collection_image</code></li>
+      <li>Configure <code>cql.featured_image_mobile</code></li>
+    </ul>
+  </li>
+  <li><strong>Template Configuration:</strong>
+    <ul>
+      <li>Select collection template</li>
+      <li>Configure banner section settings</li>
+      <li>Set SEO content section parameters</li>
+    </ul>
+  </li>
+</ol>
 <h3 id="metafields-in-content-management">Metafields in Content Management</h3>
-<p><strong>Page-Level Metafields:</strong><br />
-- <strong>SEO Metafields:</strong> <code>page.metafields.custom.seo_title</code>, <code>page.metafields.custom.seo_description</code><br />
-- <strong>Custom Content:</strong> <code>page.metafields.custom.hero_text</code>, <code>page.metafields.custom.cta_text</code><br />
-- <strong>Styling:</strong> <code>page.metafields.custom.background_color</code>, <code>page.metafields.custom.text_color</code></p>
-<p><strong>Blog Post Metafields:</strong><br />
-- <strong>SEO:</strong> <code>article.metafields.custom.seo_title</code>, <code>article.metafields.custom.seo_description</code><br />
-- <strong>Featured Content:</strong> <code>article.metafields.custom.featured_quote</code>, <code>article.metafields.custom.author_bio</code><br />
-- <strong>Social Sharing:</strong> <code>article.metafields.custom.social_image</code>, <code>article.metafields.custom.social_title</code></p>
+<p><strong>Page-Level Metafields:</strong></p>
+<ul>
+  <li><strong>SEO Metafields:</strong> <code>page.metafields.custom.seo_title</code>, <code>page.metafields.custom.seo_description</code></li>
+  <li><strong>Custom Content:</strong> <code>page.metafields.custom.hero_text</code>, <code>page.metafields.custom.cta_text</code></li>
+  <li><strong>Styling:</strong> <code>page.metafields.custom.background_color</code>, <code>page.metafields.custom.text_color</code></li>
+</ul>
+<p><strong>Blog Post Metafields:</strong></p>
+<ul>
+  <li><strong>SEO:</strong> <code>article.metafields.custom.seo_title</code>, <code>article.metafields.custom.seo_description</code></li>
+  <li><strong>Featured Content:</strong> <code>article.metafields.custom.featured_quote</code>, <code>article.metafields.custom.author_bio</code></li>
+  <li><strong>Social Sharing:</strong> <code>article.metafields.custom.social_image</code>, <code>article.metafields.custom.social_title</code></li>
+</ul>
 <p><strong>Collection Metafields (Content Integration):</strong><br />
 - <strong>SEO Content:</strong> <code>collection.metafields.cql.seo_collection_heading</code>, <code>collection.metafields.cql.seo_collection_tagline</code><br />
 - <strong>Visual Content:</strong> <code>collection.metafields.cql.seo_collection_image</code><br />
