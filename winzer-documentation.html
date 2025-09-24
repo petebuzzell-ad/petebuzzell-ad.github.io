@@ -1283,31 +1283,41 @@ The Winzer theme uses a modular section-based approach for content management, a
 <hr />
 <h2 id="product-management">Product Management</h2>
 <h3 id="current-product-inventory">Current Product Inventory</h3>
-<p><strong>OneSource Site:</strong><br />
-- <strong>695 Total Products</strong> with comprehensive metafield data<br />
-- <strong>Major Categories:</strong> Fasteners (227), Screws (41), Machine Screws (12), Bolts (38), Sockets (22)<br />
-- <strong>Key Vendors:</strong> Lenox, Loctite, Nucor, Permatex, WD-40, Kroil Lubricants<br />
-- <strong>Product Types:</strong> Hand tools, power tool accessories, fasteners, lubricants, adhesives</p>
-<p><strong>FastServ Site:</strong><br />
-- <strong>42,529 Total Products</strong> (massive inventory - 61x larger than OneSource)<br />
-- <strong>Product Types:</strong> [TODO: Analyze FastServ export data for detailed categorization]<br />
-- <strong>Categories:</strong> [TODO: Analyze FastServ export data for detailed categorization]<br />
-- <strong>Vendors:</strong> [TODO: Analyze FastServ export data for detailed categorization]</p>
-<p><strong>Winzer Corp Site:</strong><br />
-- <strong>48,718 Total Products</strong> (largest inventory - 70x larger than OneSource)<br />
-- <strong>Product Types:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]<br />
-- <strong>Categories:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]<br />
-- <strong>Vendors:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]</p>
+<p><strong>OneSource Site:</strong></p>
+<ul>
+  <li><strong>695 Total Products</strong> with comprehensive metafield data</li>
+  <li><strong>Major Categories:</strong> Fasteners (227), Screws (41), Machine Screws (12), Bolts (38), Sockets (22)</li>
+  <li><strong>Key Vendors:</strong> Lenox, Loctite, Nucor, Permatex, WD-40, Kroil Lubricants</li>
+  <li><strong>Product Types:</strong> Hand tools, power tool accessories, fasteners, lubricants, adhesives</li>
+</ul>
+<p><strong>FastServ Site:</strong></p>
+<ul>
+  <li><strong>42,529 Total Products</strong> (massive inventory - 61x larger than OneSource)</li>
+  <li><strong>Product Types:</strong> [TODO: Analyze FastServ export data for detailed categorization]</li>
+  <li><strong>Categories:</strong> [TODO: Analyze FastServ export data for detailed categorization]</li>
+  <li><strong>Vendors:</strong> [TODO: Analyze FastServ export data for detailed categorization]</li>
+</ul>
+<p><strong>Winzer Corp Site:</strong></p>
+<ul>
+  <li><strong>48,718 Total Products</strong> (largest inventory - 70x larger than OneSource)</li>
+  <li><strong>Product Types:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]</li>
+  <li><strong>Categories:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]</li>
+  <li><strong>Vendors:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]</li>
+</ul>
 <h3 id="product-data-standards">Product Data Standards</h3>
-<p><strong>Required Metafields for New Products:</strong><br />
-- <code>cql.categories</code> (list.single_line_text_field) - <strong>REQUIRED</strong> for collection assignment<br />
-- <code>cql.attributes_json</code> (variant-level) - <strong>REQUIRED</strong> for SearchSpring filtering<br />
-- <code>custom.oracle_id</code> (variant-level) - <strong>REQUIRED</strong> for ERP integration</p>
-<p><strong>Recommended Metafields:</strong><br />
-- <code>cql.vendor_name</code> - Brand identification<br />
-- <code>cql.features_text</code> - Product details<br />
-- <code>cql.minimum_order_quantity</code> - Order requirements<br />
-- <code>cql.product_lead_time</code> - Shipping expectations</p>
+<p><strong>Required Metafields for New Products:</strong></p>
+<ul>
+  <li><code>cql.categories</code> (list.single_line_text_field) - <strong>REQUIRED</strong> for collection assignment</li>
+  <li><code>cql.attributes_json</code> (variant-level) - <strong>REQUIRED</strong> for SearchSpring filtering</li>
+  <li><code>custom.oracle_id</code> (variant-level) - <strong>REQUIRED</strong> for ERP integration</li>
+</ul>
+<p><strong>Recommended Metafields:</strong></p>
+<ul>
+  <li><code>cql.vendor_name</code> - Brand identification</li>
+  <li><code>cql.features_text</code> - Product details</li>
+  <li><code>cql.minimum_order_quantity</code> - Order requirements</li>
+  <li><code>cql.product_lead_time</code> - Shipping expectations</li>
+</ul>
 <h3 id="product-creation-workflow">Product Creation Workflow</h3>
 <p><strong>New Product Process:</strong><br />
 1. Navigate to Shopify Admin → Products<br />
