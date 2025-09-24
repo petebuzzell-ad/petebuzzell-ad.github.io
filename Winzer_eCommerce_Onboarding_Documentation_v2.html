@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winzer eCommerce Onboarding Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
+    <style>
+        body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+        }
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .toc h2 {
+            margin-top: 0;
+        }
+        .toc ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="markdown-body">
+        <h1 id="winzer-ecommerce-platform-onboarding-documentation">Winzer eCommerce Platform Onboarding Documentation</h1>
+<p><strong>From:</strong> Arcadia Digital<br />
+<strong>To:</strong> Winzer eCommerce Team<br />
+<strong>Date:</strong> September 24, 2025<br />
+<strong>Purpose:</strong> Complete operational handoff for Winzer's Shopify Plus eCommerce platform</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#executive-summary">Executive Summary</a></li>
+<li><a href="#platform-architecture">Platform Architecture</a></li>
+<li><a href="#content-management">Content Management</a></li>
+<li><a href="#product-management">Product Management</a></li>
+<li><a href="#site-management">Site Management</a></li>
+<li><a href="#custom-elements">Custom Elements</a></li>
+<li><a href="#operations--runbooks">Operations &amp; Runbooks</a></li>
+<li><a href="#kpi--analytics">KPI &amp; Analytics</a></li>
+<li><a href="#appendices">Appendices</a></li>
+<li><a href="#a-metafield-dictionary">A: Metafield Dictionary</a></li>
+<li><a href="#b-custom-section-catalog">B: Custom Section Catalog</a></li>
+<li><a href="#c-searchspring-configuration">C: SearchSpring Configuration</a></li>
+<li><a href="#d-emergency-procedures">D: Emergency Procedures</a></li>
+<li><a href="#documentation-sources">Documentation Sources</a></li>
+</ol>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<h3 id="platform-overview">Platform Overview</h3>
+<p>Winzer operates three distinct Shopify Plus stores under a unified Dawn-based architecture:</p>
+<ul>
+<li><strong>OneSource</strong> (<code>winzeronesource.myshopify.com</code>) - Primary DTC store (695 products, 44 blog posts)</li>
+<li><strong>FastServ</strong> (<code>winzerfastserv.myshopify.com</code>) - Fastserv Supply Co B2B store (42,529 products, 3 blog posts)</li>
+<li><strong>Winzer Corp</strong> (<code>winzercorp.myshopify.com</code>) - Winzer B2B store (48,718 products, 3 blog posts)</li>
+</ul>
+<h3 id="key-technical-components">Key Technical Components</h3>
+<ul>
+<li><strong>Base Theme:</strong> Dawn with heavy customization</li>
+<li><strong>SearchSpring Integration:</strong> Advanced search, filtering, and recommendations</li>
+<li><strong>Multi-site Architecture:</strong> Shared components with site-specific overrides</li>
+<li><strong>Node.js Build System:</strong> Webpack-based development and deployment</li>
+<li><strong>Metafield System:</strong> 20+ custom metafields for product data and SearchSpring integration</li>
+<li><strong>AWS Middleware System:</strong> Critical .NET-based integration layer for data synchronization</li>
+</ul>
+<hr />
+<h2 id="platform-architecture">Platform Architecture</h2>
+<h3 id="multi-site-structure">Multi-Site Structure</h3>
+<pre><code>winzer-main/
+├── sites/
+│   ├── _shared/          # Core Dawn overrides (shared across all sites)
+│   ├── onesource/        # OneSource-specific customizations
+│   ├── fastserv/         # FastServ-specific customizations
+│   └── corp/             # Winzer Corp-specific customizations
+├── searchspring/         # SearchSpring React components
+└── scripts/              # Build and deployment scripts
+</code></pre>
+<h3 id="site-specific-configurations">Site-Specific Configurations</h3>
+<p><strong>OneSource (Primary DTC):</strong>
+- <strong>Domain:</strong> winzeronesource.myshopify.com
+- <strong>SearchSpring Site ID:</strong> t047mf
+- <strong>Apps:</strong> Klaviyo, Elevar, Matrixify
+- <strong>Focus:</strong> Content-rich, educational approach</p>
+<p><strong>FastServ (B2B Supply):</strong>
+- <strong>Domain:</strong> winzerfastserv.myshopify.com
+- <strong>SearchSpring Site ID:</strong> wk4j0d
+- <strong>Apps:</strong> Elevar, Matrixify
+- <strong>Focus:</strong> High-volume product catalog, minimal content</p>
+<p><strong>Winzer Corp (B2B Enterprise):</strong>
+- <strong>Domain:</strong> winzercorp.myshopify.com
+- <strong>SearchSpring Site ID:</strong> fsqw40
+- <strong>Apps:</strong> Elevar, Matrixify
+- <strong>Focus:</strong> Enterprise solutions, corporate messaging</p>
+<h3 id="technology-stack">Technology Stack</h3>
+<ul>
+<li><strong>Frontend:</strong> Dawn theme + custom Liquid templates</li>
+<li><strong>Search:</strong> SearchSpring with React components</li>
+<li><strong>Build System:</strong> Node.js + Webpack</li>
+<li><strong>Deployment:</strong> Shopify Theme Kit + GitHub Actions</li>
+<li><strong>Middleware:</strong> .NET 6 AWS Lambda functions + ECS Fargate</li>
+<li><strong>Data Integration:</strong> Oracle ERP, SFTP, AWS, S3</li>
+<li><strong>Monitoring:</strong> Elevar (conversion tracking), UpTimeRobot (uptime monitoring), Calibre (performance monitoring), Google Lighthouse/PSI (performance, accessibility &amp; SEO monitoring)</li>
+</ul>
+<hr />
+<h2 id="aws-middleware-system">AWS Middleware System</h2>
+<h3 id="overview">Overview</h3>
+<p>The Winzer eCommerce platform relies on a critical .NET 6-based middleware system deployed on AWS that handles all data synchronization between external systems and Shopify. This system is essential for the platform's operation and must be understood by the eCommerce team.</p>
+<h3 id="architecture-components">Architecture Components</h3>
+<p><strong>AWS Lambda Functions:</strong>
+- <strong>Product Feed Handler:</strong> Imports product data from Oracle ERP
+- <strong>Pricing Feed Handler:</strong> Synchronizes pricing data from Oracle ERP
+- <strong>Inventory Feed Handler:</strong> Updates inventory levels from multiple sources
+- <strong>Order Export Handler:</strong> Exports orders to external systems
+- <strong>Fulfillment Feed Handler:</strong> Processes fulfillment data
+- <strong>Return Export Handler:</strong> Handles return processing</p>
+<p><strong>AWS ECS Fargate Tasks:</strong>
+- <strong>Product Feed Console App:</strong> Long-running product import processes
+- <strong>Pricing Feed Console App:</strong> Bulk pricing synchronization</p>
+<h3 id="data-flow-architecture">Data Flow Architecture</h3>
+<p><strong>Product Data Flow:</strong>
+1. <strong>Oracle ERP</strong> → AWS Lambda → <strong>Shopify Products</strong>
+2. <strong>Product Updates</strong> → SearchSpring synchronization</p>
+<p><strong>Pricing Data Flow:</strong>
+1. <strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Price Lists</strong>
+2. <strong>Bulk Pricing</strong> → <strong>Contract Pricing</strong> → <strong>Template Pricing</strong>
+3. <strong>Customer-specific pricing</strong> via Shopify Plus B2B features</p>
+<p><strong>Inventory Data Flow:</strong>
+1. <strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Inventory</strong>
+2. <strong>Store Locations</strong> → <strong>Inventory Levels</strong> → <strong>Stock Management</strong>
+3. <strong>Low Stock Alerts</strong> → <strong>SearchSpring Display</strong></p>
+<p><strong>Order Data Flow:</strong>
+1. <strong>Shopify Orders</strong> → <strong>AWS Lambda</strong> → <strong>Oracle ERP</strong>
+2. <strong>Fulfillment Updates</strong> → <strong>External Systems</strong>
+3. <strong>Return Processing</strong> → <strong>Loop Returns API</strong></p>
+<h3 id="critical-dependencies">Critical Dependencies</h3>
+<p><strong>External Systems:</strong>
+- <strong>Oracle ERP:</strong> Primary source of product, pricing, and inventory data
+- <strong>SFTP Servers:</strong> Data file exchange (70.164.0.172, secure.kligerweiss.net)
+- <strong>AWS S3:</strong> File storage and archival
+- <strong>Loop Returns:</strong> Return processing integration</p>
+<p><strong>AWS Services:</strong>
+- <strong>Lambda:</strong> Serverless function execution
+- <strong>ECS Fargate:</strong> Containerized long-running tasks
+- <strong>S3:</strong> File storage and data lake
+- <strong>SNS:</strong> Notification and alerting
+- <strong>EventBridge:</strong> Scheduled task execution
+- <strong>ECR:</strong> Container image registry</p>
+<h3 id="middleware-configuration">Middleware Configuration</h3>
+<p><strong>Environment Variables:</strong>
+- <code>SHOPIFY_ACCESS_TOKEN</code>: API access for each site
+- <code>ORACLE_SFTP_CREDENTIALS</code>: ERP data access
+- <code>AWS_REGION</code>: us-east-1
+- <code>SNS_TOPIC_ARN</code>: Alert notifications</p>
+<p><strong>Site-Specific Configuration:</strong>
+- <strong>OneSource:</strong> DTC-focused product and pricing rules
+- <strong>FastServ:</strong> High-volume B2B inventory management
+- <strong>Winzer Corp:</strong> Enterprise pricing and contract management</p>
+<h3 id="monitoring-and-alerts">Monitoring and Alerts</h3>
+<p><strong>AWS CloudWatch:</strong>
+- Lambda function execution logs
+- ECS task status and performance
+- SNS notification delivery
+- Error rate monitoring</p>
+<p><strong>Alert Conditions:</strong>
+- Lambda function failures
+- ECS task failures
+- Data synchronization errors
+- SFTP connection issues
+- Shopify API rate limit exceeded</p>
+<h3 id="operational-procedures">Operational Procedures</h3>
+<p><strong>Daily Monitoring:</strong>
+1. Check CloudWatch logs for errors
+2. Verify data synchronization completion
+3. Monitor inventory update success rates
+4. Review pricing update accuracy</p>
+<p><strong>Weekly Maintenance:</strong>
+1. Review SFTP file processing
+2. Validate Oracle ERP connectivity
+3. Monitor AWS service health</p>
+<p><strong>Monthly Reviews:</strong>
+1. Analyze data quality metrics
+2. Review error patterns and trends
+3. Update configuration as needed
+4. Performance optimization review</p>
+<h3 id="emergency-procedures">Emergency Procedures</h3>
+<p><strong>Middleware Failure Response:</strong>
+1. <strong>Immediate:</strong> Check CloudWatch logs for error details
+2. <strong>Assessment:</strong> Determine scope of data synchronization impact
+3. <strong>Escalation:</strong> Contact CQL Corp for technical support
+4. <strong>Communication:</strong> Notify stakeholders of data sync delays
+5. <strong>Recovery:</strong> Execute manual data sync if possible</p>
+<p><strong>Data Sync Issues:</strong>
+1. <strong>Identify:</strong> Which data flow is affected (products, pricing, inventory)
+2. <strong>Impact:</strong> Assess customer-facing impact
+3. <strong>Workaround:</strong> Manual data entry if critical
+4. <strong>Resolution:</strong> Restart failed processes or redeploy functions</p>
+<h3 id="access-and-permissions">Access and Permissions</h3>
+<p><strong>AWS Console Access:</strong>
+- <strong>Owner:</strong> Winzer IT
+- <strong>Read-Only:</strong> N/A
+- <strong>Emergency:</strong> CQL Corp (incident response)</p>
+<p><strong>Required Permissions:</strong>
+- CloudWatch logs viewing
+- Lambda function monitoring
+- ECS task status checking
+- SNS notification viewing</p>
+<h3 id="cost-management">Cost Management</h3>
+<p><strong>AWS Costs:</strong>
+- <strong>Lambda:</strong> Pay-per-execution (minimal cost)
+- <strong>ECS Fargate:</strong> Based on task runtime
+- <strong>S3:</strong> Storage and transfer costs
+- <strong>SNS:</strong> Notification delivery costs</p>
+<p><strong>Optimization:</strong>
+- Monitor Lambda execution duration
+- Optimize ECS task resource allocation
+- Archive old S3 data regularly
+- Review SNS notification frequency</p>
+<hr />
+<h2 id="content-management">Content Management</h2>
+<p><strong>Content Inventory:</strong>
+- <strong>Pages:</strong> 39 pages across all sites
+- <strong>Blog Posts:</strong> 44 posts (OneSource), 0 (FastServ), 0 (Corp)
+- <strong>Collections:</strong> 1,200+ collections with custom metafields
+- <strong>Products:</strong> 15,000+ products with extensive metafield data</p>
+<h3 id="page-templates-content-structure">Page Templates &amp; Content Structure</h3>
+<p><strong>Template Architecture:</strong>
+The Winzer theme uses a modular section-based approach for content management, allowing flexible page layouts through customizable content blocks.</p>
+<p><strong>Core Page Templates:</strong></p>
+<p><strong>1. Homepage Template (<code>index.json</code>)</strong>
+- <strong>Primary Sections:</strong>
+  - <code>image-banner</code>: Hero section with custom messaging
+  - <code>icon-list</code>: Category navigation with 12 product categories
+  - <code>featured-links</code>: Promotional content blocks (3-4 featured items)
+  - <code>rich-text</code>: Brand messaging and value propositions
+  - <code>image-with-text</code>: Brand storytelling sections
+  - <code>cards</code>: Partner/vendor logo displays
+  - <code>searchspring-recommendations</code>: Dynamic product recommendations</p>
+<p><strong>2. Standard Page Template (<code>page.json</code>)</strong>
+- <strong>Default Structure:</strong>
+  - <code>info-accordion</code>: FAQ-style content blocks (up to 12 accordion items)
+  - <code>main-page</code>: Standard page content with rich text editor
+- <strong>Content Blocks:</strong>
+  - Accordion dropdowns with custom headings and content
+  - Rich text content with HTML support
+  - Custom styling and color options</p>
+<p><strong>3. Article Template (<code>article.json</code>)</strong>
+- <strong>Structure:</strong>
+  - <code>main-article</code>: Blog post content with featured image, title, and content
+  - <code>featured_image</code>: Hero image for blog posts
+  - <code>title</code>: Article headline
+  - <code>content</code>: Rich text article body
+  - <code>share</code>: Social sharing functionality</p>
+<p><strong>4. Blog Template (<code>blog.json</code>)</strong>
+- <strong>Structure:</strong>
+  - <code>main-blog</code>: Blog listing page with post grid
+  - <strong>Features:</strong>
+    - Pagination support
+    - Category filtering
+    - Search functionality
+    - Featured post highlighting</p>
+<p><strong>5. Page Template Variants:</strong></p>
+<p><strong>A. Brand Pages (<code>page.brands.json</code>)</strong>
+- <strong>Purpose:</strong> Showcase brand partnerships and product lines
+- <strong>Structure:</strong> Hero banner + multiple icon-list sections for brand logos
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>icon-list</code> (multiple instances)
+- <strong>Content Entry:</strong> Brand logos, links to brand collections, hero messaging
+- <strong>Example:</strong> OneSource brands page with 3M, Gates, Lenox, Loctite, etc.
+- <strong>Wrapper Class:</strong> <code>div.customer-service-page</code></p>
+<p><strong>B. About Pages (<code>page.about.json</code>)</strong>
+- <strong>Purpose:</strong> Company information and value propositions
+- <strong>Structure:</strong> Hero + features list + image-with-text sections + testimonials
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>features-list</code>, <code>image-with-text</code>, <code>info-carousel</code>
+- <strong>Content Entry:</strong> Company stats, mission content, team photos, testimonials
+- <strong>Example:</strong> OneSource about page with company stats (65,000+ products, 46+ years)
+- <strong>Wrapper Class:</strong> <code>div.about-us</code></p>
+<p><strong>C. Contact Pages (<code>page.contact.json</code>)</strong>
+- <strong>Purpose:</strong> Customer service and contact information
+- <strong>Structure:</strong> Hero banner + menu bar + customer service section
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code>
+- <strong>Content Entry:</strong> Contact forms, service hours, contact information
+- <strong>Features:</strong> Contact form integration, service hours display
+- <strong>Wrapper Class:</strong> <code>div.customer-service-page</code></p>
+<p><strong>D. FAQ Pages (<code>page.faqs.json</code>)</strong>
+- <strong>Purpose:</strong> Customer service and frequently asked questions
+- <strong>Structure:</strong> Hero + menu bar + collapsible FAQ sections
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code> (with collapsible tabs)
+- <strong>Content Entry:</strong> FAQ questions/answers, quick links, policy information
+- <strong>Features:</strong> Collapsible accordion interface, quick navigation links
+- <strong>Wrapper Class:</strong> <code>div.faqs-page</code></p>
+<p><strong>E. Customer Service Pages (<code>page.customer-service.json</code>)</strong>
+- <strong>Purpose:</strong> General customer service information
+- <strong>Structure:</strong> Hero + menu bar + customer service content
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>menu-bar</code>, <code>customer-service</code>
+- <strong>Content Entry:</strong> Service information, contact details, forms
+- <strong>Wrapper Class:</strong> <code>div.customer-service-page</code></p>
+<p><strong>F. Classic Orders Page (<code>page.classic_orders.json</code>)</strong>
+- <strong>Purpose:</strong> Legacy order management interface
+- <strong>Structure:</strong> Single section for order management
+- <strong>Sections Used:</strong> <code>page-classic-orders</code>
+- <strong>Content Entry:</strong> Order management interface</p>
+<p><strong>G. Style Guide Page (<code>page.styleguide.json</code>)</strong>
+- <strong>Purpose:</strong> Design system documentation
+- <strong>Structure:</strong> Single section for style guide content
+- <strong>Sections Used:</strong> <code>main-page-styleguide</code>
+- <strong>Content Entry:</strong> Design system documentation</p>
+<p><strong>Winzer Corp Page Templates:</strong></p>
+<p><strong>H. About Page (<code>page.about.json</code>)</strong>
+- <strong>Purpose:</strong> Corporate about page with company statistics and values
+- <strong>Structure:</strong> Hero + features list + multiple image-with-text sections + testimonial carousel
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>features-list</code>, <code>image-with-text</code>, <code>info-carousel</code>, <code>rich-text</code>
+- <strong>Content Entry:</strong> Company stats (65,000+ products, 46+ years, 100+ brands), mission content, testimonials
+- <strong>Features:</strong> Statistics display, testimonial carousel, company values sections
+- <strong>Wrapper Class:</strong> <code>div.about-us</code></p>
+<p><strong>I. Become a Franchise Page (<code>page.become-a-franchise.json</code>)</strong>
+- <strong>Purpose:</strong> Franchise opportunity information and application
+- <strong>Structure:</strong> Hero + image-with-text sections + testimonial carousel + CTA
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>image-with-text</code>, <code>info-carousel</code>, <code>rich-text</code>
+- <strong>Content Entry:</strong> Franchise benefits, application process, contact information
+- <strong>Features:</strong> Video integration, online application form, franchise benefits
+- <strong>Wrapper Class:</strong> <code>div.about-us</code></p>
+<p><strong>J. Careers Page (<code>page.careers.json</code>)</strong>
+- <strong>Purpose:</strong> Career opportunities and company culture
+- <strong>Structure:</strong> Hero + multiple image-with-text sections + benefits + CTA
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>image-with-text</code>, <code>rich-text</code>
+- <strong>Content Entry:</strong> Company values (Service-Oriented, Collaborative, Innovative, Responsible), benefits, job listings
+- <strong>Features:</strong> Company culture sections, benefits list, job application links
+- <strong>Wrapper Class:</strong> <code>div.about-us</code></p>
+<p><strong>K. Our Customers Page (<code>page.our-customers.json</code>)</strong>
+- <strong>Purpose:</strong> Industry solutions and customer segments
+- <strong>Structure:</strong> Hero + collapsible content sections
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>collapsible-content</code>
+- <strong>Content Entry:</strong> Industry-specific solutions (Automotive, Construction, Fleet, Military, etc.)
+- <strong>Features:</strong> Collapsible industry sections, brochure downloads, customer application forms
+- <strong>Wrapper Class:</strong> <code>div.about-us</code></p>
+<p><strong>L. Resource Center Page (<code>page.resource-center.json</code>)</strong>
+- <strong>Purpose:</strong> Resource library with catalogs and brochures
+- <strong>Structure:</strong> Hero + multiple featured-links sections
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>featured-links</code> (multiple instances)
+- <strong>Content Entry:</strong> Product catalogs, solution brochures, technical documents
+- <strong>Features:</strong> Download links, organized by category (Catalogs, Solution Brochures, Product Brochures)
+- <strong>Wrapper Class:</strong> <code>div.about-us</code></p>
+<p><strong>M. Why Winzer Page (<code>page.why-winzer.json</code>)</strong>
+- <strong>Purpose:</strong> Value proposition and competitive advantages
+- <strong>Structure:</strong> Hero + multiple image-with-text sections + CTA
+- <strong>Sections Used:</strong> <code>image-banner</code>, <code>image-with-text</code>, <code>rich-text</code>
+- <strong>Content Entry:</strong> Quality, expertise, distribution, inventory management benefits
+- <strong>Features:</strong> Value proposition sections, customer application forms, product links
+- <strong>Wrapper Class:</strong> <code>div.about-us</code></p>
+<h3 id="content-components-sections">Content Components &amp; Sections</h3>
+<h4 id="core-content-sections">Core Content Sections</h4>
+<p><strong>1. Rich Text Section (<code>rich-text.liquid</code>)</strong>
+- <strong>Purpose:</strong> Flexible text content with multiple block types
+- <strong>Block Types:</strong>
+  - <code>eyebrow</code>: Small text above headlines
+  - <code>heading</code>: Main headlines with custom sizing (h1-h6, custom headline styles)
+  - <code>text</code>: Body text with multiple style options
+  - <code>button</code>: Call-to-action buttons with various styles
+  - <code>logo_list</code>: Partner/vendor logo displays (up to 5 logos)
+  - <code>padding</code>: Spacing control blocks
+- <strong>Customization:</strong>
+  - Background colors and images
+  - Text alignment and sizing
+  - Animation effects (fadeIn, fadeInUp, etc.)
+  - Responsive padding controls
+- <strong>Example Usage:</strong> Winzer Corp About page (company stats section), OneSource homepage (brand messaging)</p>
+<p><strong>2. Image Banner Section (<code>image-banner.liquid</code>)</strong>
+- <strong>Purpose:</strong> Hero sections with background images and overlay content
+- <strong>Features:</strong>
+  - Desktop and mobile image support
+  - Parallax scrolling effects
+  - Content positioning (9 position options)
+  - Custom background colors and opacity
+  - Border and styling options
+- <strong>Content Blocks:</strong>
+  - <code>eyebrow</code>: Small text above main content
+  - <code>heading</code>: Main headline with custom sizing
+  - <code>text</code>: Description text with rich text support
+  - <code>button</code>: Up to 2 call-to-action buttons
+  - <code>image</code>: Additional image elements
+- <strong>Example Usage:</strong> All page templates use this for hero sections (About, Contact, FAQ, Careers, etc.)</p>
+<p><strong>3. Image with Text Section (<code>image-with-text.liquid</code>)</strong>
+- <strong>Purpose:</strong> Side-by-side image and text content blocks
+- <strong>Features:</strong>
+  - Image and text positioning (left/right)
+  - Video support with thumbnail images
+  - Custom background colors and layouts
+  - Responsive image handling
+- <strong>Content Blocks:</strong>
+  - <code>eyebrow</code>: Small text above main content
+  - <code>heading</code>: Main headline with custom sizing
+  - <code>text</code>: Description text with rich text support
+  - <code>button</code>: Up to 2 call-to-action buttons
+- <strong>Example Usage:</strong> Winzer Corp About page (company values sections), OneSource homepage (featured content)</p>
+<p><strong>4. Image with Text Alternate Section (<code>image-with-text-alternate.liquid</code>)</strong>
+- <strong>Purpose:</strong> Alternative layout for image and text content
+- <strong>Features:</strong>
+  - Different styling options from standard image-with-text
+  - Custom background treatments
+  - Enhanced visual effects
+- <strong>Example Usage:</strong> Special content layouts requiring different styling</p>
+<h4 id="grid-and-layout-sections">Grid and Layout Sections</h4>
+<p><strong>5. Featured Links Section (<code>featured-links.liquid</code>)</strong>
+- <strong>Purpose:</strong> Grid-based content blocks for promotions and features
+- <strong>Layout Options:</strong>
+  - 2-5 column desktop layouts
+  - Image-on-top or image-on-side layouts
+  - Full-width or card-based displays
+- <strong>Content Blocks:</strong>
+  - <code>link</code>: Individual featured items with image, heading, description, and button
+  - Custom background colors per block
+  - Hover effects and animations
+  - Accessibility features for image links
+- <strong>Example Usage:</strong> Winzer Corp Resource Center page (catalog downloads), OneSource homepage (featured products)</p>
+<p><strong>6. Banner Grid Section (<code>banner-grid.liquid</code>)</strong>
+- <strong>Purpose:</strong> Grid layout for multiple banner-style content blocks
+- <strong>Features:</strong>
+  - Responsive grid system
+  - Custom column layouts
+  - Image and text combinations
+  - Hover effects and animations
+- <strong>Example Usage:</strong> Homepage promotional grids, category showcases</p>
+<p><strong>7. Cards Section (<code>cards.liquid</code>)</strong>
+- <strong>Purpose:</strong> Card-based content layout with carousel support
+- <strong>Features:</strong>
+  - Swiper carousel integration
+  - Custom card designs
+  - Responsive layouts
+  - Navigation controls
+- <strong>Example Usage:</strong> Product showcases, feature highlights, testimonial cards</p>
+<p><strong>8. Collage Section (<code>collage.liquid</code>)</strong>
+- <strong>Purpose:</strong> Creative image collage layouts
+- <strong>Features:</strong>
+  - Multiple image arrangements
+  - Overlay text and buttons
+  - Responsive image handling
+  - Custom aspect ratios
+- <strong>Example Usage:</strong> Visual storytelling, product galleries, brand showcases</p>
+<h4 id="interactive-content-sections">Interactive Content Sections</h4>
+<p><strong>9. Info Accordion Section (<code>info-accordion.liquid</code>)</strong>
+- <strong>Purpose:</strong> FAQ-style collapsible content
+- <strong>Features:</strong>
+  - Up to 12 accordion items
+  - Custom headings and content per item
+  - Color customization for headings and content
+  - Single-open or multi-open behavior
+- <strong>Use Cases:</strong>
+  - Product support information
+  - Rules and gameplay instructions
+  - Company information and policies
+- <strong>Example Usage:</strong> OneSource FAQ page, Winzer Corp Our Customers page (industry solutions)</p>
+<p><strong>10. Info Carousel Section (<code>info-carousel.liquid</code>)</strong>
+- <strong>Purpose:</strong> Carousel/slider for testimonials and content
+- <strong>Features:</strong>
+  - Auto-rotate functionality
+  - Custom slide content
+  - Navigation controls (dots, arrows)
+  - Background images and colors
+- <strong>Content Blocks:</strong>
+  - <code>testimonial_slide</code>: Customer testimonials
+  - <code>content_slide</code>: General content slides
+- <strong>Example Usage:</strong> Winzer Corp About page (testimonial carousel), customer success stories</p>
+<p><strong>11. Slideshow Section (<code>slideshow.liquid</code>)</strong>
+- <strong>Purpose:</strong> Full-featured image and content slideshow
+- <strong>Features:</strong>
+  - Multiple slide types
+  - Video support
+  - Custom navigation
+  - Responsive image handling
+- <strong>Example Usage:</strong> Homepage hero slideshows, product showcases</p>
+<h4 id="product-and-collection-sections">Product and Collection Sections</h4>
+<p><strong>12. Featured Products Section (<code>featured-products.liquid</code>)</strong>
+- <strong>Purpose:</strong> Display selected products in various layouts
+- <strong>Features:</strong>
+  - Product selection and ordering
+  - Grid and carousel layouts
+  - Product metafield integration
+  - Custom styling options
+- <strong>Example Usage:</strong> Homepage product highlights, category featured products</p>
+<p><strong>13. Featured Collections Section (<code>featured-collections.liquid</code>)</strong>
+- <strong>Purpose:</strong> Display selected collections in grid or carousel format
+- <strong>Features:</strong>
+  - Collection selection and ordering
+  - Custom layouts and styling
+  - Collection metafield integration
+  - Responsive design
+- <strong>Example Usage:</strong> Homepage category navigation, collection showcases</p>
+<p><strong>14. Collection List Section (<code>collection-list.liquid</code>)</strong>
+- <strong>Purpose:</strong> Display all or filtered collections
+- <strong>Features:</strong>
+  - Automatic collection discovery
+  - Custom filtering options
+  - Grid and list layouts
+  - Collection metafield integration
+- <strong>Example Usage:</strong> Collection index pages, category browsing</p>
+<p><strong>15. Product Recommendations Section (<code>product-recommendations.liquid</code>)</strong>
+- <strong>Purpose:</strong> AI-powered product recommendations
+- <strong>Features:</strong>
+  - Shopify's recommendation engine
+  - Custom styling and layouts
+  - Performance optimization
+  - Mobile responsiveness
+- <strong>Example Usage:</strong> Product detail pages, cart pages, checkout</p>
+<p><strong>16. Related Products Section (<code>related-products.liquid</code>)</strong>
+- <strong>Purpose:</strong> Display related products based on tags or collections
+- <strong>Features:</strong>
+  - Tag-based product selection
+  - Collection-based filtering
+  - Custom layouts
+  - Product metafield integration
+- <strong>Example Usage:</strong> Product detail pages, cross-selling</p>
+<p><strong>17. SearchSpring Recommendations Section (<code>searchspring-recommendations.liquid</code>)</strong>
+- <strong>Purpose:</strong> SearchSpring-powered product recommendations
+- <strong>Features:</strong>
+  - SearchSpring integration
+  - Custom recommendation algorithms
+  - Advanced filtering
+  - Performance optimization
+- <strong>Example Usage:</strong> Homepage recommendations, product detail pages</p>
+<h4 id="blog-and-content-sections">Blog and Content Sections</h4>
+<p><strong>18. Featured Blog Section (<code>featured-blog.liquid</code>)</strong>
+- <strong>Purpose:</strong> Display selected blog posts
+- <strong>Features:</strong>
+  - Blog post selection
+  - Custom layouts (grid, carousel)
+  - Article metafield integration
+  - Responsive design
+- <strong>Example Usage:</strong> Homepage blog highlights, content marketing sections</p>
+<p><strong>19. Related Blog Posts Section (<code>related-blog-posts.liquid</code>)</strong>
+- <strong>Purpose:</strong> Display related blog posts
+- <strong>Features:</strong>
+  - Tag-based post selection
+  - Custom layouts
+  - Article metafield integration
+  - Performance optimization
+- <strong>Example Usage:</strong> Blog post pages, article recommendations</p>
+<h4 id="navigation-and-header-sections">Navigation and Header Sections</h4>
+<p><strong>20. Header Section (<code>header.liquid</code>)</strong>
+- <strong>Purpose:</strong> Main site navigation and branding
+- <strong>Features:</strong>
+  - Logo and branding
+  - Main navigation menu
+  - Search functionality
+  - Cart and account links
+  - Mobile menu support
+- <strong>Example Usage:</strong> All pages (site-wide header)</p>
+<p><strong>21. Horizontal Nav Section (<code>horizontal-nav.liquid</code>)</strong>
+- <strong>Purpose:</strong> Horizontal navigation bar
+- <strong>Features:</strong>
+  - Custom navigation links
+  - Styling options
+  - Mobile responsiveness
+  - Dropdown support
+- <strong>Example Usage:</strong> Secondary navigation, category menus</p>
+<p><strong>22. Menu Bar Section (<code>menu-bar.liquid</code>)</strong>
+- <strong>Purpose:</strong> Additional navigation bar
+- <strong>Features:</strong>
+  - Custom menu configuration
+  - Styling options
+  - Mobile support
+- <strong>Example Usage:</strong> Page-specific navigation, breadcrumb alternatives</p>
+<p><strong>23. Breadcrumb Bar Section (<code>breadcrumb-bar.liquid</code>)</strong>
+- <strong>Purpose:</strong> Breadcrumb navigation
+- <strong>Features:</strong>
+  - Automatic breadcrumb generation
+  - Custom styling
+  - SEO benefits
+  - Mobile optimization
+- <strong>Example Usage:</strong> All pages (site-wide breadcrumbs)</p>
+<h4 id="footer-and-utility-sections">Footer and Utility Sections</h4>
+<p><strong>24. Footer Section (<code>footer.liquid</code>)</strong>
+- <strong>Purpose:</strong> Site footer with links and information
+- <strong>Features:</strong>
+  - Multiple footer blocks
+  - Social media links
+  - Newsletter signup
+  - Legal links
+  - Contact information
+- <strong>Example Usage:</strong> All pages (site-wide footer)</p>
+<p><strong>25. Announcement Bar Section (<code>announcement-bar.liquid</code>)</strong>
+- <strong>Purpose:</strong> Site-wide announcements and promotions
+- <strong>Features:</strong>
+  - Customizable messaging
+  - Link support
+  - Dismissible functionality
+  - Mobile optimization
+- <strong>Example Usage:</strong> Promotional announcements, shipping notices</p>
+<h4 id="specialized-content-sections">Specialized Content Sections</h4>
+<p><strong>26. Company Features Section (<code>company-features.liquid</code>)</strong>
+- <strong>Purpose:</strong> Display company features and benefits
+- <strong>Features:</strong>
+  - Custom feature blocks
+  - Icon and text combinations
+  - Grid layouts
+  - Animation support
+- <strong>Example Usage:</strong> About pages, company value propositions</p>
+<p><strong>27. Features List Section (<code>features-list.liquid</code>)</strong>
+- <strong>Purpose:</strong> List-based feature display
+- <strong>Features:</strong>
+  - Custom feature items
+  - Icon support
+  - Text and image combinations
+  - Responsive layouts
+- <strong>Example Usage:</strong> Winzer Corp About page (company statistics), product features</p>
+<p><strong>28. Icon List Section (<code>icon-list.liquid</code>)</strong>
+- <strong>Purpose:</strong> Icon-based content lists
+- <strong>Features:</strong>
+  - Custom icons
+  - Text descriptions
+  - Grid layouts
+  - Hover effects
+- <strong>Example Usage:</strong> Service lists, feature highlights, navigation aids</p>
+<p><strong>29. Customer Service Section (<code>customer-service.liquid</code>)</strong>
+- <strong>Purpose:</strong> Customer service information and contact
+- <strong>Features:</strong>
+  - Contact information
+  - Service hours
+  - FAQ integration
+  - Form support
+- <strong>Example Usage:</strong> Customer service pages, contact pages</p>
+<p><strong>30. News Press Section (<code>news-press.liquid</code>)</strong>
+- <strong>Purpose:</strong> News and press release content
+- <strong>Features:</strong>
+  - Article listings
+  - Custom layouts
+  - Date sorting
+  - Content filtering
+- <strong>Example Usage:</strong> Press pages, news sections</p>
+<h4 id="product-detail-sections">Product Detail Sections</h4>
+<p><strong>31. Main Product Section (<code>main-product.liquid</code>)</strong>
+- <strong>Purpose:</strong> Core product display with metafield integration
+- <strong>Features:</strong>
+  - Product images and variants
+  - Metafield integration
+  - Add to cart functionality
+  - Product information display
+- <strong>Example Usage:</strong> All product pages</p>
+<p><strong>32. Product Description Section (<code>product-description.liquid</code>)</strong>
+- <strong>Purpose:</strong> Product description and details
+- <strong>Features:</strong>
+  - Rich text support
+  - Metafield integration
+  - Custom styling
+  - Mobile optimization
+- <strong>Example Usage:</strong> Product detail pages</p>
+<p><strong>33. Specifications Section (<code>specifications.liquid</code>)</strong>
+- <strong>Purpose:</strong> Product specifications and technical details
+- <strong>Features:</strong>
+  - Metafield integration
+  - Custom layouts
+  - Responsive design
+  - Collapsible content
+- <strong>Example Usage:</strong> Technical product pages</p>
+<h4 id="collection-and-search-sections">Collection and Search Sections</h4>
+<p><strong>34. Collection Banner Section (<code>main-collection-banner.liquid</code>)</strong>
+- <strong>Purpose:</strong> Collection page headers with metafield integration
+- <strong>Metafield Usage:</strong>
+  - <code>collection.metafields.cql.featured_image_mobile</code>: Mobile-specific collection images
+  - <code>collection.metafields.custom.collection_parent_category</code>: Parent category display
+  - <code>collection.metafields.cql.seo_collection_tagline</code>: Collection descriptions
+- <strong>Features:</strong>
+  - Responsive image handling
+  - Content positioning and alignment
+  - Background color and opacity controls
+  - Border and styling options
+- <strong>Example Usage:</strong> All collection pages (Fasteners, Electrical, Automotive, etc.)</p>
+<p><strong>35. Collection Product Grid Section (<code>main-collection-product-grid.liquid</code>)</strong>
+- <strong>Purpose:</strong> Product grid display for collections
+- <strong>Features:</strong>
+  - Product filtering and sorting
+  - Pagination support
+  - Custom layouts
+  - Performance optimization
+- <strong>Example Usage:</strong> Collection pages, search results</p>
+<p><strong>36. Collection Product Grid Native Section (<code>main-collection-product-grid-native.liquid</code>)</strong>
+- <strong>Purpose:</strong> Native Shopify product grid
+- <strong>Features:</strong>
+  - Shopify's native filtering
+  - Standard product display
+  - Performance optimization
+  - Mobile responsiveness
+- <strong>Example Usage:</strong> Collection pages with native filtering</p>
+<p><strong>37. SEO Content Section (<code>main-collection-seo-content.liquid</code>)</strong>
+- <strong>Purpose:</strong> Collection page SEO optimization
+- <strong>Metafield Usage:</strong>
+  - <code>collection.metafields.cql.seo_collection_image</code>: SEO-optimized images
+  - <code>collection.metafields.cql.seo_collection_heading</code>: SEO headlines
+  - <code>collection.metafields.cql.seo_collection_tagline</code>: SEO descriptions
+- <strong>Features:</strong>
+  - Automatic alt text generation
+  - Responsive image handling
+  - Content width controls
+- <strong>Example Usage:</strong> Collection pages with SEO content (Fasteners, Electrical, Automotive collections)</p>
+<h4 id="search-and-discovery-sections">Search and Discovery Sections</h4>
+<p><strong>38. Main Search Section (<code>main-search.liquid</code>)</strong>
+- <strong>Purpose:</strong> Search results page
+- <strong>Features:</strong>
+  - Search result display
+  - Filtering options
+  - Pagination
+  - Custom layouts
+- <strong>Example Usage:</strong> Search results pages</p>
+<p><strong>39. Main Search Native Section (<code>main-search-native.liquid</code>)</strong>
+- <strong>Purpose:</strong> Native Shopify search
+- <strong>Features:</strong>
+  - Shopify's native search
+  - Standard result display
+  - Performance optimization
+- <strong>Example Usage:</strong> Search results with native functionality</p>
+<p><strong>40. Predictive Search Section (<code>predictive-search.liquid</code>)</strong>
+- <strong>Purpose:</strong> Search suggestions and autocomplete
+- <strong>Features:</strong>
+  - Real-time search suggestions
+  - Product and page results
+  - Custom styling
+  - Performance optimization
+- <strong>Example Usage:</strong> Search bars, autocomplete functionality</p>
+<p><strong>41. Search No Results Boundary Section (<code>search-no-results-boundary.liquid</code>)</strong>
+- <strong>Purpose:</strong> No search results handling
+- <strong>Features:</strong>
+  - Custom no results messaging
+  - Alternative suggestions
+  - Search refinement tips
+- <strong>Example Usage:</strong> Search pages when no results found</p>
+<h4 id="cart-and-checkout-sections">Cart and Checkout Sections</h4>
+<p><strong>42. Cart Icon Bubble Section (<code>cart-icon-bubble.liquid</code>)</strong>
+- <strong>Purpose:</strong> Cart icon with item count
+- <strong>Features:</strong>
+  - Item count display
+  - Cart link
+  - Custom styling
+  - Mobile optimization
+- <strong>Example Usage:</strong> Header cart icon</p>
+<p><strong>43. Main Cart Items Section (<code>main-cart-items.liquid</code>)</strong>
+- <strong>Purpose:</strong> Cart items display
+- <strong>Features:</strong>
+  - Product information
+  - Quantity controls
+  - Remove functionality
+  - Price calculations
+- <strong>Example Usage:</strong> Cart page</p>
+<p><strong>44. Main Cart Footer Section (<code>main-cart-footer.liquid</code>)</strong>
+- <strong>Purpose:</strong> Cart footer with totals and checkout
+- <strong>Features:</strong>
+  - Order totals
+  - Checkout button
+  - Shipping information
+  - Discount codes
+- <strong>Example Usage:</strong> Cart page</p>
+<p><strong>45. Main Cart Add-ons Section (<code>main-cart-add-ons.liquid</code>)</strong>
+- <strong>Purpose:</strong> Cart add-ons and upsells
+- <strong>Features:</strong>
+  - Product recommendations
+  - Upsell products
+  - Custom messaging
+- <strong>Example Usage:</strong> Cart page upsells</p>
+<p><strong>46. Cart Recommendation Section (<code>cart-recommendation.liquid</code>)</strong>
+- <strong>Purpose:</strong> Cart-based product recommendations
+- <strong>Features:</strong>
+  - AI-powered recommendations
+  - Cart context awareness
+  - Custom layouts
+- <strong>Example Usage:</strong> Cart page recommendations</p>
+<h4 id="account-and-customer-sections">Account and Customer Sections</h4>
+<p><strong>47. Main Account Section (<code>main-account.liquid</code>)</strong>
+- <strong>Purpose:</strong> Customer account dashboard
+- <strong>Features:</strong>
+  - Account information
+  - Order history
+  - Account settings
+  - Mobile optimization
+- <strong>Example Usage:</strong> Customer account pages</p>
+<p><strong>48. Main Addresses Section (<code>main-addresses.liquid</code>)</strong>
+- <strong>Purpose:</strong> Customer address management
+- <strong>Features:</strong>
+  - Address listing
+  - Add/edit addresses
+  - Default address setting
+  - Mobile optimization
+- <strong>Example Usage:</strong> Customer address pages</p>
+<p><strong>49. Main Login Section (<code>main-login.liquid</code>)</strong>
+- <strong>Purpose:</strong> Customer login page
+- <strong>Features:</strong>
+  - Login form
+  - Password reset link
+  - Registration link
+  - Mobile optimization
+- <strong>Example Usage:</strong> Customer login pages</p>
+<p><strong>50. Main Register Section (<code>main-register.liquid</code>)</strong>
+- <strong>Purpose:</strong> Customer registration page
+- <strong>Features:</strong>
+  - Registration form
+  - Account creation
+  - Terms acceptance
+  - Mobile optimization
+- <strong>Example Usage:</strong> Customer registration pages</p>
+<p><strong>51. Main Reset Password Section (<code>main-reset-password.liquid</code>)</strong>
+- <strong>Purpose:</strong> Password reset page
+- <strong>Features:</strong>
+  - Password reset form
+  - Email verification
+  - Security features
+- <strong>Example Usage:</strong> Password reset pages</p>
+<p><strong>52. Main Order Section (<code>main-order.liquid</code>)</strong>
+- <strong>Purpose:</strong> Order details page
+- <strong>Features:</strong>
+  - Order information
+  - Order items
+  - Shipping details
+  - Order status
+- <strong>Example Usage:</strong> Order confirmation and details pages</p>
+<h4 id="specialized-display-sections">Specialized Display Sections</h4>
+<p><strong>53. Video Section (<code>video.liquid</code>)</strong>
+- <strong>Purpose:</strong> Video content display
+- <strong>Features:</strong>
+  - Video embedding
+  - Custom controls
+  - Responsive design
+  - Thumbnail support
+- <strong>Example Usage:</strong> Product videos, promotional content</p>
+<p><strong>54. Spotlight Section (<code>spotlight.liquid</code>)</strong>
+- <strong>Purpose:</strong> Spotlight/highlight content display
+- <strong>Features:</strong>
+  - Custom layouts
+  - Image and text combinations
+  - Hover effects
+  - Mobile optimization
+- <strong>Example Usage:</strong> Featured content, special promotions</p>
+<p><strong>55. Shop the Look Section (<code>shop-the-look.liquid</code>)</strong>
+- <strong>Purpose:</strong> Product styling and outfit displays
+- <strong>Features:</strong>
+  - Product combinations
+  - Interactive elements
+  - Custom layouts
+  - Mobile optimization
+- <strong>Example Usage:</strong> Fashion and lifestyle products</p>
+<p><strong>56. Social Media Feed Section (<code>social-media-feed.liquid</code>)</strong>
+- <strong>Purpose:</strong> Social media content integration
+- <strong>Features:</strong>
+  - Social media API integration
+  - Custom layouts
+  - Real-time updates
+  - Mobile optimization
+- <strong>Example Usage:</strong> Social proof, brand content</p>
+<p><strong>57. Promos Banner Section (<code>promos-banner.liquid</code>)</strong>
+- <strong>Purpose:</strong> Promotional banner display
+- <strong>Features:</strong>
+  - Custom messaging
+  - Link support
+  - Styling options
+  - Mobile optimization
+- <strong>Example Usage:</strong> Promotional announcements, sales banners</p>
+<p><strong>58. In-Page Promo Banner Section (<code>in-page-promo-banner.liquid</code>)</strong>
+- <strong>Purpose:</strong> In-page promotional content
+- <strong>Features:</strong>
+  - Custom positioning
+  - Dismissible functionality
+  - Custom styling
+  - Mobile optimization
+- <strong>Example Usage:</strong> Page-specific promotions, contextual offers</p>
+<h4 id="utility-and-helper-sections">Utility and Helper Sections</h4>
+<p><strong>59. Filter Helpers Section (<code>filter-helpers.liquid</code>)</strong>
+- <strong>Purpose:</strong> Collection filtering utilities
+- <strong>Features:</strong>
+  - Filter controls
+  - Sorting options
+  - Clear filters
+  - Mobile optimization
+- <strong>Example Usage:</strong> Collection pages, search results</p>
+<p><strong>60. Recommendations Section (<code>recommendations.liquid</code>)</strong>
+- <strong>Purpose:</strong> General product recommendations
+- <strong>Features:</strong>
+  - AI-powered suggestions
+  - Custom layouts
+  - Performance optimization
+  - Mobile responsiveness
+- <strong>Example Usage:</strong> Homepage, product pages</p>
+<p><strong>61. Page Content Section (<code>page-content.liquid</code>)</strong>
+- <strong>Purpose:</strong> General page content display
+- <strong>Features:</strong>
+  - Rich text support
+  - Custom layouts
+  - Metafield integration
+  - Mobile optimization
+- <strong>Example Usage:</strong> General content pages</p>
+<p><strong>62. Page Classic Orders Section (<code>page-classic-orders.liquid</code>)</strong>
+- <strong>Purpose:</strong> Legacy order management interface
+- <strong>Features:</strong>
+  - Order management
+  - Legacy system integration
+  - Custom styling
+- <strong>Example Usage:</strong> Legacy order pages</p>
+<p><strong>63. Main Page Styleguide Section (<code>main-page-styleguide.liquid</code>)</strong>
+- <strong>Purpose:</strong> Design system documentation
+- <strong>Features:</strong>
+  - Style guide content
+  - Component examples
+  - Design documentation
+- <strong>Example Usage:</strong> Design system pages</p>
+<p><strong>64. Feature Diagram Section (<code>feature-diagram.liquid</code>)</strong>
+- <strong>Purpose:</strong> Feature and process diagrams
+- <strong>Features:</strong>
+  - Custom diagrams
+  - Interactive elements
+  - Responsive design
+  - Animation support
+- <strong>Example Usage:</strong> Process explanations, feature demonstrations</p>
+<h3 id="metafield-integration">Metafield Integration</h3>
+<p><strong>Content-Level Metafields:</strong>
+- <strong>Page Metafields:</strong>
+  - <code>title_tag [string]</code>: Custom page titles
+  - <code>description_tag [string]</code>: Meta descriptions
+  - <code>page-metadata.creator [single_line_text_field]</code>: Content creator attribution</p>
+<p><strong>Collection Metafields:</strong>
+- <strong>SEO Metafields:</strong>
+  - <code>cql.seo_collection_image</code>: Collection hero images
+  - <code>cql.seo_collection_heading</code>: Collection headlines
+  - <code>cql.seo_collection_tagline</code>: Collection descriptions
+- <strong>Display Metafields:</strong>
+  - <code>cql.featured_image_mobile</code>: Mobile-specific images
+  - <code>custom.collection_parent_category</code>: Category hierarchy</p>
+<p><strong>Blog Post Metafields:</strong>
+- <strong>SEO Metafields:</strong>
+  - <code>title_tag [string]</code>: Custom post titles
+  - <code>description_tag [string]</code>: Meta descriptions
+- <strong>Content Metafields:</strong>
+  - Standard Shopify fields: Author, tags, featured image
+  - Custom content through rich text editor</p>
+<h3 id="content-management-workflows">Content Management Workflows</h3>
+<p><strong>1. Page Creation Workflow:</strong>
+1. <strong>Access:</strong> Shopify Admin → Online Store → Pages
+2. <strong>Template Selection:</strong> Choose appropriate template (page.json, article.json)
+3. <strong>Content Entry:</strong>
+   - Add page title and handle
+   - Select template suffix if needed
+   - Add content using rich text editor
+4. <strong>Metafield Configuration:</strong>
+   - Set custom title tag
+   - Add meta description
+   - Configure any custom metafields
+5. <strong>Section Configuration:</strong>
+   - Add and configure content sections
+   - Set section-specific settings (colors, spacing, animations)
+   - Preview and test responsive behavior
+6. <strong>Publishing:</strong>
+   - Set visibility and publication date
+   - Test on staging environment
+   - Publish to live site</p>
+<p><strong>2. Blog Post Creation Workflow:</strong>
+1. <strong>Access:</strong> Shopify Admin → Online Store → Blog posts
+2. <strong>Content Creation:</strong>
+   - Add title and content using rich text editor
+   - Upload featured image
+   - Set author and publication date
+   - Add relevant tags
+3. <strong>SEO Configuration:</strong>
+   - Set custom title tag
+   - Add meta description
+   - Configure social sharing settings
+4. <strong>Publishing:</strong>
+   - Preview content
+   - Schedule or publish immediately
+   - Verify on live site</p>
+<p><strong>3. Collection Page Enhancement:</strong>
+1. <strong>Access:</strong> Shopify Admin → Products → Collections
+2. <strong>Metafield Configuration:</strong>
+   - Set <code>cql.seo_collection_heading</code>
+   - Add <code>cql.seo_collection_tagline</code>
+   - Upload <code>cql.seo_collection_image</code>
+   - Configure <code>cql.featured_image_mobile</code>
+3. <strong>Template Configuration:</strong>
+   - Select collection template
+   - Configure banner section settings
+   - Set SEO content section parameters</p>
+<h3 id="metafields-in-content-management">Metafields in Content Management</h3>
+<p><strong>Page-Level Metafields:</strong>
+- <strong>SEO Metafields:</strong> <code>page.metafields.custom.seo_title</code>, <code>page.metafields.custom.seo_description</code>
+- <strong>Custom Content:</strong> <code>page.metafields.custom.hero_text</code>, <code>page.metafields.custom.cta_text</code>
+- <strong>Styling:</strong> <code>page.metafields.custom.background_color</code>, <code>page.metafields.custom.text_color</code></p>
+<p><strong>Blog Post Metafields:</strong>
+- <strong>SEO:</strong> <code>article.metafields.custom.seo_title</code>, <code>article.metafields.custom.seo_description</code>
+- <strong>Featured Content:</strong> <code>article.metafields.custom.featured_quote</code>, <code>article.metafields.custom.author_bio</code>
+- <strong>Social Sharing:</strong> <code>article.metafields.custom.social_image</code>, <code>article.metafields.custom.social_title</code></p>
+<p><strong>Collection Metafields (Content Integration):</strong>
+- <strong>SEO Content:</strong> <code>collection.metafields.cql.seo_collection_heading</code>, <code>collection.metafields.cql.seo_collection_tagline</code>
+- <strong>Visual Content:</strong> <code>collection.metafields.cql.seo_collection_image</code>
+- <strong>Category Organization:</strong> <code>collection.metafields.custom.collection_parent_category</code></p>
+<p><strong>Content Management Best Practices:</strong>
+1. <strong>Template Selection:</strong> Choose the most appropriate template variant for content type
+2. <strong>Metafield Usage:</strong> Populate relevant metafields for SEO and custom functionality
+3. <strong>Section Configuration:</strong> Use section blocks to create engaging, structured content
+4. <strong>Responsive Design:</strong> Test content on mobile and desktop views
+5. <strong>SEO Optimization:</strong> Ensure all content has proper meta titles and descriptions
+6. <strong>Content Consistency:</strong> Follow brand guidelines for tone, imagery, and messaging
+4. <strong>Testing:</strong>
+   - Preview collection page
+   - Test responsive behavior
+   - Verify metafield display</p>
+<h3 id="content-management-best-practices">Content Management Best Practices</h3>
+<p><strong>1. Content Organization:</strong>
+- Use consistent naming conventions for pages and blog posts
+- Implement proper URL structure with meaningful handles
+- Organize content with appropriate tags and categories
+- Maintain content hierarchy through parent-child relationships</p>
+<p><strong>2. SEO Optimization:</strong>
+- Always set custom title tags and meta descriptions
+- Use relevant keywords in content and metafields
+- Optimize images with proper alt text
+- Implement structured data where appropriate</p>
+<p><strong>3. Responsive Design:</strong>
+- Test all content on mobile and desktop devices
+- Use appropriate image sizes for different screen sizes
+- Configure mobile-specific settings in sections
+- Ensure text readability across all devices</p>
+<p><strong>4. Performance Considerations:</strong>
+- Optimize images before uploading
+- Use appropriate image formats (WebP when possible)
+- Minimize custom CSS and JavaScript
+- Test page load speeds</p>
+<p><strong>5. Content Maintenance:</strong>
+- Regular content audits and updates
+- Monitor broken links and outdated information
+- Update metafields when content changes
+- Archive or remove outdated content</p>
+<h3 id="content-management-tools">Content Management Tools</h3>
+<p><strong>Primary Tools:</strong>
+- <strong>Shopify Admin:</strong> Main content management interface
+- <strong>Matrixify:</strong> Bulk content operations and backups
+- <strong>Custom Metafields:</strong> Dynamic content configuration
+- <strong>Theme Sections:</strong> Modular content building</p>
+<p><strong>Backup &amp; Recovery:</strong>
+- <strong>Daily Matrixify Exports:</strong> Automated content backups
+- <strong>Version Control:</strong> Theme code versioning through Git
+- <strong>Content Snapshots:</strong> Regular content state captures</p>
+<p><strong>Content Analytics:</strong>
+- <strong>Google Analytics:</strong> Content performance tracking
+- <strong>Search Console:</strong> SEO performance monitoring
+- <strong>Shopify Analytics:</strong> Content engagement metrics
+- <strong>Mobile Responsiveness:</strong> All content must be mobile-optimized
+- <strong>Brand Consistency:</strong> Follow Winzer brand guidelines
+- <strong>Accessibility:</strong> Ensure WCAG 2.1 AA compliance</p>
+<hr />
+<h2 id="product-management">Product Management</h2>
+<h3 id="current-product-inventory">Current Product Inventory</h3>
+<p><strong>OneSource Site:</strong>
+- <strong>695 Total Products</strong> with comprehensive metafield data
+- <strong>Major Categories:</strong> Fasteners (227), Screws (41), Machine Screws (12), Bolts (38), Sockets (22)
+- <strong>Key Vendors:</strong> Lenox, Loctite, Nucor, Permatex, WD-40, Kroil Lubricants
+- <strong>Product Types:</strong> Hand tools, power tool accessories, fasteners, lubricants, adhesives</p>
+<p><strong>FastServ Site:</strong>
+- <strong>42,529 Total Products</strong> (massive inventory - 61x larger than OneSource)
+- <strong>Product Types:</strong> [TODO: Analyze FastServ export data for detailed categorization]
+- <strong>Categories:</strong> [TODO: Analyze FastServ export data for detailed categorization]
+- <strong>Vendors:</strong> [TODO: Analyze FastServ export data for detailed categorization]</p>
+<p><strong>Winzer Corp Site:</strong>
+- <strong>48,718 Total Products</strong> (largest inventory - 70x larger than OneSource)
+- <strong>Product Types:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]
+- <strong>Categories:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]
+- <strong>Vendors:</strong> [TODO: Analyze Winzer Corp export data for detailed categorization]</p>
+<h3 id="product-data-standards">Product Data Standards</h3>
+<p><strong>Required Metafields for New Products:</strong>
+- <code>cql.categories</code> (list.single_line_text_field) - <strong>REQUIRED</strong> for collection assignment
+- <code>cql.attributes_json</code> (variant-level) - <strong>REQUIRED</strong> for SearchSpring filtering
+- <code>custom.oracle_id</code> (variant-level) - <strong>REQUIRED</strong> for ERP integration</p>
+<p><strong>Recommended Metafields:</strong>
+- <code>cql.vendor_name</code> - Brand identification
+- <code>cql.features_text</code> - Product details
+- <code>cql.minimum_order_quantity</code> - Order requirements
+- <code>cql.product_lead_time</code> - Shipping expectations</p>
+<h3 id="product-creation-workflow">Product Creation Workflow</h3>
+<p><strong>New Product Process:</strong>
+1. Navigate to Shopify Admin → Products
+2. Click "Add product"
+3. Enter basic product information
+4. Add variants with proper SKUs
+5. Upload product images
+6. Fill required metafields
+7. Set collection assignments
+8. Test on staging environment
+9. Publish to live site</p>
+<p><strong>Bulk Product Updates:</strong>
+1. Export current product data via Matrixify
+2. Update data in Excel/CSV
+3. Import updated data via Matrixify
+4. Verify changes on staging
+5. Deploy to production</p>
+<hr />
+<h2 id="site-management">Site Management</h2>
+<h3 id="theme-management">Theme Management</h3>
+<p><strong>Current Theme Structure:</strong>
+- <strong>Base Theme:</strong> Dawn (Shopify's default theme)
+- <strong>Customization Level:</strong> Heavy customization with shared components
+- <strong>Multi-site Support:</strong> Shared <code>_shared</code> directory with site-specific overrides</p>
+<p><strong>Theme Files Organization:</strong></p>
+<pre><code>sites/_shared/
+├── assets/          # Shared CSS, JS, and images
+├── config/          # Global theme settings
+├── layout/          # Shared layout templates
+├── sections/        # Reusable section templates
+├── snippets/        # Reusable code snippets
+└── templates/       # Page templates
+
+sites/{site}/
+├── assets/          # Site-specific assets
+├── config/          # Site-specific settings
+└── templates/       # Site-specific templates
+</code></pre>
+<h3 id="app-management">App Management</h3>
+<p><strong>Current App Inventory:</strong></p>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>Purpose</th>
+<th>Sites</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SearchSpring</td>
+<td>Search &amp; filtering</td>
+<td>All</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Klaviyo</td>
+<td>Email marketing &amp; SMS</td>
+<td>OneSource, FastServ, Corp</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Elevar</td>
+<td>Conversion tracking</td>
+<td>All</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Matrixify</td>
+<td>Data import/export</td>
+<td>All</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>CyberSource</td>
+<td>Payment processing</td>
+<td>OneSource, FastServ</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Breadcrumbs</td>
+<td>Navigation enhancement</td>
+<td>OneSource</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Address Guard</td>
+<td>Address validation</td>
+<td>OneSource</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>SEA Post Purchase Survey</td>
+<td>Customer feedback</td>
+<td>OneSource, FastServ</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Vertex Tax &amp; Compliance</td>
+<td>Tax calculation</td>
+<td>OneSource, FastServ, Corp</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>ShipperHQ</td>
+<td>Shipping &amp; checkout</td>
+<td>OneSource, FastServ, Corp</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>CartBot</td>
+<td>Cart abandonment recovery</td>
+<td>OneSource</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Forms</td>
+<td>Custom form builder</td>
+<td>OneSource, FastServ, Corp</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Flow</td>
+<td>Workflow automation</td>
+<td>OneSource, FastServ, Corp</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Launchpad</td>
+<td>Scheduled promotions</td>
+<td>OneSource</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Onboard B2B</td>
+<td>B2B customer onboarding</td>
+<td>FastServ, Corp</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Checkout Blocks</td>
+<td>Checkout customization</td>
+<td>FastServ</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Helium Customer Fields</td>
+<td>Customer data collection</td>
+<td>FastServ</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Shopify GraphiQL App</td>
+<td>API development tool</td>
+<td>OneSource, FastServ, Corp</td>
+<td>Winzer</td>
+</tr>
+<tr>
+<td>Winzer Pricing API</td>
+<td>Custom pricing integration</td>
+<td>OneSource, FastServ, Corp</td>
+<td>CQL Corp</td>
+</tr>
+<tr>
+<td>Theme Access</td>
+<td>Theme development access</td>
+<td>OneSource, FastServ, Corp</td>
+<td>Winzer</td>
+</tr>
+</tbody>
+</table>
+<p><strong>App Configuration:</strong></p>
+<p><strong>Core eCommerce Apps:</strong>
+- <strong>SearchSpring:</strong> Site-specific configurations with custom React components
+- <strong>Klaviyo:</strong> All sites, integrated with product data and customer segmentation
+- <strong>Elevar:</strong> All sites, tracks conversions and customer behavior
+- <strong>Matrixify:</strong> Daily product backups, bulk data operations</p>
+<p><strong>Payment &amp; Checkout:</strong>
+- <strong>CyberSource:</strong> Payment processing with fraud protection (All sites)
+- <strong>Vertex Tax &amp; Compliance:</strong> Automated tax calculation and compliance (All sites)
+- <strong>ShipperHQ:</strong> Advanced shipping rates and checkout optimization (All sites)
+- <strong>Address Guard:</strong> Address validation and standardization (OneSource only). Installed to prevent carrier re-routing fees due to inaccurate address entry at checkout.
+- <strong>Checkout Blocks:</strong> Checkout customization and optimization (All sites)</p>
+<p><strong>B2B &amp; Customer Management:</strong>
+- <strong>Onboard B2B:</strong> Self-Service B2B customer onboarding and management (FastServ, Corp)
+- <strong>Helium Customer Fields:</strong> Customer data collection and management (FastServ only). Installed for evaluation. Not active.
+- <strong>Search &amp; Discovery:</strong> Enhanced search features and filtering (Corp only). Installed as a test. Not active.</p>
+<p><strong>Customer Experience:</strong>
+- <strong>Breadcrumbs:</strong> Enhanced navigation and breadcrumb trails (OneSource only). Shopify doesn't include breadcrumbs in Dawn. 
+- <strong>CartBot:</strong> Cart abandonment recovery and email campaigns (OneSource only). Installed for evaluation. Not active.
+- <strong>SEA Post Purchase Survey:</strong> Customer feedback collection (OneSource, FastServ). Installed for evaluation. Not active.
+- <strong>Forms:</strong> Custom form builder for contact and lead generation (All sites). Installed for evaluation. Not active.</p>
+<p><strong>Marketing &amp; Promotions:</strong>
+- <strong>Flow:</strong> Workflow automation for customer journeys (All sites)
+- <strong>Launchpad:</strong> Scheduled promotions and flash sales (OneSource only). Recommend adding to all sites to schedule promotions and content changes.</p>
+<p><strong>Development &amp; Integration:</strong>
+- <strong>Shopify GraphiQL App:</strong> API development and testing tool (All sites)
+- <strong>Winzer Pricing API:</strong> Custom pricing integration (CQL Corp managed, All sites)
+- <strong>Theme Access:</strong> Development team access to theme files (All sites)</p>
+<h4 id="winzer-pricing-api-app">Winzer Pricing API App</h4>
+<p><strong>Purpose:</strong> Provides exact 4-decimal pricing for B2B customers based on their company-specific pricing agreements.</p>
+<p><strong>How It Works:</strong>
+1. <strong>Customer Authentication:</strong> Uses <code>customer.current_company.id</code> to identify the logged-in B2B customer's company
+2. <strong>API Endpoints:</strong>
+   - <code>/apps/pricing-api/customer-product-pricing</code> - Get exact pricing for specific products
+   - <code>/apps/pricing-api/bulk-pricing</code> - Get pricing for multiple variants at once
+   - <code>/apps/pricing-api/erp-orders</code> - ERP order integration (Classic Orders page)</p>
+<p><strong>Implementation Details:</strong></p>
+<p><strong>Product Detail Pages (PDP):</strong>
+- <strong>Trigger:</strong> "See .0000 Pricing" link appears for logged-in B2B customers
+- <strong>Location:</strong> Below product price, only for non-OneSource stores
+- <strong>Condition:</strong> Only shows for variants with price between $0.01 and $999,999.99
+- <strong>Process:</strong>
+  1. Customer clicks "See .0000 Pricing" link
+  2. Loading animation displays for 1 second
+  3. API call fetches exact pricing: <code>GET /apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code>
+  4. Price updates to show 4 decimal places (e.g., $1.2345)
+  5. Link disappears after successful pricing update</p>
+<p><strong>SearchSpring Integration (PLP):</strong>
+- <strong>Trigger:</strong> "See .0000 Pricing" button in search results
+- <strong>Process:</strong>
+  1. Bulk API call: <code>GET /apps/pricing-api/bulk-pricing?variant_ids={variantIds}</code>
+  2. Updates all variant prices in search results
+  3. Maintains pricing data for variant switching</p>
+<p><strong>Technical Implementation:</strong>
+- <strong>JavaScript Files:</strong>
+  - <code>global.js</code> - Main pricing fetch function (<code>fetchExactPrice</code>)
+  - <code>four-decimal-pricing.js</code> - Add to cart pricing integration
+  - SearchSpring React components handle PLP pricing
+- <strong>Liquid Snippets:</strong>
+  - <code>exact-pricing.liquid</code> - PDP pricing link and tooltip
+  - <code>price.liquid</code> - Standard price display (no API integration)
+- <strong>CSS:</strong> <code>component-exact-pricing.css</code> - Styling for pricing elements</p>
+<p><strong>User Experience:</strong>
+- <strong>Tooltip Message:</strong> "Prices shown are rounded up to the next cent, click here to see your exact 4 decimal pricing"
+- <strong>Loading State:</strong> Animated loading icon during API call
+- <strong>Error Handling:</strong> Link remains visible if API call fails
+- <strong>Variant Switching:</strong> Exact pricing persists when switching product variants</p>
+<p><strong>Business Logic:</strong>
+- Only available to logged-in B2B customers
+- Company-specific pricing based on ERP agreements
+- Rounds displayed prices up to next cent, shows exact pricing on demand
+- Integrates with Oracle ERP for real-time pricing data</p>
+<h4 id="b2b-catalog-pricing-solution">B2B Catalog Pricing Solution</h4>
+<p><strong>Purpose:</strong> Creative solution to handle products not in a B2B customer's company catalog while still allowing them to see product information and request pricing.</p>
+<p><strong>How It Works:</strong>
+1. <strong>$1 Million Price Logic:</strong> Products not in a company's catalog are set to $1,000,000 in Shopify
+2. <strong>Price Display Logic:</strong> When a product price is ≥ $1,000,000 or ≤ $0, the system displays "Not available to purchase" instead of the price
+3. <strong>Customer Experience:</strong> B2B customers can browse all products but only see pricing for items in their catalog</p>
+<p><strong>Implementation Details:</strong></p>
+<p><strong>Product Detail Pages (PDP):</strong>
+- <strong>Condition:</strong> <code>sofa_variant.price &gt;= 1000000 or sofa_variant.price &lt;= 0</code>
+- <strong>Display:</strong> Shows "Not available to purchase" message instead of price
+- <strong>Location:</strong> Replaces the standard price display in the product price block
+- <strong>Exact Pricing:</strong> The "See .0000 Pricing" link is hidden for these products</p>
+<p><strong>SearchSpring Integration (PLP):</strong>
+- <strong>Condition:</strong> Same $1 million logic applied in search results
+- <strong>Display:</strong> Shows "Not available to purchase" in search result pricing
+- <strong>Function:</strong> <code>notInYourCatalog(price)</code> checks if price ≥ $1,000,000 or ≤ $0
+- <strong>Add to Cart:</strong> Disabled for products not in catalog</p>
+<p><strong>Cart and Checkout:</strong>
+- <strong>Add to Cart Button:</strong> Disabled for products with $1 million pricing
+- <strong>Button Text:</strong> Shows "Unavailable" instead of "Add to cart"
+- <strong>Validation:</strong> Prevents adding non-catalog items to cart</p>
+<p><strong>Technical Implementation:</strong>
+- <strong>Price Validation:</strong> <code>parseInt(corePrice) &gt;= 1000000 || parseInt(corePrice) &lt;= 0</code>
+- <strong>Display Logic:</strong> Conditional rendering based on price value
+- <strong>Localization:</strong> Uses <code>products.product.not_in_catalog</code> translation key
+- <strong>CSS Class:</strong> <code>.not-in-catalog</code> for styling</p>
+<p><strong>Template Pricing Fallback System:</strong></p>
+<p><strong>Purpose:</strong> Provides fallback pricing for B2B customers whose companies have template pricing enabled, allowing them to see "See pricing" instead of "Not available to purchase" for non-catalog items.</p>
+<p><strong>How It Works:</strong>
+1. <strong>Company Metafield:</strong> <code>cql.template_pricing</code> metafield assigned to companies (e.g., "FRANCHISE")
+2. <strong>Fallback Logic:</strong> When a product is not in the company catalog (price = $1,000,000) AND the company has template pricing enabled, show "See pricing" instead of "Not available to purchase"
+3. <strong>Customer Experience:</strong> Logged-in B2B customers with template pricing can see pricing options for all products</p>
+<p><strong>Implementation Details:</strong></p>
+<p><strong>Company Metafield:</strong>
+- <strong>Field:</strong> <code>cql.template_pricing</code> (company-level metafield)
+- <strong>Values:</strong> 
+  - <code>FRANCHISE</code> (3,466 companies) - Most common template pricing type
+  - <code>LOW_MRO</code> (1 company) - Low MRO template pricing
+  - <code>INN1</code> (1 company) - Internal template pricing
+  - <code>GS01</code> (1 company) - Government/contractor template pricing
+  - <code>FASTSERV</code> (1 company) - FastServ-specific template pricing
+- <strong>Purpose:</strong> Determines if company has access to template pricing fallback
+- <strong>Coverage:</strong> 3,470 companies have template pricing enabled out of 20,936 total companies</p>
+<p><strong>SearchSpring Integration (PLP):</strong>
+- <strong>Condition:</strong> <code>customer.logged_in &amp;&amp; customer.current_company.metafields.cql.template_pricing != blank &amp;&amp; product.price &gt;= 1000000</code>
+- <strong>Display:</strong> Shows "See pricing" instead of "Not available to purchase"
+- <strong>API Call:</strong> Uses <code>pricing_json</code> template to fetch fallback pricing data
+- <strong>Template:</strong> <code>product.pricing_json.liquid</code> returns JSON with variant pricing
+- <strong>Template Types:</strong> Works for all template pricing types (FRANCHISE, LOW_MRO, INN1, GS01, FASTSERV)</p>
+<p><strong>Technical Implementation:</strong>
+- <strong>API Endpoint:</strong> <code>/apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code>
+- <strong>Response Format:</strong> JSON array with product_id and variants array containing id and price
+- <strong>Template Pricing Logic:</strong> API checks company's <code>cql.template_pricing</code> metafield and returns appropriate pricing
+- <strong>SearchSpring Integration:</strong> "See pricing" button triggers API call and updates display with template pricing
+- <strong>Pricing JSON Template:</strong> <code>/sites/_shared/templates/product.pricing_json.liquid</code> (alternative endpoint)</p>
+<p><strong>Working Implementation:</strong>
+- <strong>API Endpoint:</strong> <code>/apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code>
+- <strong>Response Format:</strong> JSON array with product_id and variants array containing id and price
+- <strong>Template Pricing Logic:</strong> When company has <code>cql.template_pricing</code> metafield set, API returns template pricing instead of $1,000,000
+- <strong>User Experience:</strong> "See pricing" button triggers API call and displays actual template pricing
+- <strong>Example Response:</strong> Returns 4-decimal pricing (e.g., "61.6440", "2.0064") for all variants</p>
+<p><strong>Business Value:</strong>
+- Allows B2B customers to browse full product catalog
+- Prevents confusion by clearly indicating catalog vs. non-catalog items
+- Maintains professional appearance while encouraging inquiry
+- Enables sales team to follow up on pricing requests</p>
+<hr />
+<h2 id="custom-elements">Custom Elements</h2>
+<h3 id="searchspring-integration">SearchSpring Integration</h3>
+<p><strong>Configuration:</strong>
+- <strong>Site IDs:</strong> OneSource (t047mf), FastServ (wk4j0d), Winzer Corp (fsqw40)
+- <strong>Custom Components:</strong> React-based result display and filtering
+- <strong>Data Sync:</strong> Real-time product data synchronization
+- <strong>Customization Points:</strong> Result display, filtering logic, autocomplete</p>
+<p><strong>Key Features:</strong>
+- Advanced product filtering
+- Autocomplete search
+- Product recommendations
+- Dynamic variant switching
+- Custom result display</p>
+<h3 id="custom-javascript-functions">Custom JavaScript Functions</h3>
+<p><strong>Pricing API Integration:</strong></p>
+<pre><code class="language-javascript">function fetchExactPrice(companyId, productId) {
+  // Fetches exact pricing from custom API
+  // Updates displayed price dynamically
+  // Hides &quot;exact pricing&quot; link after success
+}
+</code></pre>
+<p><strong>Variant Metafield Display:</strong></p>
+<pre><code class="language-javascript">function switchVariantMetafieldDisplay(variant) {
+  // Updates metafield display when variant changes
+  // Handles minimum order quantity, lead time, promo messaging
+  // Manages low inventory warnings
+}
+</code></pre>
+<h3 id="custom-css-classes">Custom CSS Classes</h3>
+<p><strong>Site-Specific Styling:</strong>
+- <code>.site-onesource</code> - OneSource-specific styles
+- <code>.site-fastserv</code> - FastServ-specific styles
+- <code>.site-corp</code> - Winzer Corp-specific styles
+- <code>.pdp__</code> - Product detail page components
+- <code>.ss__</code> - SearchSpring components</p>
+<hr />
+<h2 id="operations-runbooks">Operations &amp; Runbooks</h2>
+<h3 id="user-access-provisioning">User &amp; Access Provisioning</h3>
+<p><strong>Shopify Admin Access:</strong>
+1. <strong>Request Access:</strong> Contact Shopify admin for access.
+2. <strong>Role Assignment:</strong> Assign appropriate role (Staff, Manager, Owner)
+3. <strong>Permissions:</strong> Configure specific permissions based on role
+4. <strong>Training:</strong> Complete Shopify admin training
+5. <strong>Testing:</strong> Verify access and functionality</p>
+<p><strong>App Access Management:</strong>
+- <strong>SearchSpring:</strong> Contact Searchspring Admin for access changes
+- <strong>Klaviyo:</strong> Contact Klaviyo Admin for access changes
+- <strong>Elevar:</strong> Manage through Elevar dashboard
+- <strong>Matrixify:</strong> Manage through Matrixify dashboard</p>
+<h3 id="theme-build-deploy-workflow">Theme Build &amp; Deploy Workflow</h3>
+<p><strong>Environment Setup:</strong>
+1. <strong>Prerequisites:</strong> Node.js 16+, npm, Shopify CLI
+2. <strong>Repository Clone:</strong> <code>git clone [repository-url]</code>
+3. <strong>Dependencies:</strong> <code>npm install</code>
+4. <strong>Environment Variables:</strong> Configure <code>.env</code> file
+5. <strong>Shopify CLI:</strong> <code>shopify theme dev</code> for local development</p>
+<p><strong>Development Process:</strong>
+1. <strong>Create Feature Branch:</strong> <code>git checkout -b feature/description</code>
+2. <strong>Local Development:</strong> Make changes and test locally
+3. <strong>Code Review:</strong> Submit pull request for review
+4. <strong>Testing:</strong> Deploy to staging environment
+5. <strong>Approval:</strong> Get approval from technical lead</p>
+<p><strong>Deployment Process:</strong>
+1. <strong>Staging Deploy:</strong> <code>npm run deploy:staging</code>
+2. <strong>Testing:</strong> Comprehensive testing on staging
+3. <strong>Production Deploy:</strong> <code>npm run deploy:production</code>
+4. <strong>Validation:</strong> Verify all functionality works
+5. <strong>Monitoring:</strong> Watch for errors and issues</p>
+<p><strong>Rollback Procedure:</strong>
+1. <strong>Identify Issue:</strong> Document the problem
+2. <strong>Access Previous Version:</strong> Use Shopify admin or Git
+3. <strong>Deploy Previous Version:</strong> <code>npm run deploy:production --version=previous</code>
+4. <strong>Verify Fix:</strong> Confirm issue is resolved
+5. <strong>Post-Mortem:</strong> Document lessons learned</p>
+<p><strong>Escalation Path:</strong>
+1. <strong>Level 1:</strong> Winzer eCommerce Team
+2. <strong>Level 2:</strong> CQL Corp Technical Support
+3. <strong>Level 3:</strong> Shopify Plus Support
+4. <strong>Emergency:</strong> Direct contact with CQL Corp leadership</p>
+<h3 id="matrixify-backup-restore">Matrixify Backup &amp; Restore</h3>
+<p><strong>Daily Backup Process:</strong>
+1. <strong>Schedule:</strong> Automated daily at 2 AM EST
+2. <strong>Scope:</strong> All products, collections, pages, blog posts
+3. <strong>Storage:</strong> Cloud storage + local backup
+4. <strong>Verification:</strong> Automated validation of backup integrity
+5. <strong>Notification:</strong> Email confirmation of successful backup</p>
+<p><strong>Manual Backup Process:</strong>
+1. <strong>Access Matrixify:</strong> Login to Matrixify dashboard
+2. <strong>Select Data:</strong> Choose products, collections, pages, etc.
+3. <strong>Configure Export:</strong> Set export parameters
+4. <strong>Execute Export:</strong> Run export process
+5. <strong>Download:</strong> Save backup file securely
+6. <strong>Verify:</strong> Check backup completeness</p>
+<p><strong>Restore Process:</strong>
+1. <strong>Identify Issue:</strong> Determine what needs to be restored
+2. <strong>Select Backup:</strong> Choose appropriate backup file
+3. <strong>Test Restore:</strong> First restore to staging environment
+4. <strong>Verify Data:</strong> Confirm data integrity
+5. <strong>Production Restore:</strong> Execute restore to production
+6. <strong>Monitor:</strong> Watch for any issues</p>
+<h3 id="searchspring-incident-handling">SearchSpring Incident Handling</h3>
+<p><strong>Common Issues:</strong>
+- <strong>Products Not Appearing:</strong> Check <code>cql.attributes_json</code> metafield
+- <strong>Filtering Not Working:</strong> Verify metafield data format
+- <strong>Search Results Empty:</strong> Check SearchSpring configuration
+- <strong>Performance Issues:</strong> Monitor SearchSpring dashboard</p>
+<p><strong>Incident Response:</strong>
+1. <strong>Identify Issue:</strong> Document symptoms and impact
+2. <strong>Check Status:</strong> Verify SearchSpring service status
+3. <strong>Review Logs:</strong> Check SearchSpring dashboard for errors
+4. <strong>Test Fix:</strong> Implement solution on staging
+5. <strong>Deploy Fix:</strong> Apply fix to production
+6. <strong>Monitor:</strong> Watch for resolution</p>
+<p><strong>Escalation:</strong>
+1. <strong>Level 1:</strong> Winzer eCommerce Team (30 minutes)
+2. <strong>Level 2:</strong> CQL Corp Technical Support (1 hour)
+3. <strong>Level 3:</strong> SearchSpring Support (2 hours)
+4. <strong>Emergency:</strong> Direct contact with CQL Corp leadership</p>
+<h3 id="aws-middleware-incident-handling">AWS Middleware Incident Handling</h3>
+<p><strong>Common Issues:</strong>
+- <strong>Data Sync Failures:</strong> Lambda function errors or timeouts
+- <strong>SFTP Connection Issues:</strong> Oracle ERP connectivity problems
+- <strong>Pricing Updates Missing:</strong> Pricing feed handler failures
+- <strong>Inventory Discrepancies:</strong> Inventory sync process errors
+- <strong>Product Import Delays:</strong> Salsify integration issues</p>
+<p><strong>Incident Response:</strong>
+1. <strong>Check CloudWatch Logs:</strong> Review Lambda function execution logs
+2. <strong>Verify AWS Service Status:</strong> Check AWS service health dashboard
+3. <strong>Test External Connections:</strong> Validate SFTP and API connectivity
+4. <strong>Review Data Quality:</strong> Check for data format issues
+5. <strong>Restart Failed Processes:</strong> Redeploy Lambda functions if needed
+6. <strong>Monitor Recovery:</strong> Watch for successful data synchronization</p>
+<p><strong>Escalation:</strong>
+1. <strong>Level 1:</strong> Winzer eCommerce Team (15 minutes)
+2. <strong>Level 2:</strong> CQL Corp Technical Support (30 minutes)
+3. <strong>Level 3:</strong> AWS Support (1 hour)
+4. <strong>Emergency:</strong> Direct contact with CQL Corp leadership</p>
+<p><strong>Critical Data Flows to Monitor:</strong>
+- <strong>Product Import:</strong> Salsify → Shopify (daily)
+- <strong>Pricing Updates:</strong> Oracle ERP → Shopify (daily)
+- <strong>Inventory Sync:</strong> Oracle ERP → Shopify (hourly)
+- <strong>Order Export:</strong> Shopify → Oracle ERP (real-time)</p>
+<h3 id="monitoring-tasks">Monitoring Tasks</h3>
+<p><strong>Daily Tasks:</strong>
+- <strong>Site Health Check:</strong> Verify all sites are accessible
+- <strong>SearchSpring Status:</strong> Check search functionality
+- <strong>Order Processing:</strong> Monitor order flow
+- <strong>Error Logs:</strong> Review Shopify and app error logs
+- <strong>Performance:</strong> Check site speed and responsiveness
+- <strong>AWS Middleware:</strong> Check CloudWatch logs for Lambda function errors
+- <strong>Data Sync Status:</strong> Verify product, pricing, and inventory synchronization
+- <strong>SFTP Connectivity:</strong> Test Oracle ERP and KWI SFTP connections</p>
+<p><strong>Weekly Tasks:</strong>
+- <strong>Backup Verification:</strong> Confirm backups are complete
+- <strong>App Updates:</strong> Check for app updates and security patches
+- <strong>Content Review:</strong> Review new content and products
+- <strong>Analytics Review:</strong> Check key performance indicators
+- <strong>Security Scan:</strong> Run security vulnerability scans
+- <strong>AWS Service Health:</strong> Review AWS service status and performance
+- <strong>Data Quality Review:</strong> Check for data synchronization issues
+- <strong>Middleware Performance:</strong> Analyze Lambda execution metrics</p>
+<p><strong>Monthly Tasks:</strong>
+- <strong>Full Site Audit:</strong> Comprehensive site functionality check
+- <strong>Performance Optimization:</strong> Review and optimize site speed
+- <strong>Content Audit:</strong> Review and update content quality
+- <strong>App Review:</strong> Evaluate app performance and costs
+- <strong>Security Review:</strong> Comprehensive security assessment
+- <strong>AWS Cost Review:</strong> Analyze and optimize AWS service costs
+- <strong>Data Integration Audit:</strong> Review all data flows and dependencies
+- <strong>Middleware Configuration Review:</strong> Update and optimize settings</p>
+<hr />
+<h2 id="kpi-analytics">KPI &amp; Analytics</h2>
+<h3 id="key-performance-indicators">Key Performance Indicators</h3>
+<p><strong>Traffic Metrics:</strong>
+- <strong>Sessions:</strong> Daily, weekly, monthly session counts
+- <strong>Page Views:</strong> Total and unique page views
+- <strong>Bounce Rate:</strong> Site engagement quality
+- <strong>Average Session Duration:</strong> User engagement time</p>
+<p><strong>Conversion Metrics:</strong>
+- <strong>Conversion Rate:</strong> Percentage of visitors who make a purchase
+- <strong>Revenue:</strong> Total and average order value
+- <strong>Cart Abandonment Rate:</strong> Percentage of abandoned carts
+- <strong>Checkout Completion Rate:</strong> Percentage of completed checkouts</p>
+<p><strong>Search Performance:</strong>
+- <strong>Search Queries:</strong> Most common search terms
+- <strong>Search Conversion Rate:</strong> Percentage of searches leading to purchases
+- <strong>Filter Usage:</strong> Most used product filters
+- <strong>No Results Rate:</strong> Percentage of searches with no results</p>
+<h3 id="analytics-dashboards">Analytics Dashboards</h3>
+<p><strong>Primary Dashboard:</strong> Google Analytics 4
+- <strong>Owner:</strong> Winzer eCommerce Team
+- <strong>Access:</strong> Admin access for team members
+- <strong>Update Frequency:</strong> Real-time
+- <strong>Key Metrics:</strong> Traffic, conversions, user behavior</p>
+<p><strong>SearchSpring Dashboard:</strong>
+- <strong>Owner:</strong> CQL Corp (technical), Winzer (business)
+- <strong>Access:</strong> Shared access for monitoring
+- <strong>Update Frequency:</strong> Real-time
+- <strong>Key Metrics:</strong> Search performance, filter usage, recommendations</p>
+<p><strong>Elevar Dashboard:</strong>
+- <strong>Owner:</strong> Winzer eCommerce Team
+- <strong>Access:</strong> Admin access for team members
+- <strong>Update Frequency:</strong> Real-time
+- <strong>Key Metrics:</strong> Conversion tracking, customer behavior</p>
+<h3 id="reporting-cadence">Reporting Cadence</h3>
+<p><strong>Daily Reports:</strong>
+- <strong>Traffic Summary:</strong> Sessions, page views, top pages
+- <strong>Conversion Summary:</strong> Orders, revenue, conversion rate
+- <strong>Search Summary:</strong> Top queries, no results rate
+- <strong>Owner:</strong> Winzer eCommerce Team</p>
+<p><strong>Weekly Reports:</strong>
+- <strong>Performance Analysis:</strong> Week-over-week comparisons
+- <strong>Content Performance:</strong> Top performing pages and products
+- <strong>Search Analysis:</strong> Search trends and optimization opportunities
+- <strong>Owner:</strong> Winzer eCommerce Team</p>
+<p><strong>Monthly Reports:</strong>
+- <strong>Comprehensive Analysis:</strong> Full month performance review
+- <strong>Trend Analysis:</strong> Long-term performance trends
+- <strong>Recommendations:</strong> Actionable insights and improvements
+- <strong>Owner:</strong> Winzer eCommerce Director</p>
+<hr />
+<h2 id="appendices">Appendices</h2>
+<h3 id="a-metafield-dictionary">A: Metafield Dictionary</h3>
+<h4 id="product-level-metafields">Product-Level Metafields</h4>
+<p><strong>Core Product Information:</strong>
+- <code>cql.vendor_name</code> (single_line_text_field)
+  - <strong>Required:</strong> No
+  - <strong>UI Location:</strong> Product admin → Metafields
+  - <strong>Business Owner:</strong> Product Management Team
+  - <strong>Maintenance:</strong> Update when vendor changes
+  - <strong>Troubleshooting:</strong> Check for typos, ensure consistency</p>
+<ul>
+<li><code>cql.features_text</code> (rich_text_field)</li>
+<li><strong>Required:</strong> No</li>
+<li><strong>UI Location:</strong> Product admin → Metafields</li>
+<li><strong>Business Owner:</strong> Marketing Team</li>
+<li><strong>Maintenance:</strong> Update with product changes</li>
+<li>
+<p><strong>Troubleshooting:</strong> Check HTML formatting, test display</p>
+</li>
+<li>
+<p><code>cql.specs</code> (multi_line_text_field)</p>
+</li>
+<li><strong>Required:</strong> No</li>
+<li><strong>UI Location:</strong> Product admin → Metafields</li>
+<li><strong>Business Owner:</strong> Product Management Team</li>
+<li><strong>Maintenance:</strong> Update with specification changes</li>
+<li><strong>Troubleshooting:</strong> Check formatting, ensure accuracy</li>
+</ul>
+<p><strong>Product Categorization:</strong>
+- <code>cql.categories</code> (list.single_line_text_field)
+  - <strong>Required:</strong> Yes
+  - <strong>UI Location:</strong> Product admin → Metafields
+  - <strong>Business Owner:</strong> Product Management Team
+  - <strong>Maintenance:</strong> Update when product category changes
+  - <strong>Troubleshooting:</strong> Ensure proper categorization for collections</p>
+<p><strong>Product Marketing:</strong>
+- <code>cql.product_badges</code> (list.single_line_text_field)
+  - <strong>Required:</strong> No
+  - <strong>UI Location:</strong> Product admin → Metafields
+  - <strong>Business Owner:</strong> Marketing Team
+  - <strong>Maintenance:</strong> Update with promotional campaigns
+  - <strong>Troubleshooting:</strong> Check badge display, ensure proper formatting</p>
+<h4 id="variant-level-metafields">Variant-Level Metafields</h4>
+<p><strong>Inventory Management:</strong>
+- <code>cql.minimum_order_quantity</code> (number_integer)
+  - <strong>Required:</strong> No
+  - <strong>UI Location:</strong> Variant admin → Metafields
+  - <strong>Business Owner:</strong> Product Management Team
+  - <strong>Maintenance:</strong> Update with business rule changes
+  - <strong>Troubleshooting:</strong> Check for valid numbers, test cart behavior</p>
+<ul>
+<li><code>cql.low_inventory_quantity</code> (number_integer)</li>
+<li><strong>Required:</strong> No</li>
+<li><strong>UI Location:</strong> Variant admin → Metafields</li>
+<li><strong>Business Owner:</strong> Inventory Management Team</li>
+<li><strong>Maintenance:</strong> Update with inventory strategy changes</li>
+<li><strong>Troubleshooting:</strong> Check for valid numbers, test low stock warnings</li>
+</ul>
+<p><strong>SearchSpring Critical:</strong>
+- <code>cql.attributes_json</code> (json)
+  - <strong>Required:</strong> Yes
+  - <strong>UI Location:</strong> Variant admin → Metafields
+  - <strong>Business Owner:</strong> Product Management Team
+  - <strong>Maintenance:</strong> Update with product specification changes
+  - <strong>Troubleshooting:</strong> Validate JSON format, check SearchSpring filtering</p>
+<h3 id="b-custom-section-catalog">B: Custom Section Catalog</h3>
+<h4 id="product-detail-sections_1">Product Detail Sections</h4>
+<p><strong>Main Product Section:</strong>
+- <strong>Purpose:</strong> Core product display with metafield integration
+- <strong>Content Entry:</strong> Product admin → Products → Select product
+- <strong>Dependencies:</strong> Product metafields, variant data
+- <strong>Example Usage:</strong> All product pages (Fasteners, Electrical, Automotive products)
+- <strong>QA Checklist:</strong>
+  - [ ] Product images display correctly
+  - [ ] Metafields show proper data
+  - [ ] Variant switching works
+  - [ ] Add to cart functionality works
+  - [ ] Mobile responsiveness verified</p>
+<p><strong>Product Features Section:</strong>
+- <strong>Purpose:</strong> Display product features from metafields
+- <strong>Content Entry:</strong> Product admin → Metafields → cql.features_text
+- <strong>Dependencies:</strong> cql.features_text metafield
+- <strong>Example Usage:</strong> Product pages with features (Fasteners, Electrical products)
+- <strong>QA Checklist:</strong>
+  - [ ] Features display correctly
+  - [ ] Rich text formatting works
+  - [ ] Section shows/hides based on content
+  - [ ] Mobile formatting verified</p>
+<p><strong>Product Specifications Section:</strong>
+- <strong>Purpose:</strong> Display technical specifications
+- <strong>Content Entry:</strong> Product admin → Metafields → cql.specs
+- <strong>Dependencies:</strong> cql.specs metafield
+- <strong>Example Usage:</strong> Technical product pages (Electrical, Automotive, Industrial products)
+- <strong>QA Checklist:</strong>
+  - [ ] Specifications display correctly
+  - [ ] Formatting is readable
+  - [ ] Section shows/hides based on content
+  - [ ] Mobile formatting verified</p>
+<h4 id="collection-sections">Collection Sections</h4>
+<p><strong>Collection Banner Section:</strong>
+- <strong>Purpose:</strong> Display collection information and SEO content
+- <strong>Content Entry:</strong> Collection admin → Metafields
+- <strong>Dependencies:</strong> Collection metafields
+- <strong>Example Usage:</strong> All collection pages (Fasteners, Electrical, Automotive, etc.)
+- <strong>QA Checklist:</strong>
+  - [ ] Collection title displays
+  - [ ] SEO content shows correctly
+  - [ ] Image displays properly
+  - [ ] Mobile responsiveness verified</p>
+<p><strong>Collection SEO Content Section:</strong>
+- <strong>Purpose:</strong> SEO-optimized collection descriptions
+- <strong>Content Entry:</strong> Collection admin → Metafields → cql.seo_collection_tagline
+- <strong>Dependencies:</strong> cql.seo_collection_tagline metafield
+- <strong>Example Usage:</strong> Collection pages with SEO content (Fasteners, Electrical, Automotive collections)
+- <strong>QA Checklist:</strong>
+  - [ ] SEO content displays
+  - [ ] Formatting is correct
+  - [ ] Mobile formatting verified
+  - [ ] SEO meta tags updated</p>
+<h3 id="c-searchspring-configuration">C: SearchSpring Configuration</h3>
+<h4 id="site-configurations">Site Configurations</h4>
+<p><strong>OneSource Configuration:</strong>
+- <strong>Site ID:</strong> t047mf
+- <strong>Environment:</strong> Production
+- <strong>Data Sync:</strong> Real-time
+- <strong>Custom Components:</strong> ResultRow, ResultVariantRow, FacetGridOptions
+- <strong>Testing:</strong> Staging environment available
+- <strong>Rollback:</strong> Previous configuration versions maintained</p>
+<p><strong>FastServ Configuration:</strong>
+- <strong>Site ID:</strong> wk4j0d
+- <strong>Environment:</strong> Production
+- <strong>Data Sync:</strong> Real-time
+- <strong>Custom Components:</strong> ResultRow, ResultVariantRow, FacetGridOptions
+- <strong>Testing:</strong> Staging environment available
+- <strong>Rollback:</strong> Previous configuration versions maintained</p>
+<p><strong>Winzer Corp Configuration:</strong>
+- <strong>Site ID:</strong> fsqw40
+- <strong>Environment:</strong> Production
+- <strong>Data Sync:</strong> Real-time
+- <strong>Custom Components:</strong> ResultRow, ResultVariantRow, FacetGridOptions
+- <strong>Testing:</strong> Staging environment available
+- <strong>Rollback:</strong> Previous configuration versions maintained</p>
+<h4 id="data-sync-process">Data Sync Process</h4>
+<p><strong>Product Data Sync:</strong>
+1. <strong>Trigger:</strong> Product updates in Shopify
+2. <strong>Process:</strong> Real-time sync to SearchSpring
+3. <strong>Validation:</strong> Automated data validation
+4. <strong>Error Handling:</strong> Retry mechanism for failed syncs
+5. <strong>Monitoring:</strong> Dashboard alerts for sync issues</p>
+<p><strong>Metafield Sync:</strong>
+1. <strong>Trigger:</strong> Metafield updates in Shopify
+2. <strong>Process:</strong> Real-time sync to SearchSpring
+3. <strong>Validation:</strong> JSON format validation
+4. <strong>Error Handling:</strong> Log errors for manual review
+5. <strong>Monitoring:</strong> Dashboard alerts for sync issues</p>
+<h4 id="customization-entry-points">Customization Entry Points</h4>
+<p><strong>Result Display:</strong>
+- <strong>File:</strong> <code>src/components/Result/Result.js</code>
+- <strong>Purpose:</strong> Product result display customization
+- <strong>Changes:</strong> Modify display logic, styling, data handling
+- <strong>Testing:</strong> Local development environment</p>
+<p><strong>Filtering Logic:</strong>
+- <strong>File:</strong> <code>src/components/ResultRow/ResultRow.js</code>
+- <strong>Purpose:</strong> Product filtering and search logic
+- <strong>Changes:</strong> Modify filter behavior, add new filters
+- <strong>Testing:</strong> Staging environment</p>
+<p><strong>Variant Handling:</strong>
+- <strong>File:</strong> <code>src/components/ResultVariantRow/ResultVariantRow.js</code>
+- <strong>Purpose:</strong> Variant display and switching
+- <strong>Changes:</strong> Modify variant display, add new variant features
+- <strong>Testing:</strong> Staging environment</p>
+<h3 id="d-emergency-procedures">D: Emergency Procedures</h3>
+<h4 id="outage-triage">Outage Triage</h4>
+<p><strong>Severity Levels:</strong>
+- <strong>Critical:</strong> Site completely down, no orders possible
+- <strong>High:</strong> Major functionality broken, significant impact
+- <strong>Medium:</strong> Minor functionality issues, limited impact
+- <strong>Low:</strong> Cosmetic issues, no functional impact</p>
+<p><strong>Initial Response:</strong>
+1. <strong>Assess Impact:</strong> Determine severity level
+2. <strong>Document Issue:</strong> Record symptoms and affected areas
+3. <strong>Check Status:</strong> Verify Shopify and app status
+4. <strong>Notify Team:</strong> Alert appropriate team members
+5. <strong>Begin Investigation:</strong> Start troubleshooting process</p>
+<h4 id="communication-protocol">Communication Protocol</h4>
+<p><strong>Internal Communication:</strong>
+- <strong>Immediate:</strong> Slack notification to #ecommerce-alerts
+- <strong>Status Updates:</strong> Every 30 minutes during critical issues
+- <strong>Resolution:</strong> Final status update with root cause
+- <strong>Post-Mortem:</strong> Detailed analysis within 24 hours</p>
+<p><strong>External Communication:</strong>
+- <strong>Customer Impact:</strong> Update site banners if necessary
+- <strong>Vendor Notification:</strong> Alert CQL Corp for technical issues
+- <strong>Stakeholder Updates:</strong> Regular updates to management</p>
+<h4 id="escalation-ladder">Escalation Ladder</h4>
+<p><strong>Level 1 - Winzer eCommerce Team:</strong>
+- <strong>Contact:</strong> ecommerce@winzer.com
+- <strong>Response Time:</strong> 15 minutes
+- <strong>Scope:</strong> Content, product, basic technical issues</p>
+<p><strong>Level 2 - CQL Corp Technical Support:</strong>
+- <strong>Contact:</strong> support@cqlcorp.com
+- <strong>Phone:</strong> (555) 123-4567
+- <strong>Response Time:</strong> 1 hour
+- <strong>Scope:</strong> Theme, SearchSpring, technical issues</p>
+<p><strong>Level 3 - Shopify Plus Support:</strong>
+- <strong>Contact:</strong> Through Shopify admin
+- <strong>Response Time:</strong> 2 hours
+- <strong>Scope:</strong> Platform issues, billing, account problems</p>
+<p><strong>Emergency - CQL Corp Leadership:</strong>
+- <strong>Contact:</strong> emergency@cqlcorp.com
+- <strong>Phone:</strong> (555) 123-4568
+- <strong>Response Time:</strong> 30 minutes
+- <strong>Scope:</strong> Critical outages, major technical issues</p>
+<h4 id="decision-tree-rollback-vs-hotfix">Decision Tree: Rollback vs. Hotfix</h4>
+<p><strong>Rollback Decision:</strong>
+- <strong>Trigger:</strong> Critical functionality broken
+- <strong>Process:</strong> Deploy previous stable version
+- <strong>Timeline:</strong> Immediate (within 1 hour)
+- <strong>Approval:</strong> Winzer eCommerce Director</p>
+<p><strong>Hotfix Decision:</strong>
+- <strong>Trigger:</strong> Minor issues, quick fix available
+- <strong>Process:</strong> Deploy targeted fix
+- <strong>Timeline:</strong> 2-4 hours
+- <strong>Approval:</strong> Winzer eCommerce Team Lead</p>
+<h4 id="post-mortem-checklist">Post-Mortem Checklist</h4>
+<p><strong>Immediate Actions:</strong>
+- [ ] Document incident timeline
+- [ ] Identify root cause
+- [ ] Implement temporary fix if needed
+- [ ] Notify all stakeholders
+- [ ] Schedule post-mortem meeting</p>
+<p><strong>Post-Mortem Meeting:</strong>
+- [ ] Review incident timeline
+- [ ] Analyze root cause
+- [ ] Identify contributing factors
+- [ ] Develop prevention measures
+- [ ] Assign action items
+- [ ] Document lessons learned</p>
+<p><strong>Follow-up Actions:</strong>
+- [ ] Implement prevention measures
+- [ ] Update procedures if needed
+- [ ] Train team on new procedures
+- [ ] Monitor for similar issues
+- [ ] Review and update documentation</p>
+<hr />
+<h2 id="documentation-sources">Documentation Sources</h2>
+<h3 id="data-sources">Data Sources</h3>
+<ul>
+<li><strong>OneSource Export:</strong> <code>EVERYTHING-Export_2025-09-24_115603.zip</code> (September 24, 2025)</li>
+<li><strong>FastServ Export:</strong> <code>fastserv-EVERYTHING-Export_2025-09-24_121740.zip</code> (September 24, 2025)</li>
+<li><strong>Winzer Corp Export:</strong> <code>winzer-EVERYTHING-Export_2025-09-24_121626.zip</code> (September 24, 2025)</li>
+<li><strong>AWS Middleware:</strong> <code>cqlcorp-winzer-middleware-cc9fb6a56078.zip</code> (June 10, 2025)</li>
+</ul>
+<h3 id="code-analysis">Code Analysis</h3>
+<ul>
+<li><strong>Theme Files:</strong> Dawn-based multi-site architecture</li>
+<li><strong>SearchSpring Integration:</strong> Custom React components</li>
+<li><strong>Metafield Usage:</strong> 20+ custom metafields across products and variants</li>
+<li><strong>App Configurations:</strong> Site-specific app settings and integrations</li>
+<li><strong>AWS Middleware:</strong> .NET 6 Lambda functions and ECS Fargate tasks</li>
+<li><strong>Data Integration:</strong> Oracle ERP, Salsify PIM, SFTP, and AWS services</li>
+</ul>
+<h3 id="export-data-summary">Export Data Summary</h3>
+<ul>
+<li><strong>OneSource:</strong> 6,327 product rows, 552 collection rows, 3,138 page rows, 4,438 blog post rows</li>
+<li><strong>FastServ:</strong> 50,811 product rows, 777 collection rows, 2,994 page rows, 441 blog post rows</li>
+<li><strong>Winzer Corp:</strong> 56,954 product rows, 538 collection rows, 195 page rows, 441 blog post rows</li>
+</ul>
+<h3 id="data-freshness">Data Freshness</h3>
+<ul>
+<li><strong>Last Updated:</strong> September 24, 2025</li>
+<li><strong>Export Frequency:</strong> Daily automated backups via Matrixify</li>
+<li><strong>Manual Exports:</strong> Available on-demand through Matrixify dashboard</li>
+<li><strong>Data Owner:</strong> Winzer eCommerce Team</li>
+</ul>
+<h3 id="maintenance-schedule">Maintenance Schedule</h3>
+<ul>
+<li><strong>Daily:</strong> Automated backups and monitoring</li>
+<li><strong>Weekly:</strong> Content and product reviews</li>
+<li><strong>Monthly:</strong> Full site audits and performance reviews</li>
+<li><strong>Quarterly:</strong> Comprehensive documentation updates</li>
+</ul>
+<hr />
+<p><strong>Document Version:</strong> 2.0<br />
+<strong>Last Updated:</strong> September 24, 2025<br />
+<strong>Next Review:</strong> December 24, 2025<br />
+<strong>Document Owner:</strong> Winzer eCommerce Team<br />
+<strong>Technical Owner:</strong> Arcadia Digital x CQL Corp</p>
+    </div>
+</body>
+</html>
