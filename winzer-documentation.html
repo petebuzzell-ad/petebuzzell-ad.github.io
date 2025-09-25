@@ -388,26 +388,34 @@
   <li><strong>Resolution:</strong> Restart failed processes or redeploy functions</li>
 </ol>
 <h3 id="access-and-permissions">Access and Permissions</h3>
-<p><strong>AWS Console Access:</strong><br />
-- <strong>Owner:</strong> Winzer IT<br />
-- <strong>Read-Only:</strong> N/A<br />
-- <strong>Emergency:</strong> CQL Corp (incident response)</p>
-<p><strong>Required Permissions:</strong><br />
-- CloudWatch logs viewing<br />
-- Lambda function monitoring<br />
-- ECS task status checking<br />
-- SNS notification viewing</p>
+<p><strong>AWS Console Access:</strong></p>
+<ul>
+  <li><strong>Owner:</strong> Winzer IT</li>
+  <li><strong>Read-Only:</strong> N/A</li>
+  <li><strong>Emergency:</strong> CQL Corp (incident response)</li>
+</ul>
+<p><strong>Required Permissions:</strong></p>
+<ul>
+  <li>CloudWatch logs viewing</li>
+  <li>Lambda function monitoring</li>
+  <li>ECS task status checking</li>
+  <li>SNS notification viewing</li>
+</ul>
 <h3 id="cost-management">Cost Management</h3>
-<p><strong>AWS Costs:</strong><br />
-- <strong>Lambda:</strong> Pay-per-execution (minimal cost)<br />
-- <strong>ECS Fargate:</strong> Based on task runtime<br />
-- <strong>S3:</strong> Storage and transfer costs<br />
-- <strong>SNS:</strong> Notification delivery costs</p>
-<p><strong>Optimization:</strong><br />
-- Monitor Lambda execution duration<br />
-- Optimize ECS task resource allocation<br />
-- Archive old S3 data regularly<br />
-- Review SNS notification frequency</p>
+<p><strong>AWS Costs:</strong></p>
+<ul>
+  <li><strong>Lambda:</strong> Pay-per-execution (minimal cost)</li>
+  <li><strong>ECS Fargate:</strong> Based on task runtime</li>
+  <li><strong>S3:</strong> Storage and transfer costs</li>
+  <li><strong>SNS:</strong> Notification delivery costs</li>
+</ul>
+<p><strong>Optimization:</strong></p>
+<ul>
+  <li>Monitor Lambda execution duration</li>
+  <li>Optimize ECS task resource allocation</li>
+  <li>Archive old S3 data regularly</li>
+  <li>Review SNS notification frequency</li>
+</ul>
 <hr />
 <h2 id="content-management">Content Management</h2>
 <p><strong>Content Inventory:</strong></p>
