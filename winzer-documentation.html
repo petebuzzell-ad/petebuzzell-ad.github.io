@@ -2095,18 +2095,22 @@ sites/{site}/
   <li><strong>Template:</strong> <code>product.pricing_json.liquid</code> returns JSON with variant pricing</li>
   <li><strong>Template Types:</strong> Works for all template pricing types (FRANCHISE, LOW_MRO, INN1, GS01, FASTSERV)</li>
 </ul>
-<p><strong>Technical Implementation:</strong><br />
-- <strong>API Endpoint:</strong> <code>/apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code><br />
-- <strong>Response Format:</strong> JSON array with product_id and variants array containing id and price<br />
-- <strong>Template Pricing Logic:</strong> API checks company's <code>cql.template_pricing</code> metafield and returns appropriate pricing<br />
-- <strong>SearchSpring Integration:</strong> "See pricing" button triggers API call and updates display with template pricing<br />
-- <strong>Pricing JSON Template:</strong> <code>/sites/_shared/templates/product.pricing_json.liquid</code> (alternative endpoint)</p>
-<p><strong>Working Implementation:</strong><br />
-- <strong>API Endpoint:</strong> <code>/apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code><br />
-- <strong>Response Format:</strong> JSON array with product_id and variants array containing id and price<br />
-- <strong>Template Pricing Logic:</strong> When company has <code>cql.template_pricing</code> metafield set, API returns template pricing instead of $1,000,000<br />
-- <strong>User Experience:</strong> "See pricing" button triggers API call and displays actual template pricing<br />
-- <strong>Example Response:</strong> Returns 4-decimal pricing (e.g., "61.6440", "2.0064") for all variants</p>
+<p><strong>Technical Implementation:</strong></p>
+<ul>
+  <li><strong>API Endpoint:</strong> <code>/apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code></li>
+  <li><strong>Response Format:</strong> JSON array with product_id and variants array containing id and price</li>
+  <li><strong>Template Pricing Logic:</strong> API checks company's <code>cql.template_pricing</code> metafield and returns appropriate pricing</li>
+  <li><strong>SearchSpring Integration:</strong> "See pricing" button triggers API call and updates display with template pricing</li>
+  <li><strong>Pricing JSON Template:</strong> <code>/sites/_shared/templates/product.pricing_json.liquid</code> (alternative endpoint)</li>
+</ul>
+<p><strong>Working Implementation:</strong></p>
+<ul>
+  <li><strong>API Endpoint:</strong> <code>/apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code></li>
+  <li><strong>Response Format:</strong> JSON array with product_id and variants array containing id and price</li>
+  <li><strong>Template Pricing Logic:</strong> When company has <code>cql.template_pricing</code> metafield set, API returns template pricing instead of $1,000,000</li>
+  <li><strong>User Experience:</strong> "See pricing" button triggers API call and displays actual template pricing</li>
+  <li><strong>Example Response:</strong> Returns 4-decimal pricing (e.g., "61.6440", "2.0064") for all variants</li>
+</ul>
 <p><strong>Business Value:</strong><br />
 - Allows B2B customers to browse full product catalog<br />
 - Prevents confusion by clearly indicating catalog vs. non-catalog items<br />
