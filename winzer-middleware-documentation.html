@@ -338,7 +338,22 @@
                 align-items: center;
             }
         }
+        .mermaid-diagram {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .mermaid {
+            text-align: center;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -407,77 +422,24 @@
             
             <h3 id="data-flow-architecture">Data Flow Architecture</h3>
             
-            <div class="data-flow-diagram">
-                <h4>Data Flow Architecture</h4>
-                <div class="flow-diagram">
-                    <!-- Oracle PIM -->
-                    <div class="system-node oracle-node">
-                        <div class="system-box oracle">
-                            <h5>Oracle PIM</h5>
-                            <p>Product Data<br/>Pricing Data<br/>Inventory Data</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Arrow from Oracle to Middleware -->
-                    <div class="flow-arrow oracle-to-middleware">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head"></div>
-                        <div class="arrow-label">Data Export</div>
-                    </div>
-                    
-                    <!-- AWS Middleware -->
-                    <div class="system-node middleware-node">
-                        <div class="aws-box">
-                            <h5>AWS Middleware</h5>
-                            <div class="lambda-functions">
-                                <div class="function">Product Feed Handler</div>
-                                <div class="function">Pricing Feed Handler</div>
-                                <div class="function">Inventory Feed Handler</div>
-                                <div class="function">Order Export Handler</div>
-                            </div>
-                            <div class="ecs-tasks">
-                                <div class="task">Product Feed Console</div>
-                                <div class="task">Pricing Feed Console</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Arrow from Middleware to Shopify -->
-                    <div class="flow-arrow middleware-to-shopify">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head"></div>
-                        <div class="arrow-label">API Sync</div>
-                    </div>
-                    
-                    <!-- Shopify -->
-                    <div class="system-node shopify-node">
-                        <div class="system-box shopify">
-                            <h5>Shopify</h5>
-                            <p>Products & Variants<br/>Smart Collections<br/>Price Lists<br/>Inventory Management</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Bidirectional arrow for Orders -->
-                    <div class="flow-arrow shopify-to-middleware">
-                        <div class="arrow-line bidirectional"></div>
-                        <div class="arrow-head reverse"></div>
-                        <div class="arrow-label">Orders</div>
-                    </div>
-                    
-                    <!-- External Systems -->
-                    <div class="system-node external-node">
-                        <div class="system-box external">
-                            <h5>External Systems</h5>
-                            <p>SFTP<br/>Google Merchant<br/>TikTok/Meta</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Arrow from External to Middleware -->
-                    <div class="flow-arrow external-to-middleware">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head"></div>
-                        <div class="arrow-label">SFTP Data</div>
-                    </div>
+            <div class="mermaid-diagram">
+                <h4>System Data Flow</h4>
+                <div class="mermaid">
+                    graph TD
+                        A[Oracle PIM<br/>Product Data<br/>Pricing Data<br/>Inventory Data] -->|Data Export| B[AWS Middleware<br/>Lambda Functions<br/>ECS Tasks]
+                        B -->|API Sync| C[Shopify<br/>Products & Variants<br/>Smart Collections<br/>Price Lists<br/>Inventory Management]
+                        C -->|Orders| B
+                        D[External Systems<br/>SFTP<br/>Google Merchant<br/>TikTok/Meta] -->|SFTP Data| B
+                        
+                        classDef oracle fill:#fff5f5,stroke:#dc3545,stroke-width:2px
+                        classDef middleware fill:#ff9900,stroke:#ff6600,stroke-width:2px,color:#fff
+                        classDef shopify fill:#f8fff5,stroke:#95bf47,stroke-width:2px
+                        classDef external fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
+                        
+                        class A oracle
+                        class B middleware
+                        class C shopify
+                        class D external
                 </div>
             </div>
             
