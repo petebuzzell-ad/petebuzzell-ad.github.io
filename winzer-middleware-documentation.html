@@ -429,7 +429,10 @@
                         A[Oracle PIM<br/>Product Data<br/>Pricing Data<br/>Inventory Data] -->|Data Export| E[SFTP Server]
                         E -->|File Transfer| B[AWS Middleware<br/>Lambda Functions<br/>ECS Tasks]
                         B -->|API Sync| C[Shopify<br/>Products & Variants<br/>Smart Collections<br/>Price Lists<br/>Inventory Management]
-                        C -->|Product Data| D[External Systems<br/>Google Merchant Center<br/>TikTok<br/>Facebook/Instagram/Meta<br/>Bing]
+                        C -->|Product Data| D[External Systems<br/>Google Merchant Center<br/>Meta<br/>TikTok<br/>Bing]
+                        C -->|Product Data| G[Klaviyo<br/>Email Marketing<br/>Customer Data<br/>Automation]
+                        C -->|Customer Data| G
+                        G -->|Customer Sync| C
                         F[Oracle ERP<br/>Order Management] -->|Pull Orders| C
                         C -->|Fulfillment Updates| F
                         
@@ -439,6 +442,7 @@
                         classDef external fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
                         classDef sftp fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
                         classDef erp fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+                        classDef klaviyo fill:#fff3e0,stroke:#ff9800,stroke-width:2px
                         
                         class A oracle
                         class B middleware
@@ -446,6 +450,7 @@
                         class D external
                         class E sftp
                         class F erp
+                        class G klaviyo
                 </div>
             </div>
             
@@ -454,6 +459,7 @@
             <ol>
                 <li><strong>Oracle PIM</strong> → <strong>SFTP Server</strong> → <strong>AWS Lambda</strong> → <strong>Shopify Products</strong></li>
                 <li><strong>Shopify Products</strong> → <strong>External Systems</strong> (Google Merchant, TikTok, Meta, Bing)</li>
+                <li><strong>Shopify Products</strong> → <strong>Klaviyo</strong> (Product data for email marketing)</li>
             </ol>
             <p><strong>Collection Management Flow:</strong></p>
             <ol>
@@ -472,6 +478,11 @@
             <ol>
                 <li><strong>Oracle PIM</strong> → <strong>SFTP Server</strong> → <strong>AWS Lambda</strong> → <strong>Shopify Inventory</strong></li>
                 <li><strong>Store Locations</strong> → <strong>Inventory Levels</strong> → <strong>Stock Management</strong></li>
+            </ol>
+            <p><strong>Customer Data Flow:</strong></p>
+            <ol>
+                <li><strong>Shopify</strong> → <strong>Klaviyo</strong> (Customer data for email marketing)</li>
+                <li><strong>Klaviyo</strong> → <strong>Shopify</strong> (Customer sync and segmentation data)</li>
             </ol>
             <p><strong>Order Data Flow:</strong></p>
             <ol>
