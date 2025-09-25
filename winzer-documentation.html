@@ -171,7 +171,23 @@
                 padding: 8px;
             }
         }
+        
+        .mermaid-diagram {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .mermaid {
+            text-align: center;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -1680,11 +1696,55 @@ The Winzer theme uses a modular section-based approach for content management, a
 5. Deploy to production</p>
 
 <h3 id="data-flow-and-integration">Data Flow & Integration</h3>
-<p><strong>Current Data Sources:</strong></p>
+
+<div class="mermaid-diagram">
+    <h4>System Data Flow Architecture</h4>
+    <div class="mermaid">
+        graph TD
+            A[Oracle PIM<br/>Product Data<br/>Pricing Data<br/>Inventory Data] -->|Data Export| E[SFTP Server]
+            E -->|File Transfer| B[AWS Middleware<br/>Lambda Functions<br/>ECS Tasks]
+            B -->|API Sync| C[Shopify<br/>Products & Variants<br/>Smart Collections<br/>Price Lists<br/>Inventory Management]
+            C -->|Product Data| D[External Systems<br/>Google Merchant Center<br/>Meta<br/>TikTok<br/>Bing]
+            C -->|Product Data| G[Klaviyo<br/>Email Marketing<br/>Customer Data<br/>Automation]
+            C -->|Customer Data| G
+            G -->|Customer Sync| C
+            F[Oracle ERP<br/>Order Management] -->|Pull Orders| C
+            C -->|Fulfillment Updates| F
+            
+            classDef oracle fill:#fff5f5,stroke:#dc3545,stroke-width:2px
+            classDef middleware fill:#ff9900,stroke:#ff6600,stroke-width:2px,color:#fff
+            classDef shopify fill:#f8fff5,stroke:#95bf47,stroke-width:2px
+            classDef external fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
+            classDef sftp fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+            classDef erp fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+            classDef klaviyo fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+            
+            class A oracle
+            class B middleware
+            class C shopify
+            class D external
+            class E sftp
+            class F erp
+            class G klaviyo
+    </div>
+</div>
+
+<p><strong>Product Data Pipeline:</strong></p>
 <ul>
-  <li>Product descriptions and specifications are inconsistently pulled from Oracle</li>
-  <li>Manual overrides in Shopify are common for missing or incorrect data</li>
-  <li>Data mapping from Oracle → Middleware → Shopify is planned for clarification</li>
+  <li><strong>Oracle PIM</strong> → <strong>SFTP Server</strong> → <strong>Middleware</strong> → <strong>Shopify</strong></li>
+  <li><strong>Automated synchronization</strong> of product updates</li>
+  <li><strong>Real-time inventory</strong> and pricing updates</li>
+</ul>
+<p><strong>Order Processing:</strong></p>
+<ul>
+  <li><strong>Oracle ERP</strong> ↔ <strong>Shopify</strong> (direct API connection)</li>
+  <li><strong>Fulfillment updates</strong> synchronized back to Shopify</li>
+  <li><strong>Return processing</strong> through Loop Returns integration</li>
+</ul>
+<p><strong>Marketing Integration:</strong></p>
+<ul>
+  <li><strong>Shopify</strong> → <strong>External Systems</strong> (Google, Meta, TikTok, Bing)</li>
+  <li><strong>Shopify</strong> ↔ <strong>Klaviyo</strong> (product data + customer sync)</li>
 </ul>
 <p><strong>Data Quality Issues:</strong></p>
 <ul>
@@ -2229,15 +2289,15 @@ sites/{site}/
 5. <strong>Restart Failed Processes:</strong> Redeploy Lambda functions if needed<br />
 6. <strong>Monitor Recovery:</strong> Watch for successful data synchronization</p>
 <p><strong>Escalation:</strong><br />
-1. <strong>Level 1:</strong> Winzer eCommerce Team (15 minutes)<br />
-2. <strong>Level 2:</strong> CQL Corp Technical Support (30 minutes)<br />
-3. <strong>Level 3:</strong> AWS Support (1 hour)<br />
+1. <strong>Level 1:</strong> Winzer eCommerce Team <br />
+2. <strong>Level 2:</strong> CQL Corp Technical Support <br />
+3. <strong>Level 3:</strong> AWS Support <br />
 4. <strong>Emergency:</strong> Direct contact with CQL Corp leadership</p>
 <p><strong>Critical Data Flows to Monitor:</strong></p>
 <ul>
-  <li><strong>Product Import:</strong> Salsify → Shopify (daily)</li>
-  <li><strong>Pricing Updates:</strong> Oracle ERP → Shopify (daily)</li>
-  <li><strong>Inventory Sync:</strong> Oracle ERP → Shopify (hourly)</li>
+  <li><strong>Product Import:</strong> Oracle PIM -> Middleware → Shopify</li>
+  <li><strong>Pricing Updates:</strong> Oracle PIM → Shopify</li>
+  <li><strong>Inventory Sync:</strong> Oracle PIM → Shopify</li>
   <li><strong>Order Export:</strong> Shopify → Oracle ERP (real-time)</li>
 </ul>
 <h3 id="monitoring-tasks">Monitoring Tasks</h3>
@@ -2300,17 +2360,17 @@ sites/{site}/
 </ul>
 <h3 id="analytics-dashboards">Analytics Dashboards</h3>
 <p><strong>Primary Dashboard:</strong> Google Analytics 4<br />
-- <strong>Owner:</strong> Winzer eCommerce Team<br />
+- <strong>Owner:</strong> Winzer<br />
 - <strong>Access:</strong> Admin access for team members<br />
 - <strong>Update Frequency:</strong> Real-time<br />
 - <strong>Key Metrics:</strong> Traffic, conversions, user behavior</p>
 <p><strong>SearchSpring Dashboard:</strong><br />
-- <strong>Owner:</strong> CQL Corp (technical), Winzer (business)<br />
+- <strong>Owner:</strong> Winzer<br />
 - <strong>Access:</strong> Shared access for monitoring<br />
 - <strong>Update Frequency:</strong> Real-time<br />
 - <strong>Key Metrics:</strong> Search performance, filter usage, recommendations</p>
 <p><strong>Elevar Dashboard:</strong><br />
-- <strong>Owner:</strong> Winzer eCommerce Team<br />
+- <strong>Owner:</strong> Winzer<br />
 - <strong>Access:</strong> Admin access for team members<br />
 - <strong>Update Frequency:</strong> Real-time<br />
 - <strong>Key Metrics:</strong> Conversion tracking, customer behavior</p>
