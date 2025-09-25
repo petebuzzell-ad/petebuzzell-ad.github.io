@@ -140,18 +140,18 @@
             border: 1px solid #e9ecef;
         }
         
-        .diagram-container {
+        .flow-diagram {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            align-items: center;
+            gap: 30px;
             margin: 20px 0;
+            position: relative;
         }
         
-        .external-systems {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
+        .system-node {
+            position: relative;
+            z-index: 2;
         }
         
         .system-box {
@@ -160,7 +160,7 @@
             border-radius: 8px;
             padding: 15px;
             text-align: center;
-            min-width: 150px;
+            min-width: 200px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
@@ -190,11 +190,6 @@
             font-size: 12px;
             color: #6c757d;
             line-height: 1.4;
-        }
-        
-        .middleware-layer {
-            display: flex;
-            justify-content: center;
         }
         
         .aws-box {
@@ -229,66 +224,162 @@
             font-weight: 500;
         }
         
-        .shopify-layer {
+        /* Flow Arrows */
+        .flow-arrow {
+            position: relative;
             display: flex;
+            align-items: center;
             justify-content: center;
+            z-index: 1;
         }
         
-        .shopify-components {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
+        .arrow-line {
+            width: 200px;
+            height: 3px;
+            background: #3498db;
+            position: relative;
         }
         
-        .component {
-            background: #95bf47;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
+        .arrow-line.bidirectional {
+            background: linear-gradient(to right, #3498db 50%, #e74c3c 50%);
         }
         
-        .integration-layer {
-            display: flex;
-            justify-content: center;
+        .arrow-head {
+            width: 0;
+            height: 0;
+            border-left: 8px solid #3498db;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
-        .integration-box {
-            background: #6c757d;
-            color: white;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            min-width: 200px;
+        .arrow-head.reverse {
+            border-left: none;
+            border-right: 8px solid #e74c3c;
+            right: auto;
+            left: -8px;
         }
         
-        .integration-box h5 {
-            margin: 0 0 10px 0;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        
-        .integration-box p {
-            margin: 0;
+        .arrow-label {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
             font-size: 12px;
-            opacity: 0.9;
-            line-height: 1.4;
+            font-weight: 500;
+            color: #2c3e50;
+            border: 1px solid #bdc3c7;
+        }
+        
+        /* Specific arrow positioning */
+        .oracle-to-middleware {
+            margin: 0 0 0 0;
+        }
+        
+        .middleware-to-shopify {
+            margin: 0 0 0 0;
+        }
+        
+        .shopify-to-middleware {
+            margin: 0 0 0 0;
+        }
+        
+        .external-to-middleware {
+            position: absolute;
+            top: 50%;
+            right: -150px;
+            transform: translateY(-50%) rotate(90deg);
+        }
+        
+        .external-to-middleware .arrow-line {
+            width: 100px;
+        }
+        
+        .external-to-middleware .arrow-label {
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Layout adjustments */
+        .oracle-node {
+            order: 1;
+        }
+        
+        .oracle-to-middleware {
+            order: 2;
+        }
+        
+        .middleware-node {
+            order: 3;
+        }
+        
+        .middleware-to-shopify {
+            order: 4;
+        }
+        
+        .shopify-node {
+            order: 5;
+        }
+        
+        .shopify-to-middleware {
+            order: 6;
+        }
+        
+        .external-node {
+            order: 7;
+            position: absolute;
+            right: -200px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .external-to-middleware {
+            order: 8;
+        }
+        
+        @media (max-width: 1200px) {
+            .external-node {
+                position: static;
+                right: auto;
+                top: auto;
+                transform: none;
+                order: 7;
+            }
+            
+            .external-to-middleware {
+                position: static;
+                right: auto;
+                top: auto;
+                transform: none;
+                order: 8;
+            }
+            
+            .external-to-middleware .arrow-line {
+                width: 200px;
+            }
+            
+            .external-to-middleware {
+                transform: none;
+            }
         }
         
         @media (max-width: 768px) {
-            .external-systems {
-                flex-direction: column;
-                align-items: center;
+            .flow-diagram {
+                gap: 20px;
+            }
+            
+            .arrow-line {
+                width: 150px;
             }
             
             .lambda-functions, .ecs-tasks {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .shopify-components {
                 flex-direction: column;
                 align-items: center;
             }
@@ -363,24 +454,25 @@
             <h3 id="data-flow-architecture">Data Flow Architecture</h3>
             
             <div class="data-flow-diagram">
-                <h4>System Architecture Overview</h4>
-                <div class="diagram-container">
-                    <div class="external-systems">
+                <h4>Data Flow Architecture</h4>
+                <div class="flow-diagram">
+                    <!-- Oracle PIM -->
+                    <div class="system-node oracle-node">
                         <div class="system-box oracle">
                             <h5>Oracle PIM</h5>
                             <p>Product Data<br/>Pricing Data<br/>Inventory Data</p>
                         </div>
-                        <div class="system-box shopify">
-                            <h5>Shopify</h5>
-                            <p>Products<br/>Collections<br/>Orders<br/>Inventory</p>
-                        </div>
-                        <div class="system-box external">
-                            <h5>External Systems</h5>
-                            <p>SFTP<br/>Google Merchant<br/>TikTok/Meta</p>
-                        </div>
                     </div>
                     
-                    <div class="middleware-layer">
+                    <!-- Arrow from Oracle to Middleware -->
+                    <div class="flow-arrow oracle-to-middleware">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                        <div class="arrow-label">Data Export</div>
+                    </div>
+                    
+                    <!-- AWS Middleware -->
+                    <div class="system-node middleware-node">
                         <div class="aws-box">
                             <h5>AWS Middleware</h5>
                             <div class="lambda-functions">
@@ -396,15 +488,42 @@
                         </div>
                     </div>
                     
-                    <div class="shopify-layer">
-                        <div class="shopify-components">
-                            <div class="component">Products & Variants</div>
-                            <div class="component">Smart Collections</div>
-                            <div class="component">Price Lists</div>
-                            <div class="component">Inventory Management</div>
+                    <!-- Arrow from Middleware to Shopify -->
+                    <div class="flow-arrow middleware-to-shopify">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                        <div class="arrow-label">API Sync</div>
+                    </div>
+                    
+                    <!-- Shopify -->
+                    <div class="system-node shopify-node">
+                        <div class="system-box shopify">
+                            <h5>Shopify</h5>
+                            <p>Products & Variants<br/>Smart Collections<br/>Price Lists<br/>Inventory Management</p>
                         </div>
                     </div>
                     
+                    <!-- Bidirectional arrow for Orders -->
+                    <div class="flow-arrow shopify-to-middleware">
+                        <div class="arrow-line bidirectional"></div>
+                        <div class="arrow-head reverse"></div>
+                        <div class="arrow-label">Orders</div>
+                    </div>
+                    
+                    <!-- External Systems -->
+                    <div class="system-node external-node">
+                        <div class="system-box external">
+                            <h5>External Systems</h5>
+                            <p>SFTP<br/>Google Merchant<br/>TikTok/Meta</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Arrow from External to Middleware -->
+                    <div class="flow-arrow external-to-middleware">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                        <div class="arrow-label">SFTP Data</div>
+                    </div>
                 </div>
             </div>
             
