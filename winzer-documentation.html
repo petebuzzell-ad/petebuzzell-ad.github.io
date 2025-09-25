@@ -178,7 +178,7 @@
         <h1 id="winzer-ecommerce-platform-onboarding-documentation">Winzer eCommerce Platform Onboarding Documentation</h1>
 <p><strong>From:</strong> Arcadia Digital<br />
 <strong>To:</strong> Winzer eCommerce Team<br />
-<strong>Date:</strong> September 25, 2025<br />
+<strong>Date:</strong> September 25, 2025<br /><!-- update this date when making changes to the document-->
 <strong>Purpose:</strong> Complete operational handoff for Winzer's Shopify Plus eCommerce platform</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
@@ -198,9 +198,9 @@
 <h3 id="platform-overview">Platform Overview</h3>
 <p>Winzer operates three distinct Shopify Plus stores under a unified Dawn-based architecture:</p>
 <ul>
-<li><strong>OneSource</strong> (<code>winzeronesource.myshopify.com</code>) - Primary DTC store (695 products, 44 blog posts)</li>
-<li><strong>FastServ</strong> (<code>winzerfastserv.myshopify.com</code>) - Fastserv Supply Co B2B store (42,529 products, 3 blog posts)</li>
-<li><strong>Winzer Corp</strong> (<code>winzercorp.myshopify.com</code>) - Winzer B2B store (48,718 products, 3 blog posts)</li>
+<li><strong>OneSource</strong> - <a href="https://www.onesourcesupplyco.com">https://www.onesourcesupplyco.com</a> -  (<code>winzeronesource.myshopify.com</code>) - Primary DTC store (695 products, 44 blog posts)</li>
+<li><strong>FastServ</strong> - <a href="https://store.fastservsupplyco.com">https://store.fastservsupplyco.com</a> - (<code>winzerfastserv.myshopify.com</code>) - Fastserv Supply Co B2B store (42,529 products, 3 blog posts)</li>
+<li><strong>Winzer Corp</strong> - <a href="https://store.winzer.com">https://store.winzer.com</a> - (<code>winzercorp.myshopify.com</code>) - Winzer B2B store (48,718 products, 3 blog posts)</li>
 </ul>
 <h3 id="key-technical-components">Key Technical Components</h3>
 <ul>
@@ -226,21 +226,21 @@
 <h3 id="site-specific-configurations">Site-Specific Configurations</h3>
 <p><strong>OneSource (Primary DTC):</strong></p>
 <ul>
-  <li><strong>Domain:</strong> winzeronesource.myshopify.com</li>
+  <li><strong>Domain:</strong> <a href="https://www.onesourcesupplyco.com">https://www.onesourcesupplyco.com</a></li>
   <li><strong>SearchSpring Site ID:</strong> t047mf</li>
   <li><strong>Apps:</strong> Klaviyo, Elevar, Matrixify</li>
   <li><strong>Focus:</strong> Content-rich, educational approach</li>
 </ul>
 <p><strong>FastServ (B2B Supply):</strong></p>
 <ul>
-  <li><strong>Domain:</strong> winzerfastserv.myshopify.com</li>
+  <li><strong>Domain:</strong> <a href="https://store.fastservsupplyco.com">https://store.fastservsupplyco.com</a></li>
   <li><strong>SearchSpring Site ID:</strong> wk4j0d</li>
   <li><strong>Apps:</strong> Elevar, Matrixify</li>
   <li><strong>Focus:</strong> High-volume product catalog, minimal content</li>
 </ul>
 <p><strong>Winzer Corp (B2B Enterprise):</strong></p>
 <ul>
-  <li><strong>Domain:</strong> winzercorp.myshopify.com</li>
+  <li><strong>Domain:</strong> <a href="https://store.winzer.com">https://store.winzer.com</a></li>
   <li><strong>SearchSpring Site ID:</strong> fsqw40</li>
   <li><strong>Apps:</strong> Elevar, Matrixify</li>
   <li><strong>Focus:</strong> Enterprise solutions, corporate messaging</li>
@@ -256,162 +256,7 @@
 <li><strong>Monitoring:</strong> Elevar (conversion tracking), UpTimeRobot (uptime monitoring), Calibre (performance monitoring), Google Lighthouse/PSI (performance, accessibility &amp; SEO monitoring)</li>
 </ul>
 <hr />
-<h2 id="aws-middleware-system">AWS Middleware System</h2>
-<h3 id="overview">Overview</h3>
-<p>The Winzer eCommerce platform relies on a critical .NET 6-based middleware system deployed on AWS that handles all data synchronization between external systems and Shopify. This system is essential for the platform's operation and must be understood by the eCommerce team.</p>
-<h3 id="architecture-components">Architecture Components</h3>
-<p><strong>AWS Lambda Functions:</strong></p>
-<ul>
-  <li><strong>Product Feed Handler:</strong> Imports product data from Oracle ERP</li>
-  <li><strong>Pricing Feed Handler:</strong> Synchronizes pricing data from Oracle ERP</li>
-  <li><strong>Inventory Feed Handler:</strong> Updates inventory levels from multiple sources</li>
-  <li><strong>Order Export Handler:</strong> Exports orders to external systems</li>
-  <li><strong>Fulfillment Feed Handler:</strong> Processes fulfillment data</li>
-  <li><strong>Return Export Handler:</strong> Handles return processing</li>
-</ul>
-<p><strong>AWS ECS Fargate Tasks:</strong></p>
-<ul>
-  <li><strong>Product Feed Console App:</strong> Long-running product import processes</li>
-  <li><strong>Pricing Feed Console App:</strong> Bulk pricing synchronization</li>
-</ul>
-<h3 id="data-flow-architecture">Data Flow Architecture</h3>
-<p><strong>Product Data Flow:</strong></p>
-<ol>
-  <li><strong>Oracle ERP</strong> → AWS Lambda → <strong>Shopify Products</strong></li>
-  <li><strong>Product Updates</strong> → SearchSpring synchronization</li>
-</ol>
-<p><strong>Pricing Data Flow:</strong></p>
-<ol>
-  <li><strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Price Lists</strong></li>
-  <li><strong>Bulk Pricing</strong> → <strong>Contract Pricing</strong> → <strong>Template Pricing</strong></li>
-  <li><strong>Customer-specific pricing</strong> via Shopify Plus B2B features</li>
-</ol>
-<p><strong>Inventory Data Flow:</strong></p>
-<ol>
-  <li><strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Inventory</strong></li>
-  <li><strong>Store Locations</strong> → <strong>Inventory Levels</strong> → <strong>Stock Management</strong></li>
-  <li><strong>Low Stock Alerts</strong> → <strong>SearchSpring Display</strong></li>
-</ol>
-<p><strong>Order Data Flow:</strong></p>
-<ol>
-  <li><strong>Shopify Orders</strong> → <strong>AWS Lambda</strong> → <strong>Oracle ERP</strong></li>
-  <li><strong>Fulfillment Updates</strong> → <strong>External Systems</strong></li>
-  <li><strong>Return Processing</strong> → <strong>Loop Returns API</strong></li>
-</ol>
-<h3 id="critical-dependencies">Critical Dependencies</h3>
-<p><strong>External Systems:</strong></p>
-<ul>
-  <li><strong>Oracle ERP:</strong> Primary source of product, pricing, and inventory data</li>
-  <li><strong>SFTP Servers:</strong> Data file exchange (70.164.0.172, secure.kligerweiss.net)</li>
-  <li><strong>AWS S3:</strong> File storage and archival</li>
-  <li><strong>Loop Returns:</strong> Return processing integration</li>
-</ul>
-<p><strong>AWS Services:</strong></p>
-<ul>
-  <li><strong>Lambda:</strong> Serverless function execution</li>
-  <li><strong>ECS Fargate:</strong> Containerized long-running tasks</li>
-  <li><strong>S3:</strong> File storage and data lake</li>
-  <li><strong>SNS:</strong> Notification and alerting</li>
-  <li><strong>EventBridge:</strong> Scheduled task execution</li>
-  <li><strong>ECR:</strong> Container image registry</li>
-</ul>
-<h3 id="middleware-configuration">Middleware Configuration</h3>
-<p><strong>Environment Variables:</strong></p>
-<ul>
-  <li><code>SHOPIFY_ACCESS_TOKEN</code>: API access for each site</li>
-  <li><code>ORACLE_SFTP_CREDENTIALS</code>: ERP data access</li>
-  <li><code>AWS_REGION</code>: us-east-1</li>
-  <li><code>SNS_TOPIC_ARN</code>: Alert notifications</li>
-</ul>
-<p><strong>Site-Specific Configuration:</strong></p>
-<ul>
-  <li><strong>OneSource:</strong> DTC-focused product and pricing rules</li>
-  <li><strong>FastServ:</strong> High-volume B2B inventory management</li>
-  <li><strong>Winzer Corp:</strong> Enterprise pricing and contract management</li>
-</ul>
-<h3 id="monitoring-and-alerts">Monitoring and Alerts</h3>
-<p><strong>AWS CloudWatch:</strong></p>
-<ul>
-  <li>Lambda function execution logs</li>
-  <li>ECS task status and performance</li>
-  <li>SNS notification delivery</li>
-  <li>Error rate monitoring</li>
-</ul>
-<p><strong>Alert Conditions:</strong></p>
-<ul>
-  <li>Lambda function failures</li>
-  <li>ECS task failures</li>
-  <li>Data synchronization errors</li>
-  <li>SFTP connection issues</li>
-  <li>Shopify API rate limit exceeded</li>
-</ul>
-<h3 id="operational-procedures">Operational Procedures</h3>
-<p><strong>Daily Monitoring:</strong></p>
-<ol>
-  <li>Check CloudWatch logs for errors</li>
-  <li>Verify data synchronization completion</li>
-  <li>Monitor inventory update success rates</li>
-  <li>Review pricing update accuracy</li>
-</ol>
-<p><strong>Weekly Maintenance:</strong></p>
-<ol>
-  <li>Review SFTP file processing</li>
-  <li>Validate Oracle ERP connectivity</li>
-  <li>Monitor AWS service health</li>
-</ol>
-<p><strong>Monthly Reviews:</strong></p>
-<ol>
-  <li>Analyze data quality metrics</li>
-  <li>Review error patterns and trends</li>
-  <li>Update configuration as needed</li>
-  <li>Performance optimization review</li>
-</ol>
-<h3 id="emergency-procedures">Emergency Procedures</h3>
-<p><strong>Middleware Failure Response:</strong></p>
-<ol>
-  <li><strong>Immediate:</strong> Check CloudWatch logs for error details</li>
-  <li><strong>Assessment:</strong> Determine scope of data synchronization impact</li>
-  <li><strong>Escalation:</strong> Contact CQL Corp for technical support</li>
-  <li><strong>Communication:</strong> Notify stakeholders of data sync delays</li>
-  <li><strong>Recovery:</strong> Execute manual data sync if possible</li>
-</ol>
-<p><strong>Data Sync Issues:</strong></p>
-<ol>
-  <li><strong>Identify:</strong> Which data flow is affected (products, pricing, inventory)</li>
-  <li><strong>Impact:</strong> Assess customer-facing impact</li>
-  <li><strong>Workaround:</strong> Manual data entry if critical</li>
-  <li><strong>Resolution:</strong> Restart failed processes or redeploy functions</li>
-</ol>
-<h3 id="access-and-permissions">Access and Permissions</h3>
-<p><strong>AWS Console Access:</strong></p>
-<ul>
-  <li><strong>Owner:</strong> Winzer IT</li>
-  <li><strong>Read-Only:</strong> N/A</li>
-  <li><strong>Emergency:</strong> CQL Corp (incident response)</li>
-</ul>
-<p><strong>Required Permissions:</strong></p>
-<ul>
-  <li>CloudWatch logs viewing</li>
-  <li>Lambda function monitoring</li>
-  <li>ECS task status checking</li>
-  <li>SNS notification viewing</li>
-</ul>
-<h3 id="cost-management">Cost Management</h3>
-<p><strong>AWS Costs:</strong></p>
-<ul>
-  <li><strong>Lambda:</strong> Pay-per-execution (minimal cost)</li>
-  <li><strong>ECS Fargate:</strong> Based on task runtime</li>
-  <li><strong>S3:</strong> Storage and transfer costs</li>
-  <li><strong>SNS:</strong> Notification delivery costs</li>
-</ul>
-<p><strong>Optimization:</strong></p>
-<ul>
-  <li>Monitor Lambda execution duration</li>
-  <li>Optimize ECS task resource allocation</li>
-  <li>Archive old S3 data regularly</li>
-  <li>Review SNS notification frequency</li>
-</ul>
-<hr />
+<div class="content-management">
 <h2 id="content-management">Content Management</h2>
 <p><strong>Content Inventory:</strong></p>
 <ul>
@@ -2360,6 +2205,164 @@ sites/{site}/
 - <strong>Trend Analysis:</strong> Long-term performance trends<br />
 - <strong>Recommendations:</strong> Actionable insights and improvements<br />
 - <strong>Owner:</strong> Winzer eCommerce Director</p>
+<hr />
+<div class="aws-middleware-system">
+<h2 id="aws-middleware-system">AWS Middleware System</h2>
+<h3 id="overview">Overview</h3>
+<p>The Winzer eCommerce platform relies on a critical .NET 6-based middleware system deployed on AWS that handles all data synchronization between external systems and Shopify. This system is essential for the platform's operation and must be understood by the eCommerce team.</p>
+<h3 id="architecture-components">Architecture Components</h3>
+<p><strong>AWS Lambda Functions:</strong></p>
+<ul>
+  <li><strong>Product Feed Handler:</strong> Imports product data from Oracle ERP</li>
+  <li><strong>Pricing Feed Handler:</strong> Synchronizes pricing data from Oracle ERP</li>
+  <li><strong>Inventory Feed Handler:</strong> Updates inventory levels from multiple sources</li>
+  <li><strong>Order Export Handler:</strong> Exports orders to external systems</li>
+  <li><strong>Fulfillment Feed Handler:</strong> Processes fulfillment data</li>
+  <li><strong>Return Export Handler:</strong> Handles return processing</li>
+</ul>
+<p><strong>AWS ECS Fargate Tasks:</strong></p>
+<ul>
+  <li><strong>Product Feed Console App:</strong> Long-running product import processes</li>
+  <li><strong>Pricing Feed Console App:</strong> Bulk pricing synchronization</li>
+</ul>
+<h3 id="data-flow-architecture">Data Flow Architecture</h3>
+<p><strong>Product Data Flow:</strong></p>
+<ol>
+  <li><strong>Oracle ERP</strong> → AWS Lambda → <strong>Shopify Products</strong></li>
+  <li><strong>Product Updates</strong> → SearchSpring synchronization</li>
+</ol>
+<p><strong>Pricing Data Flow:</strong></p>
+<ol>
+  <li><strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Price Lists</strong></li>
+  <li><strong>Bulk Pricing</strong> → <strong>Contract Pricing</strong> → <strong>Template Pricing</strong></li>
+  <li><strong>Customer-specific pricing</strong> via Shopify Plus B2B features</li>
+</ol>
+<p><strong>Inventory Data Flow:</strong></p>
+<ol>
+  <li><strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Inventory</strong></li>
+  <li><strong>Store Locations</strong> → <strong>Inventory Levels</strong> → <strong>Stock Management</strong></li>
+  <li><strong>Low Stock Alerts</strong> → <strong>SearchSpring Display</strong></li>
+</ol>
+<p><strong>Order Data Flow:</strong></p>
+<ol>
+  <li><strong>Shopify Orders</strong> → <strong>AWS Lambda</strong> → <strong>Oracle ERP</strong></li>
+  <li><strong>Fulfillment Updates</strong> → <strong>External Systems</strong></li>
+  <li><strong>Return Processing</strong> → <strong>Loop Returns API</strong></li>
+</ol>
+<h3 id="critical-dependencies">Critical Dependencies</h3>
+<p><strong>External Systems:</strong></p>
+<ul>
+  <li><strong>Oracle ERP:</strong> Primary source of product, pricing, and inventory data</li>
+  <li><strong>SFTP Servers:</strong> Data file exchange (70.164.0.172, secure.kligerweiss.net)</li>
+  <li><strong>AWS S3:</strong> File storage and archival</li>
+  <li><strong>Loop Returns:</strong> Return processing integration</li>
+</ul>
+<p><strong>AWS Services:</strong></p>
+<ul>
+  <li><strong>Lambda:</strong> Serverless function execution</li>
+  <li><strong>ECS Fargate:</strong> Containerized long-running tasks</li>
+  <li><strong>S3:</strong> File storage and data lake</li>
+  <li><strong>SNS:</strong> Notification and alerting</li>
+  <li><strong>EventBridge:</strong> Scheduled task execution</li>
+  <li><strong>ECR:</strong> Container image registry</li>
+</ul>
+<h3 id="middleware-configuration">Middleware Configuration</h3>
+<p><strong>Environment Variables:</strong></p>
+<ul>
+  <li><code>SHOPIFY_ACCESS_TOKEN</code>: API access for each site</li>
+  <li><code>ORACLE_SFTP_CREDENTIALS</code>: ERP data access</li>
+  <li><code>AWS_REGION</code>: us-east-1</li>
+  <li><code>SNS_TOPIC_ARN</code>: Alert notifications</li>
+</ul>
+<p><strong>Site-Specific Configuration:</strong></p>
+<ul>
+  <li><strong>OneSource:</strong> DTC-focused product and pricing rules</li>
+  <li><strong>FastServ:</strong> High-volume B2B inventory management</li>
+  <li><strong>Winzer Corp:</strong> Enterprise pricing and contract management</li>
+</ul>
+<h3 id="monitoring-and-alerts">Monitoring and Alerts</h3>
+<p><strong>AWS CloudWatch:</strong></p>
+<ul>
+  <li>Lambda function execution logs</li>
+  <li>ECS task status and performance</li>
+  <li>SNS notification delivery</li>
+  <li>Error rate monitoring</li>
+</ul>
+<p><strong>Alert Conditions:</strong></p>
+<ul>
+  <li>Lambda function failures</li>
+  <li>ECS task failures</li>
+  <li>Data synchronization errors</li>
+  <li>SFTP connection issues</li>
+  <li>Shopify API rate limit exceeded</li>
+</ul>
+<h3 id="operational-procedures">Operational Procedures</h3>
+<p><strong>Daily Monitoring:</strong></p>
+<ol>
+  <li>Check CloudWatch logs for errors</li>
+  <li>Verify data synchronization completion</li>
+  <li>Monitor inventory update success rates</li>
+  <li>Review pricing update accuracy</li>
+</ol>
+<p><strong>Weekly Maintenance:</strong></p>
+<ol>
+  <li>Review SFTP file processing</li>
+  <li>Validate Oracle ERP connectivity</li>
+  <li>Monitor AWS service health</li>
+</ol>
+<p><strong>Monthly Reviews:</strong></p>
+<ol>
+  <li>Analyze data quality metrics</li>
+  <li>Review error patterns and trends</li>
+  <li>Update configuration as needed</li>
+  <li>Performance optimization review</li>
+</ol>
+<h3 id="emergency-procedures">Emergency Procedures</h3>
+<p><strong>Middleware Failure Response:</strong></p>
+<ol>
+  <li><strong>Immediate:</strong> Check CloudWatch logs for error details</li>
+  <li><strong>Assessment:</strong> Determine scope of data synchronization impact</li>
+  <li><strong>Escalation:</strong> Contact CQL Corp for technical support</li>
+  <li><strong>Communication:</strong> Notify stakeholders of data sync delays</li>
+  <li><strong>Recovery:</strong> Execute manual data sync if possible</li>
+</ol>
+<p><strong>Data Sync Issues:</strong></p>
+<ol>
+  <li><strong>Identify:</strong> Which data flow is affected (products, pricing, inventory)</li>
+  <li><strong>Impact:</strong> Assess customer-facing impact</li>
+  <li><strong>Workaround:</strong> Manual data entry if critical</li>
+  <li><strong>Resolution:</strong> Restart failed processes or redeploy functions</li>
+</ol>
+<h3 id="access-and-permissions">Access and Permissions</h3>
+<p><strong>AWS Console Access:</strong></p>
+<ul>
+  <li><strong>Owner:</strong> Winzer IT</li>
+  <li><strong>Read-Only:</strong> N/A</li>
+  <li><strong>Emergency:</strong> CQL Corp (incident response)</li>
+</ul>
+<p><strong>Required Permissions:</strong></p>
+<ul>
+  <li>CloudWatch logs viewing</li>
+  <li>Lambda function monitoring</li>
+  <li>ECS task status checking</li>
+  <li>SNS notification viewing</li>
+</ul>
+<h3 id="cost-management">Cost Management</h3>
+<p><strong>AWS Costs:</strong></p>
+<ul>
+  <li><strong>Lambda:</strong> Pay-per-execution (minimal cost)</li>
+  <li><strong>ECS Fargate:</strong> Based on task runtime</li>
+  <li><strong>S3:</strong> Storage and transfer costs</li>
+  <li><strong>SNS:</strong> Notification delivery costs</li>
+</ul>
+<p><strong>Optimization:</strong></p>
+<ul>
+  <li>Monitor Lambda execution duration</li>
+  <li>Optimize ECS task resource allocation</li>
+  <li>Archive old S3 data regularly</li>
+  <li>Review SNS notification frequency</li>
+</ul>
+</div>
 <hr />
 <h2 id="documentation-sources">Documentation Sources</h2>
 <h3 id="data-sources">Data Sources</h3>
