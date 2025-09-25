@@ -2078,18 +2078,23 @@ sites/{site}/
   <li><strong>Values:</strong>
     <ul>
       <li><code>FRANCHISE</code> (3,466 companies) - Most common template pricing type</li>
-  - <code>LOW_MRO</code> (1 company) - Low MRO template pricing<br />
-  - <code>INN1</code> (1 company) - Internal template pricing<br />
-  - <code>GS01</code> (1 company) - Government/contractor template pricing<br />
-  - <code>FASTSERV</code> (1 company) - FastServ-specific template pricing<br />
-- <strong>Purpose:</strong> Determines if company has access to template pricing fallback<br />
-- <strong>Coverage:</strong> 3,470 companies have template pricing enabled out of 20,936 total companies</p>
-<p><strong>SearchSpring Integration (PLP):</strong><br />
-- <strong>Condition:</strong> <code>customer.logged_in &amp;&amp; customer.current_company.metafields.cql.template_pricing != blank &amp;&amp; product.price &gt;= 1000000</code><br />
-- <strong>Display:</strong> Shows "See pricing" instead of "Not available to purchase"<br />
-- <strong>API Call:</strong> Uses <code>pricing_json</code> template to fetch fallback pricing data<br />
-- <strong>Template:</strong> <code>product.pricing_json.liquid</code> returns JSON with variant pricing<br />
-- <strong>Template Types:</strong> Works for all template pricing types (FRANCHISE, LOW_MRO, INN1, GS01, FASTSERV)</p>
+      <li><code>LOW_MRO</code> (1 company) - Low MRO template pricing</li>
+      <li><code>INN1</code> (1 company) - Internal template pricing</li>
+      <li><code>GS01</code> (1 company) - Government/contractor template pricing</li>
+      <li><code>FASTSERV</code> (1 company) - FastServ-specific template pricing</li>
+    </ul>
+  </li>
+  <li><strong>Purpose:</strong> Determines if company has access to template pricing fallback</li>
+  <li><strong>Coverage:</strong> 3,470 companies have template pricing enabled out of 20,936 total companies</li>
+</ul>
+<p><strong>SearchSpring Integration (PLP):</strong></p>
+<ul>
+  <li><strong>Condition:</strong> <code>customer.logged_in &amp;&amp; customer.current_company.metafields.cql.template_pricing != blank &amp;&amp; product.price &gt;= 1000000</code></li>
+  <li><strong>Display:</strong> Shows "See pricing" instead of "Not available to purchase"</li>
+  <li><strong>API Call:</strong> Uses <code>pricing_json</code> template to fetch fallback pricing data</li>
+  <li><strong>Template:</strong> <code>product.pricing_json.liquid</code> returns JSON with variant pricing</li>
+  <li><strong>Template Types:</strong> Works for all template pricing types (FRANCHISE, LOW_MRO, INN1, GS01, FASTSERV)</li>
+</ul>
 <p><strong>Technical Implementation:</strong><br />
 - <strong>API Endpoint:</strong> <code>/apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code><br />
 - <strong>Response Format:</strong> JSON array with product_id and variants array containing id and price<br />
