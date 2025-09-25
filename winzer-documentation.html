@@ -186,9 +186,19 @@
 <li><a href="#executive-summary">Executive Summary</a></li>
 <li><a href="#platform-architecture">Platform Architecture</a></li>
 <li><a href="#content-management">Content Management</a></li>
-<li><a href="#product-management">Product Management</a></li>
+<li><a href="#product-management">Product Management</a>
+  <ul>
+    <li><a href="#product-grouping-and-variants">Product Grouping & Variants</a></li>
+    <li><a href="#data-flow-and-integration">Data Flow & Integration</a></li>
+  </ul>
+</li>
 <li><a href="#site-management">Site Management</a></li>
-<li><a href="#custom-elements">Custom Elements</a></li>
+<li><a href="#custom-elements">Custom Elements</a>
+  <ul>
+    <li><a href="#searchspring-integration">SearchSpring Integration</a></li>
+    <li><a href="#external-integrations-and-feeds">External Integrations & Feeds</a></li>
+  </ul>
+</li>
 <li><a href="#operations--runbooks">Operations &amp; Runbooks</a></li>
 <li><a href="#kpi--analytics">KPI &amp; Analytics</a></li>
 <li><a href="#documentation-sources">Documentation Sources</a></li>
@@ -1591,6 +1601,22 @@ The Winzer theme uses a modular section-based approach for content management, a
   <li><code>cql.minimum_order_quantity</code> - Order requirements</li>
   <li><code>cql.product_lead_time</code> - Shipping expectations</li>
 </ul>
+<h3 id="product-grouping-and-variants">Product Grouping & Variants</h3>
+<p><strong>Manual Grouping Process:</strong></p>
+<ul>
+  <li>Product grouping (e.g., batteries vs. shirts) is manually managed by category managers</li>
+  <li>Grouping decisions based on product attributes like size, color, and functionality</li>
+  <li>Some products like batteries are grouped under a single parent, which can cause filtering and display issues</li>
+  <li>Inconsistencies in parent/child relationships between Oracle data and Shopify implementation</li>
+</ul>
+<p><strong>Common Grouping Issues:</strong></p>
+<ul>
+  <li>Missing or incorrect variant descriptions</li>
+  <li>Inconsistent product specifications across variants</li>
+  <li>Filtering problems when products are improperly grouped</li>
+  <li>Display issues on collection and product pages</li>
+</ul>
+
 <h3 id="product-creation-workflow">Product Creation Workflow</h3>
 <p><strong>New Product Process:</strong><br />
 1. Navigate to Shopify Admin → Products<br />
@@ -1608,6 +1634,27 @@ The Winzer theme uses a modular section-based approach for content management, a
 3. Import updated data via Matrixify<br />
 4. Verify changes on staging<br />
 5. Deploy to production</p>
+
+<h3 id="data-flow-and-integration">Data Flow & Integration</h3>
+<p><strong>Current Data Sources:</strong></p>
+<ul>
+  <li>Product descriptions and specifications are inconsistently pulled from Oracle</li>
+  <li>Manual overrides in Shopify are common for missing or incorrect data</li>
+  <li>Data mapping from Oracle → Middleware → Shopify is planned for clarification</li>
+</ul>
+<p><strong>Data Quality Issues:</strong></p>
+<ul>
+  <li>Missing variant descriptions and specifications</li>
+  <li>Incorrect product features and attributes</li>
+  <li>Inconsistent data formatting between Oracle and Shopify</li>
+  <li>Manual data entry required to fill gaps</li>
+</ul>
+<p><strong>AI Enhancement Opportunities:</strong></p>
+<ul>
+  <li>AI tools can extract attributes like battery chemistry and size from product names or descriptions</li>
+  <li>Reduces manual work for category managers</li>
+  <li>Improves data consistency across product variants</li>
+</ul>
 <hr />
 <h2 id="site-management">Site Management</h2>
 <h3 id="theme-management">Theme Management</h3>
@@ -1976,6 +2023,40 @@ sites/{site}/
   <li>Dynamic variant switching</li>
   <li>Custom result display</li>
 </ul>
+<p><strong>Filtering Behavior:</strong></p>
+<ul>
+  <li><strong>Automated Filter Generation:</strong> Filters are automatically generated via SearchSpring, pulling from Shopify's category hierarchy fields (e.g., CQL.category_hierarchy)</li>
+  <li><strong>Filter Visibility Rules:</strong> Filters won't appear if all values are the same or if there's insufficient variation</li>
+  <li><strong>Minimum Product Threshold:</strong> Categories with fewer than three products may not display filters</li>
+  <li><strong>Manual Filter Management:</strong> Category managers can manually manage and remove unnecessary filters</li>
+  <li><strong>Product Grouping Impact:</strong> Filter behavior varies depending on how products are grouped and categorized</li>
+</ul>
+<p><strong>Analytics & Reporting:</strong></p>
+<ul>
+  <li><strong>Revenue Tracking:</strong> On-site recommendations only reflect revenue from products purchased via recommender clicks</li>
+  <li><strong>Data Discrepancies:</strong> Search and product performance data may show discrepancies due to internal testing and Google Analytics integration</li>
+  <li><strong>Testing Considerations:</strong> Test orders may be mistakenly interpreted as real orders in reporting</li>
+</ul>
+<h3 id="external-integrations-and-feeds">External Integrations & Feeds</h3>
+<p><strong>Google Shopping Feed:</strong></p>
+<ul>
+  <li><strong>Management:</strong> Google Shopping feed is managed via Matrixify</li>
+  <li><strong>Process:</strong> Exports a static text file that's linked to Google Merchant Center</li>
+  <li><strong>Update Frequency:</strong> Manual updates as needed</li>
+</ul>
+<p><strong>Social Media Integration Recommendations:</strong></p>
+<ul>
+  <li><strong>TikTok Shop:</strong> Recommended to use dedicated sales channel apps instead of Matrixify</li>
+  <li><strong>Meta Shop:</strong> Recommended to use dedicated sales channel apps instead of Matrixify</li>
+  <li><strong>Rationale:</strong> Dedicated apps provide better integration, real-time sync, and platform-specific features</li>
+</ul>
+<p><strong>Feed Management Best Practices:</strong></p>
+<ul>
+  <li>Use Matrixify for Google Shopping and other static feed requirements</li>
+  <li>Use dedicated platform apps for dynamic, real-time integrations</li>
+  <li>Regular monitoring of feed accuracy and completeness</li>
+  <li>Test feed updates in staging environment before production deployment</li>
+</ul>
 <h3 id="custom-javascript-functions">Custom JavaScript Functions</h3>
 <p><strong>Pricing API Integration:</strong></p>
 <pre><code class="language-javascript">function fetchExactPrice(companyId, productId) {
@@ -2206,163 +2287,19 @@ sites/{site}/
 - <strong>Recommendations:</strong> Actionable insights and improvements<br />
 - <strong>Owner:</strong> Winzer eCommerce Director</p>
 <hr />
-<div class="aws-middleware-system">
 <h2 id="aws-middleware-system">AWS Middleware System</h2>
-<h3 id="overview">Overview</h3>
-<p>The Winzer eCommerce platform relies on a critical .NET 6-based middleware system deployed on AWS that handles all data synchronization between external systems and Shopify. This system is essential for the platform's operation and must be understood by the eCommerce team.</p>
-<h3 id="architecture-components">Architecture Components</h3>
-<p><strong>AWS Lambda Functions:</strong></p>
-<ul>
-  <li><strong>Product Feed Handler:</strong> Imports product data from Oracle ERP</li>
-  <li><strong>Pricing Feed Handler:</strong> Synchronizes pricing data from Oracle ERP</li>
-  <li><strong>Inventory Feed Handler:</strong> Updates inventory levels from multiple sources</li>
-  <li><strong>Order Export Handler:</strong> Exports orders to external systems</li>
-  <li><strong>Fulfillment Feed Handler:</strong> Processes fulfillment data</li>
-  <li><strong>Return Export Handler:</strong> Handles return processing</li>
-</ul>
-<p><strong>AWS ECS Fargate Tasks:</strong></p>
-<ul>
-  <li><strong>Product Feed Console App:</strong> Long-running product import processes</li>
-  <li><strong>Pricing Feed Console App:</strong> Bulk pricing synchronization</li>
-</ul>
-<h3 id="data-flow-architecture">Data Flow Architecture</h3>
-<p><strong>Product Data Flow:</strong></p>
-<ol>
-  <li><strong>Oracle ERP</strong> → AWS Lambda → <strong>Shopify Products</strong></li>
-  <li><strong>Product Updates</strong> → SearchSpring synchronization</li>
-</ol>
-<p><strong>Pricing Data Flow:</strong></p>
-<ol>
-  <li><strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Price Lists</strong></li>
-  <li><strong>Bulk Pricing</strong> → <strong>Contract Pricing</strong> → <strong>Template Pricing</strong></li>
-  <li><strong>Customer-specific pricing</strong> via Shopify Plus B2B features</li>
-</ol>
-<p><strong>Inventory Data Flow:</strong></p>
-<ol>
-  <li><strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Inventory</strong></li>
-  <li><strong>Store Locations</strong> → <strong>Inventory Levels</strong> → <strong>Stock Management</strong></li>
-  <li><strong>Low Stock Alerts</strong> → <strong>SearchSpring Display</strong></li>
-</ol>
-<p><strong>Order Data Flow:</strong></p>
-<ol>
-  <li><strong>Shopify Orders</strong> → <strong>AWS Lambda</strong> → <strong>Oracle ERP</strong></li>
-  <li><strong>Fulfillment Updates</strong> → <strong>External Systems</strong></li>
-  <li><strong>Return Processing</strong> → <strong>Loop Returns API</strong></li>
-</ol>
-<h3 id="critical-dependencies">Critical Dependencies</h3>
-<p><strong>External Systems:</strong></p>
-<ul>
-  <li><strong>Oracle ERP:</strong> Primary source of product, pricing, and inventory data</li>
-  <li><strong>SFTP Servers:</strong> Data file exchange (70.164.0.172, secure.kligerweiss.net)</li>
-  <li><strong>AWS S3:</strong> File storage and archival</li>
-  <li><strong>Loop Returns:</strong> Return processing integration</li>
-</ul>
-<p><strong>AWS Services:</strong></p>
-<ul>
-  <li><strong>Lambda:</strong> Serverless function execution</li>
-  <li><strong>ECS Fargate:</strong> Containerized long-running tasks</li>
-  <li><strong>S3:</strong> File storage and data lake</li>
-  <li><strong>SNS:</strong> Notification and alerting</li>
-  <li><strong>EventBridge:</strong> Scheduled task execution</li>
-  <li><strong>ECR:</strong> Container image registry</li>
-</ul>
-<h3 id="middleware-configuration">Middleware Configuration</h3>
-<p><strong>Environment Variables:</strong></p>
-<ul>
-  <li><code>SHOPIFY_ACCESS_TOKEN</code>: API access for each site</li>
-  <li><code>ORACLE_SFTP_CREDENTIALS</code>: ERP data access</li>
-  <li><code>AWS_REGION</code>: us-east-1</li>
-  <li><code>SNS_TOPIC_ARN</code>: Alert notifications</li>
-</ul>
-<p><strong>Site-Specific Configuration:</strong></p>
-<ul>
-  <li><strong>OneSource:</strong> DTC-focused product and pricing rules</li>
-  <li><strong>FastServ:</strong> High-volume B2B inventory management</li>
-  <li><strong>Winzer Corp:</strong> Enterprise pricing and contract management</li>
-</ul>
-<h3 id="monitoring-and-alerts">Monitoring and Alerts</h3>
-<p><strong>AWS CloudWatch:</strong></p>
-<ul>
-  <li>Lambda function execution logs</li>
-  <li>ECS task status and performance</li>
-  <li>SNS notification delivery</li>
-  <li>Error rate monitoring</li>
-</ul>
-<p><strong>Alert Conditions:</strong></p>
-<ul>
-  <li>Lambda function failures</li>
-  <li>ECS task failures</li>
-  <li>Data synchronization errors</li>
-  <li>SFTP connection issues</li>
-  <li>Shopify API rate limit exceeded</li>
-</ul>
-<h3 id="operational-procedures">Operational Procedures</h3>
-<p><strong>Daily Monitoring:</strong></p>
-<ol>
-  <li>Check CloudWatch logs for errors</li>
-  <li>Verify data synchronization completion</li>
-  <li>Monitor inventory update success rates</li>
-  <li>Review pricing update accuracy</li>
-</ol>
-<p><strong>Weekly Maintenance:</strong></p>
-<ol>
-  <li>Review SFTP file processing</li>
-  <li>Validate Oracle ERP connectivity</li>
-  <li>Monitor AWS service health</li>
-</ol>
-<p><strong>Monthly Reviews:</strong></p>
-<ol>
-  <li>Analyze data quality metrics</li>
-  <li>Review error patterns and trends</li>
-  <li>Update configuration as needed</li>
-  <li>Performance optimization review</li>
-</ol>
-<h3 id="emergency-procedures">Emergency Procedures</h3>
-<p><strong>Middleware Failure Response:</strong></p>
-<ol>
-  <li><strong>Immediate:</strong> Check CloudWatch logs for error details</li>
-  <li><strong>Assessment:</strong> Determine scope of data synchronization impact</li>
-  <li><strong>Escalation:</strong> Contact CQL Corp for technical support</li>
-  <li><strong>Communication:</strong> Notify stakeholders of data sync delays</li>
-  <li><strong>Recovery:</strong> Execute manual data sync if possible</li>
-</ol>
-<p><strong>Data Sync Issues:</strong></p>
-<ol>
-  <li><strong>Identify:</strong> Which data flow is affected (products, pricing, inventory)</li>
-  <li><strong>Impact:</strong> Assess customer-facing impact</li>
-  <li><strong>Workaround:</strong> Manual data entry if critical</li>
-  <li><strong>Resolution:</strong> Restart failed processes or redeploy functions</li>
-</ol>
-<h3 id="access-and-permissions">Access and Permissions</h3>
-<p><strong>AWS Console Access:</strong></p>
-<ul>
-  <li><strong>Owner:</strong> Winzer IT</li>
-  <li><strong>Read-Only:</strong> N/A</li>
-  <li><strong>Emergency:</strong> CQL Corp (incident response)</li>
-</ul>
-<p><strong>Required Permissions:</strong></p>
-<ul>
-  <li>CloudWatch logs viewing</li>
-  <li>Lambda function monitoring</li>
-  <li>ECS task status checking</li>
-  <li>SNS notification viewing</li>
-</ul>
-<h3 id="cost-management">Cost Management</h3>
-<p><strong>AWS Costs:</strong></p>
-<ul>
-  <li><strong>Lambda:</strong> Pay-per-execution (minimal cost)</li>
-  <li><strong>ECS Fargate:</strong> Based on task runtime</li>
-  <li><strong>S3:</strong> Storage and transfer costs</li>
-  <li><strong>SNS:</strong> Notification delivery costs</li>
-</ul>
-<p><strong>Optimization:</strong></p>
-<ul>
-  <li>Monitor Lambda execution duration</li>
-  <li>Optimize ECS task resource allocation</li>
-  <li>Archive old S3 data regularly</li>
-  <li>Review SNS notification frequency</li>
-</ul>
+<div class="alert info">
+<p><strong>Middleware Documentation:</strong> Detailed AWS middleware system documentation has been moved to a separate file for better organization and maintenance.</p>
+<p><strong>Reference:</strong> <a href="winzer-middleware-documentation.html">Winzer AWS Middleware System Documentation</a></p>
 </div>
+<p><strong>Quick Reference:</strong></p>
+<ul>
+  <li><strong>Architecture:</strong> .NET 6 AWS Lambda functions + ECS Fargate tasks</li>
+  <li><strong>Data Integration:</strong> Oracle ERP, SFTP, AWS S3</li>
+  <li><strong>Critical Flows:</strong> Product sync, pricing updates, inventory management, order processing</li>
+  <li><strong>Monitoring:</strong> AWS CloudWatch logs and alerts</li>
+  <li><strong>Access:</strong> Winzer IT (owner), CQL Corp (emergency support)</li>
+</ul>
 <hr />
 <h2 id="documentation-sources">Documentation Sources</h2>
 <h3 id="data-sources">Data Sources</h3>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winzer AWS Middleware System Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #7f8c8d;
+            margin-top: 20px;
+        }
+        .aws-middleware-system {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #e74c3c;
+        }
+        code {
+            background: #f1f2f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        li {
+            margin: 5px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .critical {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            margin: 30px 0;
+        }
+        .toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .toc ol {
+            margin: 0;
+        }
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="winzer-aws-middleware-system-documentation">Winzer AWS Middleware System Documentation</h1>
+        
+        <div class="toc">
+            <h2 id="table-of-contents">Table of Contents</h2>
+            <ol>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#architecture-components">Architecture Components</a></li>
+                <li><a href="#data-flow-architecture">Data Flow Architecture</a></li>
+                <li><a href="#critical-dependencies">Critical Dependencies</a></li>
+                <li><a href="#middleware-configuration">Middleware Configuration</a></li>
+                <li><a href="#monitoring-and-alerts">Monitoring and Alerts</a></li>
+                <li><a href="#operational-procedures">Operational Procedures</a></li>
+                <li><a href="#emergency-procedures">Emergency Procedures</a></li>
+                <li><a href="#access-and-permissions">Access and Permissions</a></li>
+                <li><a href="#cost-management">Cost Management</a></li>
+            </ol>
+        </div>
+
+        <div class="aws-middleware-system">
+            <h2 id="aws-middleware-system">AWS Middleware System</h2>
+            <h3 id="overview">Overview</h3>
+            <p>The Winzer eCommerce platform relies on a critical .NET 6-based middleware system deployed on AWS that handles all data synchronization between external systems and Shopify. This system is essential for the platform's operation and must be understood by the eCommerce team.</p>
+            
+            <h3 id="architecture-components">Architecture Components</h3>
+            <p><strong>AWS Lambda Functions:</strong></p>
+            <ul>
+                <li><strong>Product Feed Handler:</strong> Imports product data from Oracle ERP</li>
+                <li><strong>Pricing Feed Handler:</strong> Synchronizes pricing data from Oracle ERP</li>
+                <li><strong>Inventory Feed Handler:</strong> Updates inventory levels from multiple sources</li>
+                <li><strong>Order Export Handler:</strong> Exports orders to external systems</li>
+                <li><strong>Fulfillment Feed Handler:</strong> Processes fulfillment data</li>
+                <li><strong>Return Export Handler:</strong> Handles return processing</li>
+            </ul>
+            <p><strong>AWS ECS Fargate Tasks:</strong></p>
+            <ul>
+                <li><strong>Product Feed Console App:</strong> Long-running product import processes</li>
+                <li><strong>Pricing Feed Console App:</strong> Bulk pricing synchronization</li>
+            </ul>
+            
+            <h3 id="data-flow-architecture">Data Flow Architecture</h3>
+            <p><strong>Product Data Flow:</strong></p>
+            <ol>
+                <li><strong>Oracle ERP</strong> → AWS Lambda → <strong>Shopify Products</strong></li>
+                <li><strong>Product Updates</strong> → SearchSpring synchronization</li>
+            </ol>
+            <p><strong>Pricing Data Flow:</strong></p>
+            <ol>
+                <li><strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Price Lists</strong></li>
+                <li><strong>Bulk Pricing</strong> → <strong>Contract Pricing</strong> → <strong>Template Pricing</strong></li>
+                <li><strong>Customer-specific pricing</strong> via Shopify Plus B2B features</li>
+            </ol>
+            <p><strong>Inventory Data Flow:</strong></p>
+            <ol>
+                <li><strong>Oracle ERP</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Inventory</strong></li>
+                <li><strong>Store Locations</strong> → <strong>Inventory Levels</strong> → <strong>Stock Management</strong></li>
+                <li><strong>Low Stock Alerts</strong> → <strong>SearchSpring Display</strong></li>
+            </ol>
+            <p><strong>Order Data Flow:</strong></p>
+            <ol>
+                <li><strong>Shopify Orders</strong> → <strong>AWS Lambda</strong> → <strong>Oracle ERP</strong></li>
+                <li><strong>Fulfillment Updates</strong> → <strong>External Systems</strong></li>
+                <li><strong>Return Processing</strong> → <strong>Loop Returns API</strong></li>
+            </ol>
+            
+            <h3 id="critical-dependencies">Critical Dependencies</h3>
+            <p><strong>External Systems:</strong></p>
+            <ul>
+                <li><strong>Oracle ERP:</strong> Primary source of product, pricing, and inventory data</li>
+                <li><strong>SFTP Servers:</strong> Data file exchange (70.164.0.172, secure.kligerweiss.net)</li>
+                <li><strong>AWS S3:</strong> File storage and archival</li>
+                <li><strong>Loop Returns:</strong> Return processing integration</li>
+            </ul>
+            <p><strong>AWS Services:</strong></p>
+            <ul>
+                <li><strong>Lambda:</strong> Serverless function execution</li>
+                <li><strong>ECS Fargate:</strong> Containerized long-running tasks</li>
+                <li><strong>S3:</strong> File storage and data lake</li>
+                <li><strong>SNS:</strong> Notification and alerting</li>
+                <li><strong>EventBridge:</strong> Scheduled task execution</li>
+                <li><strong>ECR:</strong> Container image registry</li>
+            </ul>
+            
+            <h3 id="middleware-configuration">Middleware Configuration</h3>
+            <p><strong>Environment Variables:</strong></p>
+            <ul>
+                <li><code>SHOPIFY_ACCESS_TOKEN</code>: API access for each site</li>
+                <li><code>ORACLE_SFTP_CREDENTIALS</code>: ERP data access</li>
+                <li><code>AWS_REGION</code>: us-east-1</li>
+                <li><code>SNS_TOPIC_ARN</code>: Alert notifications</li>
+            </ul>
+            <p><strong>Site-Specific Configuration:</strong></p>
+            <ul>
+                <li><strong>OneSource:</strong> DTC-focused product and pricing rules</li>
+                <li><strong>FastServ:</strong> High-volume B2B inventory management</li>
+                <li><strong>Winzer Corp:</strong> Enterprise pricing and contract management</li>
+            </ul>
+            
+            <h3 id="monitoring-and-alerts">Monitoring and Alerts</h3>
+            <p><strong>AWS CloudWatch:</strong></p>
+            <ul>
+                <li>Lambda function execution logs</li>
+                <li>ECS task status and performance</li>
+                <li>SNS notification delivery</li>
+                <li>Error rate monitoring</li>
+            </ul>
+            <p><strong>Alert Conditions:</strong></p>
+            <ul>
+                <li>Lambda function failures</li>
+                <li>ECS task failures</li>
+                <li>Data synchronization errors</li>
+                <li>SFTP connection issues</li>
+                <li>Shopify API rate limit exceeded</li>
+            </ul>
+            
+            <h3 id="operational-procedures">Operational Procedures</h3>
+            <p><strong>Daily Monitoring:</strong></p>
+            <ol>
+                <li>Check CloudWatch logs for errors</li>
+                <li>Verify data synchronization completion</li>
+                <li>Monitor inventory update success rates</li>
+                <li>Review pricing update accuracy</li>
+            </ol>
+            <p><strong>Weekly Maintenance:</strong></p>
+            <ol>
+                <li>Review SFTP file processing</li>
+                <li>Validate Oracle ERP connectivity</li>
+                <li>Monitor AWS service health</li>
+            </ol>
+            <p><strong>Monthly Reviews:</strong></p>
+            <ol>
+                <li>Analyze data quality metrics</li>
+                <li>Review error patterns and trends</li>
+                <li>Update configuration as needed</li>
+                <li>Performance optimization review</li>
+            </ol>
+            
+            <h3 id="emergency-procedures">Emergency Procedures</h3>
+            <p><strong>Middleware Failure Response:</strong></p>
+            <ol>
+                <li><strong>Immediate:</strong> Check CloudWatch logs for error details</li>
+                <li><strong>Assessment:</strong> Determine scope of data synchronization impact</li>
+                <li><strong>Escalation:</strong> Contact CQL Corp for technical support</li>
+                <li><strong>Communication:</strong> Notify stakeholders of data sync delays</li>
+                <li><strong>Recovery:</strong> Execute manual data sync if possible</li>
+            </ol>
+            <p><strong>Data Sync Issues:</strong></p>
+            <ol>
+                <li><strong>Identify:</strong> Which data flow is affected (products, pricing, inventory)</li>
+                <li><strong>Impact:</strong> Assess customer-facing impact</li>
+                <li><strong>Workaround:</strong> Manual data entry if critical</li>
+                <li><strong>Resolution:</strong> Restart failed processes or redeploy functions</li>
+            </ol>
+            
+            <h3 id="access-and-permissions">Access and Permissions</h3>
+            <p><strong>AWS Console Access:</strong></p>
+            <ul>
+                <li><strong>Owner:</strong> Winzer IT</li>
+                <li><strong>Read-Only:</strong> N/A</li>
+                <li><strong>Emergency:</strong> CQL Corp (incident response)</li>
+            </ul>
+            <p><strong>Required Permissions:</strong></p>
+            <ul>
+                <li>CloudWatch logs viewing</li>
+                <li>Lambda function monitoring</li>
+                <li>ECS task status checking</li>
+                <li>SNS notification viewing</li>
+            </ul>
+            
+            <h3 id="cost-management">Cost Management</h3>
+            <p><strong>AWS Costs:</strong></p>
+            <ul>
+                <li><strong>Lambda:</strong> Pay-per-execution (minimal cost)</li>
+                <li><strong>ECS Fargate:</strong> Based on task runtime</li>
+                <li><strong>S3:</strong> Storage and transfer costs</li>
+                <li><strong>SNS:</strong> Notification delivery costs</li>
+            </ul>
+            <p><strong>Optimization:</strong></p>
+            <ul>
+                <li>Monitor Lambda execution duration</li>
+                <li>Optimize ECS task resource allocation</li>
+                <li>Archive old S3 data regularly</li>
+                <li>Review SNS notification frequency</li>
+            </ul>
+        </div>
+        
+        <hr />
+        <p><strong>Document Version:</strong> 1.0<br />
+        <strong>Last Updated:</strong> September 24, 2025<br />
+        <strong>Next Review:</strong> December 24, 2025<br />
+        <strong>Document Owner:</strong> Winzer eCommerce Team<br />
+        <strong>Related Documentation:</strong> <a href="winzer-documentation.html">Main Platform Documentation</a></p>
+    </div>
+</body>
+</html>
