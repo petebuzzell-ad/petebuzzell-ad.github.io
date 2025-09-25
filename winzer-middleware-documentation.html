@@ -141,6 +141,7 @@
             <ol>
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#architecture-components">Architecture Components</a></li>
+                <li><a href="#collection-management">Collection Management</a></li>
                 <li><a href="#data-flow-architecture">Data Flow Architecture</a></li>
                 <li><a href="#critical-dependencies">Critical Dependencies</a></li>
                 <li><a href="#middleware-configuration">Middleware Configuration</a></li>
@@ -173,11 +174,41 @@
                 <li><strong>Pricing Feed Console App:</strong> Bulk pricing synchronization</li>
             </ul>
             
+            <h3 id="collection-management">Collection Management</h3>
+            <p><strong>Automatic Collection Creation:</strong></p>
+            <ul>
+                <li><strong>Smart Collections:</strong> Middleware creates smart collections based on product categories</li>
+                <li><strong>Rule-Based Assignment:</strong> Products are automatically assigned using metafield rules</li>
+                <li><strong>Category Source:</strong> Uses <code>cql.categories</code> metafield from Oracle PIM data</li>
+                <li><strong>Collection Rules:</strong> Products must match category metafield exactly</li>
+            </ul>
+            <p><strong>Collection Service Features:</strong></p>
+            <ul>
+                <li><strong>GetAllCollections():</strong> Retrieves existing Shopify collections</li>
+                <li><strong>CreateCollection():</strong> Creates new smart collections with rules</li>
+                <li><strong>GetCollectionByHandle():</strong> Finds collections by handle</li>
+                <li><strong>GetCategoriesMetafield():</strong> Gets categories metafield definition</li>
+            </ul>
+            <p><strong>Collection Rule Configuration:</strong></p>
+            <ul>
+                <li><strong>Rule Type:</strong> PRODUCT_METAFIELD_DEFINITION</li>
+                <li><strong>Metafield:</strong> cql.categories</li>
+                <li><strong>Relation:</strong> EQUALS</li>
+                <li><strong>Applied Disjunctively:</strong> false (products must match ALL rules)</li>
+            </ul>
+            
             <h3 id="data-flow-architecture">Data Flow Architecture</h3>
             <p><strong>Product Data Flow:</strong></p>
             <ol>
                 <li><strong>Oracle PIM</strong> → AWS Lambda → <strong>Shopify Products</strong></li>
                 <li><strong>Product Updates</strong> → SearchSpring synchronization</li>
+            </ol>
+            <p><strong>Collection Management Flow:</strong></p>
+            <ol>
+                <li><strong>Category Extraction:</strong> Extract categories from <code>cql.categories</code> metafield</li>
+                <li><strong>Collection Comparison:</strong> Compare against existing Shopify collections</li>
+                <li><strong>Smart Collection Creation:</strong> Create missing collections with automatic rules</li>
+                <li><strong>Product Assignment:</strong> Products automatically assigned based on category metafield</li>
             </ol>
             <p><strong>Pricing Data Flow:</strong></p>
             <ol>
