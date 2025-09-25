@@ -1989,26 +1989,41 @@ sites/{site}/
     </ol>
   </li>
 </ul>
-<p><strong>SearchSpring Integration (PLP):</strong><br />
-- <strong>Trigger:</strong> "See .0000 Pricing" button in search results<br />
-- <strong>Process:</strong><br />
-  1. Bulk API call: <code>GET /apps/pricing-api/bulk-pricing?variant_ids={variantIds}</code><br />
-  2. Updates all variant prices in search results<br />
-  3. Maintains pricing data for variant switching</p>
-<p><strong>Technical Implementation:</strong><br />
-- <strong>JavaScript Files:</strong><br />
-  - <code>global.js</code> - Main pricing fetch function (<code>fetchExactPrice</code>)<br />
-  - <code>four-decimal-pricing.js</code> - Add to cart pricing integration<br />
-  - SearchSpring React components handle PLP pricing<br />
-- <strong>Liquid Snippets:</strong><br />
-  - <code>exact-pricing.liquid</code> - PDP pricing link and tooltip<br />
-  - <code>price.liquid</code> - Standard price display (no API integration)<br />
-- <strong>CSS:</strong> <code>component-exact-pricing.css</code> - Styling for pricing elements</p>
-<p><strong>User Experience:</strong><br />
-- <strong>Tooltip Message:</strong> "Prices shown are rounded up to the next cent, click here to see your exact 4 decimal pricing"<br />
-- <strong>Loading State:</strong> Animated loading icon during API call<br />
-- <strong>Error Handling:</strong> Link remains visible if API call fails<br />
-- <strong>Variant Switching:</strong> Exact pricing persists when switching product variants</p>
+<p><strong>SearchSpring Integration (PLP):</strong></p>
+<ul>
+  <li><strong>Trigger:</strong> "See .0000 Pricing" button in search results</li>
+  <li><strong>Process:</strong>
+    <ol>
+      <li>Bulk API call: <code>GET /apps/pricing-api/bulk-pricing?variant_ids={variantIds}</code></li>
+      <li>Updates all variant prices in search results</li>
+      <li>Maintains pricing data for variant switching</li>
+    </ol>
+  </li>
+</ul>
+<p><strong>Technical Implementation:</strong></p>
+<ul>
+  <li><strong>JavaScript Files:</strong>
+    <ul>
+      <li><code>global.js</code> - Main pricing fetch function (<code>fetchExactPrice</code>)</li>
+      <li><code>four-decimal-pricing.js</code> - Add to cart pricing integration</li>
+      <li>SearchSpring React components handle PLP pricing</li>
+    </ul>
+  </li>
+  <li><strong>Liquid Snippets:</strong>
+    <ul>
+      <li><code>exact-pricing.liquid</code> - PDP pricing link and tooltip</li>
+      <li><code>price.liquid</code> - Standard price display (no API integration)</li>
+    </ul>
+  </li>
+  <li><strong>CSS:</strong> <code>component-exact-pricing.css</code> - Styling for pricing elements</li>
+</ul>
+<p><strong>User Experience:</strong></p>
+<ul>
+  <li><strong>Tooltip Message:</strong> "Prices shown are rounded up to the next cent, click here to see your exact 4 decimal pricing"</li>
+  <li><strong>Loading State:</strong> Animated loading icon during API call</li>
+  <li><strong>Error Handling:</strong> Link remains visible if API call fails</li>
+  <li><strong>Variant Switching:</strong> Exact pricing persists when switching product variants</li>
+</ul>
 <p><strong>Business Logic:</strong><br />
 - Only available to logged-in B2B customers<br />
 - Company-specific pricing based on ERP agreements<br />
