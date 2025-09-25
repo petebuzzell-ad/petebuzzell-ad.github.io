@@ -1,0 +1,96 @@
+name: Documentation Feedback
+description: Submit feedback, report issues, or suggest improvements for the documentation
+title: "[Feedback] "
+labels: ["documentation-feedback"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us improve our documentation by submitting feedback, reporting issues, or suggesting improvements.
+        
+        **Please fill out the form below with as much detail as possible.**
+
+  - type: dropdown
+    id: feedback-type
+    attributes:
+      label: Type of Feedback
+      description: What type of feedback are you providing?
+      options:
+        - Bug Report - Something is broken or incorrect
+        - Enhancement - Suggestion for improvement
+        - Question - Need clarification or help
+        - Documentation - Missing or unclear information
+        - Other - General feedback
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: Brief Summary
+      description: A concise title for your feedback
+      placeholder: "Brief description of your feedback"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Detailed Description
+      description: Please provide detailed information about your feedback
+      placeholder: |
+        For bug reports, include:
+        - Steps to reproduce the issue
+        - Expected vs actual behavior
+        - Screenshots if applicable
+        
+        For suggestions, include:
+        - What you'd like to see changed
+        - Why this would be helpful
+        - Any specific examples
+    validations:
+      required: true
+
+  - type: dropdown
+    id: page
+    attributes:
+      label: Related Page
+      description: Which documentation page is this feedback about?
+      options:
+        - Homepage (index.html)
+        - Main Platform Documentation
+        - AWS Middleware Documentation
+        - Product Data Map
+        - General/All Pages
+        - Not sure
+
+  - type: input
+    id: email
+    attributes:
+      label: Contact Email (Optional)
+      description: We'll use this to follow up if needed
+      placeholder: "your.email@example.com"
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feedback?
+      options:
+        - Low - Nice to have
+        - Medium - Should be addressed
+        - High - Important issue
+        - Urgent - Critical issue
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues to make sure this hasn't been reported before
+          required: true
+        - label: I have provided enough detail for the team to understand and address this feedback
+          required: true
