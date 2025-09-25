@@ -1954,13 +1954,17 @@ sites/{site}/
   <li><strong>SEA Post Purchase Survey:</strong> Customer feedback collection (OneSource, FastServ). Installed for evaluation. Not active.</li>
   <li><strong>Forms:</strong> Custom form builder for contact and lead generation (All sites). Installed for evaluation. Not active.</li>
 </ul>
-<p><strong>Marketing &amp; Promotions:</strong><br />
-- <strong>Flow:</strong> Workflow automation for customer journeys (All sites)<br />
-- <strong>Launchpad:</strong> Scheduled promotions and flash sales (OneSource only). Recommend adding to all sites to schedule promotions and content changes.</p>
-<p><strong>Development &amp; Integration:</strong><br />
-- <strong>Shopify GraphiQL App:</strong> API development and testing tool (All sites)<br />
-- <strong>Winzer Pricing API:</strong> Custom pricing integration (CQL Corp managed, All sites)<br />
-- <strong>Theme Access:</strong> Development team access to theme files (All sites)</p>
+<p><strong>Marketing &amp; Promotions:</strong></p>
+<ul>
+  <li><strong>Flow:</strong> Workflow automation for customer journeys (All sites)</li>
+  <li><strong>Launchpad:</strong> Scheduled promotions and flash sales (OneSource only). Recommend adding to all sites to schedule promotions and content changes.</li>
+</ul>
+<p><strong>Development &amp; Integration:</strong></p>
+<ul>
+  <li><strong>Shopify GraphiQL App:</strong> API development and testing tool (All sites)</li>
+  <li><strong>Winzer Pricing API:</strong> Custom pricing integration (CQL Corp managed, All sites)</li>
+  <li><strong>Theme Access:</strong> Development team access to theme files (All sites)</li>
+</ul>
 <h4 id="winzer-pricing-api-app">Winzer Pricing API App</h4>
 <p><strong>Purpose:</strong> Provides exact 4-decimal pricing for B2B customers based on their company-specific pricing agreements.</p>
 <p><strong>How It Works:</strong><br />
@@ -1970,16 +1974,21 @@ sites/{site}/
    - <code>/apps/pricing-api/bulk-pricing</code> - Get pricing for multiple variants at once<br />
    - <code>/apps/pricing-api/erp-orders</code> - ERP order integration (Classic Orders page)</p>
 <p><strong>Implementation Details:</strong></p>
-<p><strong>Product Detail Pages (PDP):</strong><br />
-- <strong>Trigger:</strong> "See .0000 Pricing" link appears for logged-in B2B customers<br />
-- <strong>Location:</strong> Below product price, only for non-OneSource stores<br />
-- <strong>Condition:</strong> Only shows for variants with price between $0.01 and $999,999.99<br />
-- <strong>Process:</strong><br />
-  1. Customer clicks "See .0000 Pricing" link<br />
-  2. Loading animation displays for 1 second<br />
-  3. API call fetches exact pricing: <code>GET /apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code><br />
-  4. Price updates to show 4 decimal places (e.g., $1.2345)<br />
-  5. Link disappears after successful pricing update</p>
+<p><strong>Product Detail Pages (PDP):</strong></p>
+<ul>
+  <li><strong>Trigger:</strong> "See .0000 Pricing" link appears for logged-in B2B customers</li>
+  <li><strong>Location:</strong> Below product price, only for non-OneSource stores</li>
+  <li><strong>Condition:</strong> Only shows for variants with price between $0.01 and $999,999.99</li>
+  <li><strong>Process:</strong>
+    <ol>
+      <li>Customer clicks "See .0000 Pricing" link</li>
+      <li>Loading animation displays for 1 second</li>
+      <li>API call fetches exact pricing: <code>GET /apps/pricing-api/customer-product-pricing?current_company_id={companyId}&amp;product_ids={productId}</code></li>
+      <li>Price updates to show 4 decimal places (e.g., $1.2345)</li>
+      <li>Link disappears after successful pricing update</li>
+    </ol>
+  </li>
+</ul>
 <p><strong>SearchSpring Integration (PLP):</strong><br />
 - <strong>Trigger:</strong> "See .0000 Pricing" button in search results<br />
 - <strong>Process:</strong><br />
