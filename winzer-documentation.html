@@ -2052,15 +2052,19 @@ sites/{site}/
   <li><strong>Function:</strong> <code>notInYourCatalog(price)</code> checks if price ≥ $1,000,000 or ≤ $0</li>
   <li><strong>Add to Cart:</strong> Disabled for products not in catalog</li>
 </ul>
-<p><strong>Cart and Checkout:</strong><br />
-- <strong>Add to Cart Button:</strong> Disabled for products with $1 million pricing<br />
-- <strong>Button Text:</strong> Shows "Unavailable" instead of "Add to cart"<br />
-- <strong>Validation:</strong> Prevents adding non-catalog items to cart</p>
-<p><strong>Technical Implementation:</strong><br />
-- <strong>Price Validation:</strong> <code>parseInt(corePrice) &gt;= 1000000 || parseInt(corePrice) &lt;= 0</code><br />
-- <strong>Display Logic:</strong> Conditional rendering based on price value<br />
-- <strong>Localization:</strong> Uses <code>products.product.not_in_catalog</code> translation key<br />
-- <strong>CSS Class:</strong> <code>.not-in-catalog</code> for styling</p>
+<p><strong>Cart and Checkout:</strong></p>
+<ul>
+  <li><strong>Add to Cart Button:</strong> Disabled for products with $1 million pricing</li>
+  <li><strong>Button Text:</strong> Shows "Unavailable" instead of "Add to cart"</li>
+  <li><strong>Validation:</strong> Prevents adding non-catalog items to cart</li>
+</ul>
+<p><strong>Technical Implementation:</strong></p>
+<ul>
+  <li><strong>Price Validation:</strong> <code>parseInt(corePrice) &gt;= 1000000 || parseInt(corePrice) &lt;= 0</code></li>
+  <li><strong>Display Logic:</strong> Conditional rendering based on price value</li>
+  <li><strong>Localization:</strong> Uses <code>products.product.not_in_catalog</code> translation key</li>
+  <li><strong>CSS Class:</strong> <code>.not-in-catalog</code> for styling</li>
+</ul>
 <p><strong>Template Pricing Fallback System:</strong></p>
 <p><strong>Purpose:</strong> Provides fallback pricing for B2B customers whose companies have template pricing enabled, allowing them to see "See pricing" instead of "Not available to purchase" for non-catalog items.</p>
 <p><strong>How It Works:</strong><br />
@@ -2068,10 +2072,12 @@ sites/{site}/
 2. <strong>Fallback Logic:</strong> When a product is not in the company catalog (price = $1,000,000) AND the company has template pricing enabled, show "See pricing" instead of "Not available to purchase"<br />
 3. <strong>Customer Experience:</strong> Logged-in B2B customers with template pricing can see pricing options for all products</p>
 <p><strong>Implementation Details:</strong></p>
-<p><strong>Company Metafield:</strong><br />
-- <strong>Field:</strong> <code>cql.template_pricing</code> (company-level metafield)<br />
-- <strong>Values:</strong> <br />
-  - <code>FRANCHISE</code> (3,466 companies) - Most common template pricing type<br />
+<p><strong>Company Metafield:</strong></p>
+<ul>
+  <li><strong>Field:</strong> <code>cql.template_pricing</code> (company-level metafield)</li>
+  <li><strong>Values:</strong>
+    <ul>
+      <li><code>FRANCHISE</code> (3,466 companies) - Most common template pricing type</li>
   - <code>LOW_MRO</code> (1 company) - Low MRO template pricing<br />
   - <code>INN1</code> (1 company) - Internal template pricing<br />
   - <code>GS01</code> (1 company) - Government/contractor template pricing<br />
