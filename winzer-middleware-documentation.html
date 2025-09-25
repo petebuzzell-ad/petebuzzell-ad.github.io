@@ -146,7 +146,8 @@
             align-items: center;
             gap: 30px;
             margin: 20px 0;
-            position: relative;
+            max-width: 100%;
+            overflow: hidden;
         }
         
         .system-node {
@@ -290,24 +291,7 @@
             margin: 0 0 0 0;
         }
         
-        .external-to-middleware {
-            position: absolute;
-            top: 50%;
-            right: -150px;
-            transform: translateY(-50%) rotate(90deg);
-        }
-        
-        .external-to-middleware .arrow-line {
-            width: 100px;
-        }
-        
-        .external-to-middleware .arrow-label {
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        /* Layout adjustments */
+        /* Layout adjustments - all in normal flow */
         .oracle-node {
             order: 1;
         }
@@ -334,40 +318,10 @@
         
         .external-node {
             order: 7;
-            position: absolute;
-            right: -200px;
-            top: 50%;
-            transform: translateY(-50%);
         }
         
         .external-to-middleware {
             order: 8;
-        }
-        
-        @media (max-width: 1200px) {
-            .external-node {
-                position: static;
-                right: auto;
-                top: auto;
-                transform: none;
-                order: 7;
-            }
-            
-            .external-to-middleware {
-                position: static;
-                right: auto;
-                top: auto;
-                transform: none;
-                order: 8;
-            }
-            
-            .external-to-middleware .arrow-line {
-                width: 200px;
-            }
-            
-            .external-to-middleware {
-                transform: none;
-            }
         }
         
         @media (max-width: 768px) {
