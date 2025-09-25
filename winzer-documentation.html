@@ -1437,6 +1437,7 @@ The Winzer theme uses a modular section-based approach for content management, a
       <li>Add title and content using rich text editor</li>
       <li>Upload featured image</li>
       <li>Set author and publication date</li>
+      <li>Set blog category to Learning Hub</li>
       <li>Add relevant tags</li>
     </ul>
   </li>
@@ -1494,6 +1495,7 @@ The Winzer theme uses a modular section-based approach for content management, a
   <li><strong>Category Organization:</strong> <code>collection.metafields.custom.collection_parent_category</code></li>
 </ul>
 <p><strong>Content Management Best Practices:</strong><br />
+<p>CAUTION: Changing the default template will change it for all pages/products/collections/blog posts on the site. Be careful with this.</p>
 1. <strong>Template Selection:</strong> Choose the most appropriate template variant for content type<br />
 2. <strong>Metafield Usage:</strong> Populate relevant metafields for SEO and custom functionality<br />
 3. <strong>Section Configuration:</strong> Use section blocks to create engaging, structured content<br />
@@ -1600,6 +1602,48 @@ The Winzer theme uses a modular section-based approach for content management, a
   <li><code>cql.features_text</code> - Product details</li>
   <li><code>cql.minimum_order_quantity</code> - Order requirements</li>
   <li><code>cql.product_lead_time</code> - Shipping expectations</li>
+</ul>
+
+<h3 id="metaobjects">Metaobjects</h3>
+<p><strong>Product Documents Metaobject:</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Manages downloadable product documents (PDFs, manuals, SDS sheets)</li>
+  <li><strong>Fields:</strong>
+    <ul>
+      <li><code>title</code> - Document display name</li>
+      <li><code>document_url</code> - Direct link to the document file</li>
+    </ul>
+  </li>
+  <li><strong>Usage:</strong> Referenced in product metafields and displayed in product download sections</li>
+  <li><strong>Example:</strong> "Test PDF" with URL to PDF document</li>
+</ul>
+
+<p><strong>Product Message Metaobject:</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Displays important product warnings, notices, and regulatory information</li>
+  <li><strong>Fields:</strong>
+    <ul>
+      <li><code>title</code> - Message title/heading</li>
+      <li><code>icon</code> - Icon image for visual identification</li>
+      <li><code>message</code> - Rich text message content (supports links and formatting)</li>
+    </ul>
+  </li>
+  <li><strong>Usage:</strong> Referenced in variant metafields and displayed as warning badges on product pages</li>
+  <li><strong>Examples:</strong>
+    <ul>
+      <li><strong>Hazardous Material:</strong> "Hazardous Material - Other Regulated Material"</li>
+      <li><strong>Warning:</strong> "WARNING: Cancer and Reproductive Harm — www.P65Warnings.ca.gov"</li>
+      <li><strong>Shipping Restriction:</strong> "This item is restricted to ship to California"</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Metaobject Integration:</strong></p>
+<ul>
+  <li><strong>Product Messages:</strong> Displayed in product information sections with icons and styled formatting</li>
+  <li><strong>Product Documents:</strong> Shown in accordion-style download sections with download icons</li>
+  <li><strong>Dynamic Updates:</strong> Messages and documents update automatically when variant changes</li>
+  <li><strong>Responsive Design:</strong> Both metaobjects are mobile-optimized and accessible</li>
 </ul>
 <h3 id="product-grouping-and-variants">Product Grouping & Variants</h3>
 <p><strong>Manual Grouping Process:</strong></p>
