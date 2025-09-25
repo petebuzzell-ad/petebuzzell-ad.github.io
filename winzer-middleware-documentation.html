@@ -426,27 +426,34 @@
                 <h4>System Data Flow</h4>
                 <div class="mermaid">
                     graph TD
-                        A[Oracle PIM<br/>Product Data<br/>Pricing Data<br/>Inventory Data] -->|Data Export| B[AWS Middleware<br/>Lambda Functions<br/>ECS Tasks]
+                        A[Oracle PIM<br/>Product Data<br/>Pricing Data<br/>Inventory Data] -->|Data Export| E[SFTP Server]
+                        E -->|File Transfer| B[AWS Middleware<br/>Lambda Functions<br/>ECS Tasks]
                         B -->|API Sync| C[Shopify<br/>Products & Variants<br/>Smart Collections<br/>Price Lists<br/>Inventory Management]
-                        C -->|Orders| B
-                        D[External Systems<br/>SFTP<br/>Google Merchant<br/>TikTok/Meta] -->|SFTP Data| B
+                        C -->|Product Data| D[External Systems<br/>Google Merchant Center<br/>TikTok<br/>Facebook/Instagram/Meta<br/>Bing]
+                        F[Oracle ERP<br/>Order Management] -->|Orders| B
+                        B -->|Order Export| F
                         
                         classDef oracle fill:#fff5f5,stroke:#dc3545,stroke-width:2px
                         classDef middleware fill:#ff9900,stroke:#ff6600,stroke-width:2px,color:#fff
                         classDef shopify fill:#f8fff5,stroke:#95bf47,stroke-width:2px
                         classDef external fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
+                        classDef sftp fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+                        classDef erp fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
                         
                         class A oracle
                         class B middleware
                         class C shopify
                         class D external
+                        class E sftp
+                        class F erp
                 </div>
             </div>
             
             <h4>Detailed Data Flows</h4>
             <p><strong>Product Data Flow:</strong></p>
             <ol>
-                <li><strong>Oracle PIM</strong> → AWS Lambda → <strong>Shopify Products</strong></li>
+                <li><strong>Oracle PIM</strong> → <strong>SFTP Server</strong> → <strong>AWS Lambda</strong> → <strong>Shopify Products</strong></li>
+                <li><strong>Shopify Products</strong> → <strong>External Systems</strong> (Google Merchant, TikTok, Meta, Bing)</li>
             </ol>
             <p><strong>Collection Management Flow:</strong></p>
             <ol>
@@ -457,18 +464,19 @@
             </ol>
             <p><strong>Pricing Data Flow:</strong></p>
             <ol>
-                <li><strong>Oracle PIM</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Price Lists</strong></li>
+                <li><strong>Oracle PIM</strong> → <strong>SFTP Server</strong> → <strong>AWS Lambda</strong> → <strong>Shopify Price Lists</strong></li>
                 <li><strong>Bulk Pricing</strong> → <strong>Contract Pricing</strong> → <strong>Template Pricing</strong></li>
                 <li><strong>Customer-specific pricing</strong> via Shopify Plus B2B features</li>
             </ol>
             <p><strong>Inventory Data Flow:</strong></p>
             <ol>
-                <li><strong>Oracle PIM</strong> → SFTP → <strong>AWS Lambda</strong> → <strong>Shopify Inventory</strong></li>
+                <li><strong>Oracle PIM</strong> → <strong>SFTP Server</strong> → <strong>AWS Lambda</strong> → <strong>Shopify Inventory</strong></li>
                 <li><strong>Store Locations</strong> → <strong>Inventory Levels</strong> → <strong>Stock Management</strong></li>
             </ol>
             <p><strong>Order Data Flow:</strong></p>
             <ol>
-                <li><strong>Shopify Orders</strong> → <strong>AWS Lambda</strong> → <strong>Oracle PIM</strong></li>
+                <li><strong>Oracle ERP</strong> → <strong>AWS Lambda</strong> (Order ingestion)</li>
+                <li><strong>Shopify Orders</strong> → <strong>AWS Lambda</strong> → <strong>Oracle ERP</strong> (Order export)</li>
                 <li><strong>Fulfillment Updates</strong> → <strong>External Systems</strong></li>
                 <li><strong>Return Processing</strong> → <strong>Loop Returns API</strong></li>
             </ol>
