@@ -603,69 +603,106 @@ The Winzer theme uses a modular section-based approach for content management, a
 </ul>
 <h3 id="content-components-sections">Content Components &amp; Sections</h3>
 <h4 id="core-content-sections">Core Content Sections</h4>
-<p><strong>1. Rich Text Section (<code>rich-text.liquid</code>)</strong><br />
-- <strong>Purpose:</strong> Flexible text content with multiple block types<br />
-- <strong>Block Types:</strong><br />
-  - <code>eyebrow</code>: Small text above headlines<br />
-  - <code>heading</code>: Main headlines with custom sizing (h1-h6, custom headline styles)<br />
-  - <code>text</code>: Body text with multiple style options<br />
-  - <code>button</code>: Call-to-action buttons with various styles<br />
-  - <code>logo_list</code>: Partner/vendor logo displays (up to 5 logos)<br />
-  - <code>padding</code>: Spacing control blocks<br />
-- <strong>Customization:</strong><br />
-  - Background colors and images<br />
-  - Text alignment and sizing<br />
-  - Animation effects (fadeIn, fadeInUp, etc.)<br />
-  - Responsive padding controls<br />
-- <strong>Example Usage:</strong> Winzer Corp About page (company stats section), OneSource homepage (brand messaging)</p>
-<p><strong>2. Image Banner Section (<code>image-banner.liquid</code>)</strong><br />
-- <strong>Purpose:</strong> Hero sections with background images and overlay content<br />
-- <strong>Features:</strong><br />
-  - Desktop and mobile image support<br />
-  - Parallax scrolling effects<br />
-  - Content positioning (9 position options)<br />
-  - Custom background colors and opacity<br />
-  - Border and styling options<br />
-- <strong>Content Blocks:</strong><br />
-  - <code>eyebrow</code>: Small text above main content<br />
-  - <code>heading</code>: Main headline with custom sizing<br />
-  - <code>text</code>: Description text with rich text support<br />
-  - <code>button</code>: Up to 2 call-to-action buttons<br />
-  - <code>image</code>: Additional image elements<br />
-- <strong>Example Usage:</strong> All page templates use this for hero sections (About, Contact, FAQ, Careers, etc.)</p>
-<p><strong>3. Image with Text Section (<code>image-with-text.liquid</code>)</strong><br />
-- <strong>Purpose:</strong> Side-by-side image and text content blocks<br />
-- <strong>Features:</strong><br />
-  - Image and text positioning (left/right)<br />
-  - Video support with thumbnail images<br />
-  - Custom background colors and layouts<br />
-  - Responsive image handling<br />
-- <strong>Content Blocks:</strong><br />
-  - <code>eyebrow</code>: Small text above main content<br />
-  - <code>heading</code>: Main headline with custom sizing<br />
-  - <code>text</code>: Description text with rich text support<br />
-  - <code>button</code>: Up to 2 call-to-action buttons<br />
-- <strong>Example Usage:</strong> Winzer Corp About page (company values sections), OneSource homepage (featured content)</p>
-<p><strong>4. Image with Text Alternate Section (<code>image-with-text-alternate.liquid</code>)</strong><br />
-- <strong>Purpose:</strong> Alternative layout for image and text content<br />
-- <strong>Features:</strong><br />
-  - Different styling options from standard image-with-text<br />
-  - Custom background treatments<br />
-  - Enhanced visual effects<br />
-- <strong>Example Usage:</strong> Special content layouts requiring different styling</p>
+<p><strong>1. Rich Text Section (<code>rich-text.liquid</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Flexible text content with multiple block types</li>
+  <li><strong>Block Types:</strong>
+    <ul>
+      <li><code>eyebrow</code>: Small text above headlines</li>
+      <li><code>heading</code>: Main headlines with custom sizing (h1-h6, custom headline styles)</li>
+      <li><code>text</code>: Body text with multiple style options</li>
+      <li><code>button</code>: Call-to-action buttons with various styles</li>
+      <li><code>logo_list</code>: Partner/vendor logo displays (up to 5 logos)</li>
+      <li><code>padding</code>: Spacing control blocks</li>
+    </ul>
+  </li>
+  <li><strong>Customization:</strong>
+    <ul>
+      <li>Background colors and images</li>
+      <li>Text alignment and sizing</li>
+      <li>Animation effects (fadeIn, fadeInUp, etc.)</li>
+      <li>Responsive padding controls</li>
+    </ul>
+  </li>
+  <li><strong>Example Usage:</strong> Winzer Corp About page (company stats section), OneSource homepage (brand messaging)</li>
+</ul>
+<p><strong>2. Image Banner Section (<code>image-banner.liquid</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Hero sections with background images and overlay content</li>
+  <li><strong>Features:</strong>
+    <ul>
+      <li>Desktop and mobile image support</li>
+      <li>Parallax scrolling effects</li>
+      <li>Content positioning (9 position options)</li>
+      <li>Custom background colors and opacity</li>
+      <li>Border and styling options</li>
+    </ul>
+  </li>
+  <li><strong>Content Blocks:</strong>
+    <ul>
+      <li><code>eyebrow</code>: Small text above main content</li>
+      <li><code>heading</code>: Main headline with custom sizing</li>
+      <li><code>text</code>: Description text with rich text support</li>
+      <li><code>button</code>: Up to 2 call-to-action buttons</li>
+      <li><code>image</code>: Additional image elements</li>
+    </ul>
+  </li>
+  <li><strong>Example Usage:</strong> All page templates use this for hero sections (About, Contact, FAQ, Careers, etc.)</li>
+</ul>
+<p><strong>3. Image with Text Section (<code>image-with-text.liquid</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Side-by-side image and text content blocks</li>
+  <li><strong>Features:</strong>
+    <ul>
+      <li>Image and text positioning (left/right)</li>
+      <li>Video support with thumbnail images</li>
+      <li>Custom background colors and layouts</li>
+      <li>Responsive image handling</li>
+    </ul>
+  </li>
+  <li><strong>Content Blocks:</strong>
+    <ul>
+      <li><code>eyebrow</code>: Small text above main content</li>
+      <li><code>heading</code>: Main headline with custom sizing</li>
+      <li><code>text</code>: Description text with rich text support</li>
+      <li><code>button</code>: Up to 2 call-to-action buttons</li>
+    </ul>
+  </li>
+  <li><strong>Example Usage:</strong> Winzer Corp About page (company values sections), OneSource homepage (featured content)</li>
+</ul>
+<p><strong>4. Image with Text Alternate Section (<code>image-with-text-alternate.liquid</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Alternative layout for image and text content</li>
+  <li><strong>Features:</strong>
+    <ul>
+      <li>Different styling options from standard image-with-text</li>
+      <li>Custom background treatments</li>
+      <li>Enhanced visual effects</li>
+    </ul>
+  </li>
+  <li><strong>Example Usage:</strong> Special content layouts requiring different styling</li>
+</ul>
 <h4 id="grid-and-layout-sections">Grid and Layout Sections</h4>
-<p><strong>5. Featured Links Section (<code>featured-links.liquid</code>)</strong><br />
-- <strong>Purpose:</strong> Grid-based content blocks for promotions and features<br />
-- <strong>Layout Options:</strong><br />
-  - 2-5 column desktop layouts<br />
-  - Image-on-top or image-on-side layouts<br />
-  - Full-width or card-based displays<br />
-- <strong>Content Blocks:</strong><br />
-  - <code>link</code>: Individual featured items with image, heading, description, and button<br />
-  - Custom background colors per block<br />
-  - Hover effects and animations<br />
-  - Accessibility features for image links<br />
-- <strong>Example Usage:</strong> Winzer Corp Resource Center page (catalog downloads), OneSource homepage (featured products)</p>
+<p><strong>5. Featured Links Section (<code>featured-links.liquid</code>)</strong></p>
+<ul>
+  <li><strong>Purpose:</strong> Grid-based content blocks for promotions and features</li>
+  <li><strong>Layout Options:</strong>
+    <ul>
+      <li>2-5 column desktop layouts</li>
+      <li>Image-on-top or image-on-side layouts</li>
+      <li>Full-width or card-based displays</li>
+    </ul>
+  </li>
+  <li><strong>Content Blocks:</strong>
+    <ul>
+      <li><code>link</code>: Individual featured items with image, heading, description, and button</li>
+      <li>Custom background colors per block</li>
+      <li>Hover effects and animations</li>
+      <li>Accessibility features for image links</li>
+    </ul>
+  </li>
+  <li><strong>Example Usage:</strong> Winzer Corp Resource Center page (catalog downloads), OneSource homepage (featured products)</li>
+</ul>
 <p><strong>6. Banner Grid Section (<code>banner-grid.liquid</code>)</strong><br />
 - <strong>Purpose:</strong> Grid layout for multiple banner-style content blocks<br />
 - <strong>Features:</strong><br />
