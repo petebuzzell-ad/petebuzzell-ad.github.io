@@ -64,11 +64,53 @@
             color: #6c757d;
             font-size: 0.9em;
         }
+        
+        .brand-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .logo-text {
+            font-size: 1.4em;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        
+        .winzer-logo {
+            color: #1e3a8a;
+        }
+        
+        .onesource-logo {
+            color: #059669;
+        }
+        
+        .fastserv-logo {
+            color: #dc2626;
+        }
+        
+        @media (max-width: 768px) {
+            .brand-logos {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Winzer eCommerce Documentation</h1>
+        <div class="brand-logos">
+            <div class="logo-text winzer-logo">WINZER</div>
+            <div class="logo-text onesource-logo">ONESOURCE</div>
+            <div class="logo-text fastserv-logo">FASTSERV</div>
+        </div>
+        
+        <h1>eCommerce Platform Documentation</h1>
         
         <ul class="doc-list">
             <li class="doc-item">
