@@ -2024,11 +2024,13 @@ sites/{site}/
   <li><strong>Error Handling:</strong> Link remains visible if API call fails</li>
   <li><strong>Variant Switching:</strong> Exact pricing persists when switching product variants</li>
 </ul>
-<p><strong>Business Logic:</strong><br />
-- Only available to logged-in B2B customers<br />
-- Company-specific pricing based on ERP agreements<br />
-- Rounds displayed prices up to next cent, shows exact pricing on demand<br />
-- Integrates with Oracle ERP for real-time pricing data</p>
+<p><strong>Business Logic:</strong></p>
+<ul>
+  <li>Only available to logged-in B2B customers</li>
+  <li>Company-specific pricing based on ERP agreements</li>
+  <li>Rounds displayed prices up to next cent, shows exact pricing on demand</li>
+  <li>Integrates with Oracle ERP for real-time pricing data</li>
+</ul>
 <h4 id="b2b-catalog-pricing-solution">B2B Catalog Pricing Solution</h4>
 <p><strong>Purpose:</strong> Creative solution to handle products not in a B2B customer's company catalog while still allowing them to see product information and request pricing.</p>
 <p><strong>How It Works:</strong><br />
@@ -2036,16 +2038,20 @@ sites/{site}/
 2. <strong>Price Display Logic:</strong> When a product price is ≥ $1,000,000 or ≤ $0, the system displays "Not available to purchase" instead of the price<br />
 3. <strong>Customer Experience:</strong> B2B customers can browse all products but only see pricing for items in their catalog</p>
 <p><strong>Implementation Details:</strong></p>
-<p><strong>Product Detail Pages (PDP):</strong><br />
-- <strong>Condition:</strong> <code>sofa_variant.price &gt;= 1000000 or sofa_variant.price &lt;= 0</code><br />
-- <strong>Display:</strong> Shows "Not available to purchase" message instead of price<br />
-- <strong>Location:</strong> Replaces the standard price display in the product price block<br />
-- <strong>Exact Pricing:</strong> The "See .0000 Pricing" link is hidden for these products</p>
-<p><strong>SearchSpring Integration (PLP):</strong><br />
-- <strong>Condition:</strong> Same $1 million logic applied in search results<br />
-- <strong>Display:</strong> Shows "Not available to purchase" in search result pricing<br />
-- <strong>Function:</strong> <code>notInYourCatalog(price)</code> checks if price ≥ $1,000,000 or ≤ $0<br />
-- <strong>Add to Cart:</strong> Disabled for products not in catalog</p>
+<p><strong>Product Detail Pages (PDP):</strong></p>
+<ul>
+  <li><strong>Condition:</strong> <code>sofa_variant.price &gt;= 1000000 or sofa_variant.price &lt;= 0</code></li>
+  <li><strong>Display:</strong> Shows "Not available to purchase" message instead of price</li>
+  <li><strong>Location:</strong> Replaces the standard price display in the product price block</li>
+  <li><strong>Exact Pricing:</strong> The "See .0000 Pricing" link is hidden for these products</li>
+</ul>
+<p><strong>SearchSpring Integration (PLP):</strong></p>
+<ul>
+  <li><strong>Condition:</strong> Same $1 million logic applied in search results</li>
+  <li><strong>Display:</strong> Shows "Not available to purchase" in search result pricing</li>
+  <li><strong>Function:</strong> <code>notInYourCatalog(price)</code> checks if price ≥ $1,000,000 or ≤ $0</li>
+  <li><strong>Add to Cart:</strong> Disabled for products not in catalog</li>
+</ul>
 <p><strong>Cart and Checkout:</strong><br />
 - <strong>Add to Cart Button:</strong> Disabled for products with $1 million pricing<br />
 - <strong>Button Text:</strong> Shows "Unavailable" instead of "Add to cart"<br />
