@@ -308,6 +308,203 @@ button:hover, .cta:hover {
     border-bottom: 2px solid var(--digital-gray-1);
 }
 
+/* Additional utility classes for remaining inline styles */
+.doc-item {
+    background: var(--newsprint-white);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    border-left: 4px solid var(--sage-green);
+    transition: all 0.3s ease;
+}
+
+.doc-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.doc-link {
+    color: var(--forest-green);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.doc-link:hover {
+    color: var(--sage-green);
+    text-decoration: underline;
+}
+
+.doc-description {
+    color: var(--digital-gray-2);
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Mermaid diagram styling */
+.mermaid-diagram {
+    background: var(--newsprint-white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    border: 1px solid var(--digital-gray-1);
+}
+
+.mermaid-diagram h4 {
+    color: var(--forest-green);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/* Alert boxes */
+.alert-box {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    border-left: 4px solid;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    border-left-color: var(--highlight-yellow);
+    color: #856404;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    border-left-color: var(--deep-red);
+    color: #721c24;
+}
+
+.alert-success {
+    background: #d4edda;
+    border-left-color: var(--sage-green);
+    color: #155724;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    border-left-color: var(--sage-green);
+    color: #0c5460;
+}
+
+/* System status indicators */
+.system-oracle {
+    fill: #fff5f5;
+    stroke: var(--deep-red);
+    stroke-width: 2px;
+}
+
+.system-middleware {
+    fill: #ff9900;
+    stroke: #ff6600;
+    stroke-width: 2px;
+    color: white;
+}
+
+.system-shopify {
+    fill: #f8fff5;
+    stroke: var(--sage-green);
+    stroke-width: 2px;
+}
+
+.system-external {
+    fill: var(--newsprint-white);
+    stroke: var(--digital-gray-2);
+    stroke-width: 2px;
+}
+
+.system-sftp {
+    fill: #e3f2fd;
+    stroke: #2196f3;
+    stroke-width: 2px;
+}
+
+.system-erp {
+    fill: #f3e5f5;
+    stroke: #9c27b0;
+    stroke-width: 2px;
+}
+
+.system-klaviyo {
+    fill: #fff3e0;
+    stroke: #ff9800;
+    stroke-width: 2px;
+}
+
+/* Table of contents styling */
+.toc-list {
+    list-style: none;
+    padding: 0;
+}
+
+.toc-list li {
+    margin: 0.5rem 0;
+}
+
+.toc-list a {
+    color: var(--forest-green);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.toc-list a:hover {
+    color: var(--sage-green);
+    text-decoration: underline;
+}
+
+/* Code and pre blocks */
+code {
+    background: var(--digital-gray-3);
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--charcoal);
+}
+
+pre {
+    background: var(--charcoal);
+    color: var(--newsprint-white);
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95em;
+}
+
+th, td {
+    border: 1px solid var(--digital-gray-1);
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: var(--newsprint-white);
+    font-weight: 600;
+    color: var(--forest-green);
+}
+
+tr:nth-child(even) {
+    background-color: var(--digital-gray-3);
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
     .brand-logos {
         flex-direction: column;
@@ -321,5 +518,13 @@ button:hover, .cta:hover {
     .download-buttons {
         flex-direction: column;
         align-items: center;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
+    body {
+        padding: 1rem;
     }
 }
