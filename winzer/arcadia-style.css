@@ -171,3 +171,155 @@ button:hover, .cta:hover {
     background-color: var(--sage-green);
     color: var(--charcoal);
 }
+
+/* Download section styling */
+.download-section {
+    background-color: var(--newsprint-white);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+    border-left: 4px solid var(--sage-green);
+}
+
+.download-section h3 {
+    color: var(--forest-green);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.download-section p {
+    color: var(--digital-gray-2);
+    margin-bottom: 15px;
+}
+
+.download-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.download-btn {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: var(--font-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.download-btn-primary {
+    background-color: var(--sage-green);
+    color: var(--charcoal);
+}
+
+.download-btn-secondary {
+    background-color: var(--forest-green);
+}
+
+.download-btn-accent {
+    background-color: var(--deep-red);
+}
+
+.download-btn-success {
+    background-color: var(--sage-green);
+    color: var(--charcoal);
+}
+
+/* Contact section styling */
+.contact-section {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.contact-section p {
+    color: var(--digital-gray-2);
+    margin-bottom: 15px;
+}
+
+.contact-section .contact-link {
+    color: var(--sage-green);
+    text-decoration: none;
+}
+
+.contact-section .contact-link:hover {
+    color: var(--forest-green);
+    text-decoration: underline;
+}
+
+/* Footer styling */
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--digital-gray-1);
+}
+
+.footer p {
+    color: var(--digital-gray-2);
+    font-size: 0.9em;
+}
+
+.footer a {
+    color: var(--sage-green);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: var(--forest-green);
+    text-decoration: underline;
+}
+
+/* Logo styling */
+.logo {
+    height: 80px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
+}
+
+.logo-with-bg {
+    background-color: var(--charcoal);
+    padding: 2px 4px;
+    border-radius: 10px;
+}
+
+/* Brand logos container */
+.brand-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 40px;
+    padding: 20px 0;
+    border-bottom: 2px solid var(--digital-gray-1);
+}
+
+@media (max-width: 768px) {
+    .brand-logos {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .logo {
+        height: 60px;
+    }
+    
+    .download-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
