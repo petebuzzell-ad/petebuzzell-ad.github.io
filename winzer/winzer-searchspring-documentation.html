@@ -354,15 +354,16 @@
 
         <h3>Metafield Mapping</h3>
         
-        <p>Based on the actual SearchSpring codebase, the following field mappings are used:</p>
+        <p>Based on the actual SearchSpring codebase analysis, the following metafields are used for filtering, sorting, and product display:</p>
         
+        <h4>Filter Fields</h4>
         <table>
             <thead>
                 <tr>
                     <th>SearchSpring Field</th>
                     <th>Display Name</th>
                     <th>Image Format</th>
-                    <th>Notes</th>
+                    <th>Usage</th>
                 </tr>
             </thead>
             <tbody>
@@ -370,19 +371,19 @@
                     <td><code>ss_generic_head_type</code></td>
                     <td>Generic Head Type</td>
                     <td>SVG</td>
-                    <td>Uses <code>field__value.svg</code> naming</td>
+                    <td>Palette filter with images</td>
                 </tr>
                 <tr>
                     <td><code>generic_color</code></td>
                     <td>Color</td>
                     <td>PNG</td>
-                    <td>Uses <code>field__value.png</code> naming</td>
+                    <td>Palette filter with color swatches</td>
                 </tr>
                 <tr>
                     <td><code>variant_head_style</code></td>
                     <td>Variant Head Style</td>
                     <td>SVG</td>
-                    <td>Uses <code>field__value.svg</code> naming</td>
+                    <td>Palette filter with images</td>
                 </tr>
                 <tr>
                     <td><code>ss_category_hierarchy</code></td>
@@ -390,8 +391,130 @@
                     <td>N/A</td>
                     <td>Hierarchical filter, no images</td>
                 </tr>
+                <tr>
+                    <td><code>mfield_cql_generic_colors</code></td>
+                    <td>Generic Colors</td>
+                    <td>PNG</td>
+                    <td>Grid display filter</td>
+                </tr>
             </tbody>
         </table>
+
+        <h4>Product Display Metafields</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metafield</th>
+                    <th>Usage</th>
+                    <th>Data Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>mfield_cql_badge_label</code></td>
+                    <td>Product badge display</td>
+                    <td>Single line text</td>
+                </tr>
+                <tr>
+                    <td><code>mfield_cql_product_badges</code></td>
+                    <td>Multiple product badges (JSON array)</td>
+                    <td>JSON</td>
+                </tr>
+                <tr>
+                    <td><code>mfield_cql_swatches_json</code></td>
+                    <td>Color swatch images for variants</td>
+                    <td>JSON</td>
+                </tr>
+                <tr>
+                    <td><code>mfield_cql_vendor_name</code></td>
+                    <td>Vendor/brand name display</td>
+                    <td>Single line text</td>
+                </tr>
+                <tr>
+                    <td><code>mfield_cql_promo_messaging</code></td>
+                    <td>Promotional messaging on products</td>
+                    <td>Single line text</td>
+                </tr>
+                <tr>
+                    <td><code>mfield_cql_attributes_json</code></td>
+                    <td>Structured product attributes for filtering</td>
+                    <td>JSON</td>
+                </tr>
+                <tr>
+                    <td><code>mfield_cql_package_display</code></td>
+                    <td>Package/unit of measure display</td>
+                    <td>Single line text</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Variant-Level Metafields</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metafield</th>
+                    <th>Usage</th>
+                    <th>Data Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>mfield_cql_package_display</code></td>
+                    <td>Unit of measure per variant</td>
+                    <td>Single line text</td>
+                </tr>
+                <tr>
+                    <td><code>mfield_cql_promo_messaging</code></td>
+                    <td>Variant-specific promotional messaging</td>
+                    <td>Single line text</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="filtering-sorting-mechanism">Filtering & Sorting Mechanism</h2>
+
+        <h3>How Filtering Works</h3>
+        
+        <p>Based on the actual codebase implementation, SearchSpring uses a sophisticated filtering system:</p>
+        
+        <h4>Filter Processing Logic</h4>
+        <ol>
+            <li><strong>Direct Field Matching:</strong> First checks if the filter field exists directly on the variant (e.g., <code>v[key]</code>)</li>
+            <li><strong>Attributes JSON Extraction:</strong> If not found, extracts from <code>mfield_cql_attributes_json</code> using the <code>extractFromAttributes</code> function</li>
+            <li><strong>Multi-value Support:</strong> Splits values on "|" to handle multi-value fields</li>
+            <li><strong>Price Range Filtering:</strong> Special handling for <code>ss_price</code> with low/high range matching</li>
+        </ol>
+
+        <h4>Attribute Extraction Process</h4>
+        <div class="code-block">
+            <code>// Converts "ss_generic_color" to "Generic Color" for JSON lookup
+            const formattedKey = key.replace('ss_', '').split('_').map(g => 
+                g.charAt(0).toUpperCase() + g.slice(1)
+            ).join(' ');</code>
+        </div>
+
+        <h3>How Sorting Works</h3>
+        
+        <p>Variant sorting is handled by the <code>sortVariants</code> function:</p>
+        
+        <ul>
+            <li><strong>Numeric Sorting:</strong> Automatically detects numeric values and sorts numerically</li>
+            <li><strong>Alphabetic Sorting:</strong> Sorts alphabetically for text values</li>
+            <li><strong>Direction Control:</strong> Supports both ascending and descending order</li>
+            <li><strong>Case Insensitive:</strong> Converts to lowercase for consistent sorting</li>
+        </ul>
+
+        <h3>Product Display Integration</h3>
+        
+        <p>Metafields are used throughout the product display system:</p>
+        
+        <ul>
+            <li><strong>Badge Display:</strong> <code>mfield_cql_product_badges</code> for product badges</li>
+            <li><strong>Vendor Names:</strong> <code>mfield_cql_vendor_name</code> for brand display</li>
+            <li><strong>Swatch Images:</strong> <code>mfield_cql_swatches_json</code> for color variant images</li>
+            <li><strong>Promotional Messaging:</strong> <code>mfield_cql_promo_messaging</code> for special offers</li>
+            <li><strong>Package Information:</strong> <code>mfield_cql_package_display</code> for unit of measure</li>
+        </ul>
 
         <h2 id="filter-management">Filter Management</h2>
 

@@ -61,12 +61,12 @@ The Generic Head Type filter allows customers to filter products by the type of 
 
 ### Configuration Details
 
-| Setting          | Value                 | Description                            |
-| ---------------- | --------------------- | -------------------------------------- |
-| **Filter Field** | `ss_generic_head_type` | SearchSpring field name for the filter |
-| **Data Source**  | Product metafield     | Pulls from custom metafield in Shopify |
-| **Display Type** | Palette Options       | Shows images in a palette/grid layout  |
-| **Image Source** | Shopify Files CDN     | Images stored in Shopify Files and served via CDN |
+| Setting          | Value                  | Description                                       |
+| ---------------- | ---------------------- | ------------------------------------------------- |
+| **Filter Field** | `ss_generic_head_type` | SearchSpring field name for the filter            |
+| **Data Source**  | Product metafield      | Pulls from custom metafield in Shopify            |
+| **Display Type** | Palette Options        | Shows images in a palette/grid layout             |
+| **Image Source** | Shopify Files CDN      | Images stored in Shopify Files and served via CDN |
 
 ### Image Naming Convention
 
@@ -94,10 +94,10 @@ Where:
 
 ### Example Head Types
 
-| Filter Value | Processed Label | Image Filename                          | Full URL Example                                    |
-| ------------ | --------------- | --------------------------------------- | --------------------------------------------------- |
-| Flat Head    | flat-head       | `ss_generic_head_type__flat-head.svg`   | `store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg` |
-| Pan Head     | pan-head        | `ss_generic_head_type__pan-head.svg`    | `store.winzer.com/cdn/shop/files/ss_generic_head_type__pan-head.svg` |
+| Filter Value | Processed Label | Image Filename                          | Full URL Example                                                        |
+| ------------ | --------------- | --------------------------------------- | ----------------------------------------------------------------------- |
+| Flat Head    | flat-head       | `ss_generic_head_type__flat-head.svg`   | `store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg`   |
+| Pan Head     | pan-head        | `ss_generic_head_type__pan-head.svg`    | `store.winzer.com/cdn/shop/files/ss_generic_head_type__pan-head.svg`    |
 | Socket Head  | socket-head     | `ss_generic_head_type__socket-head.svg` | `store.winzer.com/cdn/shop/files/ss_generic_head_type__socket-head.svg` |
 
 > **Important:** The image filename must exactly match the filter value in the product data. Case sensitivity matters - use lowercase with hyphens. Images are hosted on Shopify's CDN at `store.winzer.com/cdn/shop/files/`.
@@ -173,13 +173,77 @@ SearchSpring integrates with Shopify through several data sources and synchroniz
 
 ### Metafield Mapping
 
-| SearchSpring Filter | Shopify Metafield  | Data Type        |
-| ------------------- | ------------------ | ---------------- |
-| Generic Head Type   | `custom.head_type` | Single line text |
-| Color               | `custom.color`     | Single line text |
-| Material            | `custom.material`  | Single line text |
-| Size                | `custom.size`      | Single line text |
-| Brand               | `custom.brand`     | Single line text |
+Based on the actual SearchSpring codebase analysis, the following metafields are used for filtering, sorting, and product display:
+
+#### Filter Fields
+
+| SearchSpring Field        | Display Name        | Image Format | Usage                    |
+| ------------------------- | ------------------- | ------------ | ------------------------ |
+| `ss_generic_head_type`    | Generic Head Type   | SVG          | Palette filter with images |
+| `generic_color`           | Color               | PNG          | Palette filter with color swatches |
+| `variant_head_style`      | Variant Head Style  | SVG          | Palette filter with images |
+| `ss_category_hierarchy`   | Category Hierarchy  | N/A          | Hierarchical filter, no images |
+| `mfield_cql_generic_colors` | Generic Colors    | PNG          | Grid display filter      |
+
+#### Product Display Metafields
+
+| Metafield                        | Usage                                    | Data Type        |
+| -------------------------------- | ---------------------------------------- | ---------------- |
+| `mfield_cql_badge_label`         | Product badge display                    | Single line text |
+| `mfield_cql_product_badges`      | Multiple product badges (JSON array)     | JSON             |
+| `mfield_cql_swatches_json`       | Color swatch images for variants         | JSON             |
+| `mfield_cql_vendor_name`         | Vendor/brand name display                | Single line text |
+| `mfield_cql_promo_messaging`     | Promotional messaging on products        | Single line text |
+| `mfield_cql_attributes_json`     | Structured product attributes for filtering | JSON         |
+| `mfield_cql_package_display`     | Package/unit of measure display          | Single line text |
+
+#### Variant-Level Metafields
+
+| Metafield                    | Usage                              | Data Type        |
+| ---------------------------- | ---------------------------------- | ---------------- |
+| `mfield_cql_package_display` | Unit of measure per variant        | Single line text |
+| `mfield_cql_promo_messaging` | Variant-specific promotional messaging | Single line text |
+
+## Filtering & Sorting Mechanism
+
+### How Filtering Works
+
+Based on the actual codebase implementation, SearchSpring uses a sophisticated filtering system:
+
+#### Filter Processing Logic
+
+1. **Direct Field Matching:** First checks if the filter field exists directly on the variant (e.g., `v[key]`)
+2. **Attributes JSON Extraction:** If not found, extracts from `mfield_cql_attributes_json` using the `extractFromAttributes` function
+3. **Multi-value Support:** Splits values on "|" to handle multi-value fields
+4. **Price Range Filtering:** Special handling for `ss_price` with low/high range matching
+
+#### Attribute Extraction Process
+
+```javascript
+// Converts "ss_generic_color" to "Generic Color" for JSON lookup
+const formattedKey = key.replace('ss_', '').split('_').map(g => 
+    g.charAt(0).toUpperCase() + g.slice(1)
+).join(' ');
+```
+
+### How Sorting Works
+
+Variant sorting is handled by the `sortVariants` function:
+
+- **Numeric Sorting:** Automatically detects numeric values and sorts numerically
+- **Alphabetic Sorting:** Sorts alphabetically for text values
+- **Direction Control:** Supports both ascending and descending order
+- **Case Insensitive:** Converts to lowercase for consistent sorting
+
+### Product Display Integration
+
+Metafields are used throughout the product display system:
+
+- **Badge Display:** `mfield_cql_product_badges` for product badges
+- **Vendor Names:** `mfield_cql_vendor_name` for brand display
+- **Swatch Images:** `mfield_cql_swatches_json` for color variant images
+- **Promotional Messaging:** `mfield_cql_promo_messaging` for special offers
+- **Package Information:** `mfield_cql_package_display` for unit of measure
 
 ## Filter Management
 
