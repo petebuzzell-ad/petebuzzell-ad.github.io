@@ -36,12 +36,12 @@ SearchSpring is the search and filtering solution integrated with all three Winz
 
 ### Standard Filter Types
 
-| Filter Type | Data Source | Display Format | Use Case |
-|-------------|-------------|----------------|----------|
-| **Text Filters** | Product attributes, tags | Checkbox list | Brand, category, features |
-| **Range Filters** | Numeric metafields | Slider or input fields | Price, dimensions, specifications |
-| **Image Filters** | Custom metafields + images | Visual icons with labels | Colors, head types, materials |
-| **Hierarchical Filters** | Category structure | Nested tree structure | Product categories, subcategories |
+| Filter Type              | Data Source                | Display Format           | Use Case                          |
+| ------------------------ | -------------------------- | ------------------------ | --------------------------------- |
+| **Text Filters**         | Product attributes, tags   | Checkbox list            | Brand, category, features         |
+| **Range Filters**        | Numeric metafields         | Slider or input fields   | Price, dimensions, specifications |
+| **Image Filters**        | Custom metafields + images | Visual icons with labels | Colors, head types, materials     |
+| **Hierarchical Filters** | Category structure         | Nested tree structure    | Product categories, subcategories |
 
 ## Image-Based Filters
 
@@ -49,10 +49,10 @@ Image-based filters provide a more intuitive shopping experience by allowing cus
 
 ### Image Filter Requirements
 
-- **File Format:** PNG or SVG (preferred for scalability)
+- **File Format:** SVG (preferred for scalability) or PNG
 - **Dimensions:** 32x32px minimum, 64x64px recommended
-- **Naming Convention:** Must match filter values exactly
-- **Storage Location:** Shopify Files or CDN
+- **Naming Convention:** Must match filter values exactly with specific prefixes
+- **Storage Location:** Shopify Files (CDN hosted)
 - **Optimization:** Compressed for web performance
 
 ## Generic Head Type Filter
@@ -61,33 +61,35 @@ The Generic Head Type filter allows customers to filter products by the type of 
 
 ### Configuration Details
 
-| Setting | Value | Description |
-|---------|-------|-------------|
-| **Filter Name** | Generic Head Type | Display name in the filter panel |
-| **Data Source** | Product metafield | Pulls from custom metafield in Shopify |
-| **Display Type** | Image Grid | Shows images in a grid layout |
-| **Image Source** | Shopify Files | Images stored in Shopify Files section |
+| Setting          | Value             | Description                            |
+| ---------------- | ----------------- | -------------------------------------- |
+| **Filter Name**  | Generic Head Type | Display name in the filter panel       |
+| **Data Source**  | Product metafield | Pulls from custom metafield in Shopify |
+| **Display Type** | Image Grid        | Shows images in a grid layout          |
+| **Image Source** | Shopify Files     | Images stored in Shopify Files section |
 
 ### Image Naming Convention
 
 Images for the Generic Head Type filter must follow this exact naming pattern:
 
 ```
-head-type-[VALUE].png
+ss_generic_head_type__[VALUE].svg
 ```
 
 ### Supported Head Types
 
-| Head Type | Image Filename | Description |
-|-----------|----------------|-------------|
-| Flat Head | `head-type-flat.png` | Flat head screws and bolts |
-| Pan Head | `head-type-pan.png` | Pan head fasteners |
-| Round Head | `head-type-round.png` | Round head screws |
-| Socket Head | `head-type-socket.png` | Socket head cap screws |
-| Button Head | `head-type-button.png` | Button head screws |
-| Hex Head | `head-type-hex.png` | Hex head bolts and screws |
+| Head Type   | Image Filename                              | Description                |
+| ----------- | ------------------------------------------- | -------------------------- |
+| Flat Head   | `ss_generic_head_type__flat-head.svg`       | Flat head screws and bolts |
+| Pan Head    | `ss_generic_head_type__pan-head.svg`        | Pan head fasteners         |
+| Round Head  | `ss_generic_head_type__round-head.svg`      | Round head screws          |
+| Socket Head | `ss_generic_head_type__socket-head.svg`     | Socket head cap screws     |
+| Button Head | `ss_generic_head_type__button-head.svg`     | Button head screws         |
+| Hex Head    | `ss_generic_head_type__hex-head.svg`        | Hex head bolts and screws  |
 
-> **Important:** The image filename must exactly match the filter value in the product data. Case sensitivity matters - use lowercase with hyphens.
+> **Important:** The image filename must exactly match the filter value in the product data. Case sensitivity matters - use lowercase with hyphens. Images are hosted on Shopify's CDN at `store.winzer.com/cdn/shop/files/`.
+
+> **Example:** The flat head image is accessible at: https://store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg
 
 ## Generic Color Filter
 
@@ -95,12 +97,12 @@ The Generic Color filter allows customers to filter products by color using visu
 
 ### Configuration Details
 
-| Setting | Value | Description |
-|---------|-------|-------------|
-| **Filter Name** | Color | Display name in the filter panel |
-| **Data Source** | Product options | Pulls from Shopify product color options |
-| **Display Type** | Color Swatches | Shows color circles/swatches |
-| **Image Source** | Shopify Files | Color swatch images stored in Shopify Files |
+| Setting          | Value           | Description                                 |
+| ---------------- | --------------- | ------------------------------------------- |
+| **Filter Name**  | Color           | Display name in the filter panel            |
+| **Data Source**  | Product options | Pulls from Shopify product color options    |
+| **Display Type** | Color Swatches  | Shows color circles/swatches                |
+| **Image Source** | Shopify Files   | Color swatch images stored in Shopify Files |
 
 ### Color Image Naming Convention
 
@@ -112,16 +114,16 @@ color-[COLOR-NAME].png
 
 ### Supported Colors
 
-| Color Name | Image Filename | Hex Code |
-|------------|----------------|----------|
-| Black | `color-black.png` | #000000 |
-| White | `color-white.png` | #FFFFFF |
-| Red | `color-red.png` | #FF0000 |
-| Blue | `color-blue.png` | #0000FF |
-| Green | `color-green.png` | #00FF00 |
-| Yellow | `color-yellow.png` | #FFFF00 |
-| Silver | `color-silver.png` | #C0C0C0 |
-| Gold | `color-gold.png` | #FFD700 |
+| Color Name | Image Filename     | Hex Code |
+| ---------- | ------------------ | -------- |
+| Black      | `color-black.png`  | #000000  |
+| White      | `color-white.png`  | #FFFFFF  |
+| Red        | `color-red.png`    | #FF0000  |
+| Blue       | `color-blue.png`   | #0000FF  |
+| Green      | `color-green.png`  | #00FF00  |
+| Yellow     | `color-yellow.png` | #FFFF00  |
+| Silver     | `color-silver.png` | #C0C0C0  |
+| Gold       | `color-gold.png`   | #FFD700  |
 
 ## Filter Visibility Rules
 
@@ -158,13 +160,13 @@ SearchSpring integrates with Shopify through several data sources and synchroniz
 
 ### Metafield Mapping
 
-| SearchSpring Filter | Shopify Metafield | Data Type |
-|---------------------|-------------------|-----------|
-| Generic Head Type | `custom.head_type` | Single line text |
-| Color | `custom.color` | Single line text |
-| Material | `custom.material` | Single line text |
-| Size | `custom.size` | Single line text |
-| Brand | `custom.brand` | Single line text |
+| SearchSpring Filter | Shopify Metafield  | Data Type        |
+| ------------------- | ------------------ | ---------------- |
+| Generic Head Type   | `custom.head_type` | Single line text |
+| Color               | `custom.color`     | Single line text |
+| Material            | `custom.material`  | Single line text |
+| Size                | `custom.size`      | Single line text |
+| Brand               | `custom.brand`     | Single line text |
 
 ## Filter Management
 

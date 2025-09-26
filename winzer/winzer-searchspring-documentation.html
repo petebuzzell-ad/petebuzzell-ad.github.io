@@ -99,10 +99,10 @@
         <h3>Image Filter Requirements</h3>
         
         <ul>
-            <li><strong>File Format:</strong> PNG or SVG (preferred for scalability)</li>
+            <li><strong>File Format:</strong> SVG (preferred for scalability) or PNG</li>
             <li><strong>Dimensions:</strong> 32x32px minimum, 64x64px recommended</li>
-            <li><strong>Naming Convention:</strong> Must match filter values exactly</li>
-            <li><strong>Storage Location:</strong> Shopify Files or CDN</li>
+            <li><strong>Naming Convention:</strong> Must match filter values exactly with specific prefixes</li>
+            <li><strong>Storage Location:</strong> Shopify Files (CDN hosted)</li>
             <li><strong>Optimization:</strong> Compressed for web performance</li>
         </ul>
 
@@ -149,7 +149,7 @@
         <p>Images for the Generic Head Type filter must follow this exact naming pattern:</p>
         
         <div class="code-block">
-            <code>head-type-[VALUE].png</code>
+            <code>ss_generic_head_type__[VALUE].svg</code>
         </div>
 
         <h4>Supported Head Types</h4>
@@ -165,39 +165,43 @@
             <tbody>
                 <tr>
                     <td>Flat Head</td>
-                    <td><code>head-type-flat.png</code></td>
+                    <td><code>ss_generic_head_type__flat-head.svg</code></td>
                     <td>Flat head screws and bolts</td>
                 </tr>
                 <tr>
                     <td>Pan Head</td>
-                    <td><code>head-type-pan.png</code></td>
+                    <td><code>ss_generic_head_type__pan-head.svg</code></td>
                     <td>Pan head fasteners</td>
                 </tr>
                 <tr>
                     <td>Round Head</td>
-                    <td><code>head-type-round.png</code></td>
+                    <td><code>ss_generic_head_type__round-head.svg</code></td>
                     <td>Round head screws</td>
                 </tr>
                 <tr>
                     <td>Socket Head</td>
-                    <td><code>head-type-socket.png</code></td>
+                    <td><code>ss_generic_head_type__socket-head.svg</code></td>
                     <td>Socket head cap screws</td>
                 </tr>
                 <tr>
                     <td>Button Head</td>
-                    <td><code>head-type-button.png</code></td>
+                    <td><code>ss_generic_head_type__button-head.svg</code></td>
                     <td>Button head screws</td>
                 </tr>
                 <tr>
                     <td>Hex Head</td>
-                    <td><code>head-type-hex.png</code></td>
+                    <td><code>ss_generic_head_type__hex-head.svg</code></td>
                     <td>Hex head bolts and screws</td>
                 </tr>
             </tbody>
         </table>
 
         <div class="alert-box alert-warning">
-            <strong>Important:</strong> The image filename must exactly match the filter value in the product data. Case sensitivity matters - use lowercase with hyphens.
+            <strong>Important:</strong> The image filename must exactly match the filter value in the product data. Case sensitivity matters - use lowercase with hyphens. Images are hosted on Shopify's CDN at <code>store.winzer.com/cdn/shop/files/</code>.
+        </div>
+        
+        <div class="alert-box alert-info">
+            <strong>Example:</strong> The flat head image is accessible at: <a href="https://store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg" target="_blank">https://store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg</a>
         </div>
 
         <h2 id="generic-color-filter">Generic Color Filter</h2>
