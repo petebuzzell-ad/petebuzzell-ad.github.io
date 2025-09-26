@@ -7,16 +7,17 @@
 
 ## Table of Contents
 
-- [SearchSpring Overview](#searchspring-overview)
-- [Filter Types & Configuration](#filter-types--configuration)
-- [Image-Based Filters](#image-based-filters)
-- [Generic Head Type Filter](#generic-head-type-filter)
-- [Generic Color Filter](#generic-color-filter)
-- [Filter Visibility Rules](#filter-visibility-rules)
-- [Shopify Integration](#shopify-integration)
-- [Filter Management](#filter-management)
-- [Troubleshooting](#troubleshooting)
-- [Best Practices](#best-practices)
+1. [SearchSpring Overview](#searchspring-overview)
+2. [Filter Types & Configuration](#filter-types--configuration)
+3. [Image-Based Filters](#image-based-filters)
+4. [Generic Head Type Filter](#generic-head-type-filter)
+5. [Generic Color Filter](#generic-color-filter)
+6. [Filter Visibility Rules](#filter-visibility-rules)
+7. [Shopify Integration](#shopify-integration)
+8. [Filtering & Sorting Mechanism](#filtering--sorting-mechanism)
+9. [Filter Management](#filter-management)
+10. [Troubleshooting](#troubleshooting)
+11. [Best Practices](#best-practices)
 
 ---
 
@@ -177,31 +178,31 @@ Based on the actual SearchSpring codebase analysis, the following metafields are
 
 #### Filter Fields
 
-| SearchSpring Field        | Display Name        | Image Format | Usage                    |
-| ------------------------- | ------------------- | ------------ | ------------------------ |
-| `ss_generic_head_type`    | Generic Head Type   | SVG          | Palette filter with images |
-| `generic_color`           | Color               | PNG          | Palette filter with color swatches |
-| `variant_head_style`      | Variant Head Style  | SVG          | Palette filter with images |
-| `ss_category_hierarchy`   | Category Hierarchy  | N/A          | Hierarchical filter, no images |
-| `mfield_cql_generic_colors` | Generic Colors    | PNG          | Grid display filter      |
+| SearchSpring Field          | Display Name       | Image Format | Usage                              |
+| --------------------------- | ------------------ | ------------ | ---------------------------------- |
+| `ss_generic_head_type`      | Generic Head Type  | SVG          | Palette filter with images         |
+| `generic_color`             | Color              | PNG          | Palette filter with color swatches |
+| `variant_head_style`        | Variant Head Style | SVG          | Palette filter with images         |
+| `ss_category_hierarchy`     | Category Hierarchy | N/A          | Hierarchical filter, no images     |
+| `mfield_cql_generic_colors` | Generic Colors     | PNG          | Grid display filter                |
 
 #### Product Display Metafields
 
-| Metafield                        | Usage                                    | Data Type        |
-| -------------------------------- | ---------------------------------------- | ---------------- |
-| `mfield_cql_badge_label`         | Product badge display                    | Single line text |
-| `mfield_cql_product_badges`      | Multiple product badges (JSON array)     | JSON             |
-| `mfield_cql_swatches_json`       | Color swatch images for variants         | JSON             |
-| `mfield_cql_vendor_name`         | Vendor/brand name display                | Single line text |
-| `mfield_cql_promo_messaging`     | Promotional messaging on products        | Single line text |
-| `mfield_cql_attributes_json`     | Structured product attributes for filtering | JSON         |
-| `mfield_cql_package_display`     | Package/unit of measure display          | Single line text |
+| Metafield                    | Usage                                       | Data Type        |
+| ---------------------------- | ------------------------------------------- | ---------------- |
+| `mfield_cql_badge_label`     | Product badge display                       | Single line text |
+| `mfield_cql_product_badges`  | Multiple product badges (JSON array)        | JSON             |
+| `mfield_cql_swatches_json`   | Color swatch images for variants            | JSON             |
+| `mfield_cql_vendor_name`     | Vendor/brand name display                   | Single line text |
+| `mfield_cql_promo_messaging` | Promotional messaging on products           | Single line text |
+| `mfield_cql_attributes_json` | Structured product attributes for filtering | JSON             |
+| `mfield_cql_package_display` | Package/unit of measure display             | Single line text |
 
 #### Variant-Level Metafields
 
-| Metafield                    | Usage                              | Data Type        |
-| ---------------------------- | ---------------------------------- | ---------------- |
-| `mfield_cql_package_display` | Unit of measure per variant        | Single line text |
+| Metafield                    | Usage                                  | Data Type        |
+| ---------------------------- | -------------------------------------- | ---------------- |
+| `mfield_cql_package_display` | Unit of measure per variant            | Single line text |
 | `mfield_cql_promo_messaging` | Variant-specific promotional messaging | Single line text |
 
 ## Filtering & Sorting Mechanism
