@@ -31,7 +31,7 @@ SearchSpring is the search and filtering solution integrated with all three Winz
 - **Analytics:** Search and filter performance tracking
 - **Mobile Optimization:** Responsive filtering interface
 
-> **Note:** SearchSpring pulls filter data directly from Shopify's product attributes and metafields, ensuring real-time synchronization with product data.
+> **Note:** SearchSpring pulls filter data from Shopify's product attributes and metafields, then rebuilds its search index. Reindexing happens automatically on a daily basis, with the ability to manually request a reindex when needed.
 
 ## Filter Types & Configuration
 
@@ -166,11 +166,12 @@ SearchSpring integrates with Shopify through several data sources and synchroniz
 
 ### Data Synchronization
 
-- **Product Data:** Real-time sync of product information
-- **Inventory Levels:** Live inventory status updates
-- **Pricing:** Automatic price synchronization
-- **Categories:** Collection and category structure sync
-- **Attributes:** Product attributes and metafields sync
+- **Product Data:** Daily reindexing of product information
+- **Inventory Levels:** Updated during daily reindex cycle
+- **Pricing:** Automatic price updates during reindex
+- **Categories:** Collection and category structure updates
+- **Attributes:** Product attributes and metafields refreshed daily
+- **Manual Reindex:** Available for immediate updates when needed
 
 ### Metafield Mapping
 

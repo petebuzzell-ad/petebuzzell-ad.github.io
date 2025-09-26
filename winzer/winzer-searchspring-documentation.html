@@ -48,7 +48,7 @@
         </ul>
 
         <div class="alert-box alert-info">
-            <strong>Note:</strong> SearchSpring pulls filter data directly from Shopify's product attributes and metafields, ensuring real-time synchronization with product data.
+            <strong>Note:</strong> SearchSpring pulls filter data from Shopify's product attributes and metafields, then rebuilds its search index. Reindexing happens automatically on a daily basis, with the ability to manually request a reindex when needed.
         </div>
 
         <h2 id="filter-types">Filter Types & Configuration</h2>
@@ -345,11 +345,12 @@
         <h3>Data Synchronization</h3>
         
         <ul>
-            <li><strong>Product Data:</strong> Real-time sync of product information</li>
-            <li><strong>Inventory Levels:</strong> Live inventory status updates</li>
-            <li><strong>Pricing:</strong> Automatic price synchronization</li>
-            <li><strong>Categories:</strong> Collection and category structure sync</li>
-            <li><strong>Attributes:</strong> Product attributes and metafields sync</li>
+            <li><strong>Product Data:</strong> Daily reindexing of product information</li>
+            <li><strong>Inventory Levels:</strong> Updated during daily reindex cycle</li>
+            <li><strong>Pricing:</strong> Automatic price updates during reindex</li>
+            <li><strong>Categories:</strong> Collection and category structure updates</li>
+            <li><strong>Attributes:</strong> Product attributes and metafields refreshed daily</li>
+            <li><strong>Manual Reindex:</strong> Available for immediate updates when needed</li>
         </ul>
 
         <h3>Metafield Mapping</h3>
