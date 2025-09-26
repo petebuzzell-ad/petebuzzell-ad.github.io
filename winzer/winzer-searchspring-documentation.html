@@ -122,9 +122,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Filter Name</strong></td>
-                    <td>Generic Head Type</td>
-                    <td>Display name in the filter panel</td>
+                    <td><strong>Filter Field</strong></td>
+                    <td><code>ss_generic_head_type</code></td>
+                    <td>SearchSpring field name for the filter</td>
                 </tr>
                 <tr>
                     <td><strong>Data Source</strong></td>
@@ -133,13 +133,13 @@
                 </tr>
                 <tr>
                     <td><strong>Display Type</strong></td>
-                    <td>Image Grid</td>
-                    <td>Shows images in a grid layout</td>
+                    <td>Palette Options</td>
+                    <td>Shows images in a palette/grid layout</td>
                 </tr>
                 <tr>
                     <td><strong>Image Source</strong></td>
-                    <td>Shopify Files</td>
-                    <td>Images stored in Shopify Files section</td>
+                    <td>Shopify Files CDN</td>
+                    <td>Images stored in Shopify Files and served via CDN</td>
                 </tr>
             </tbody>
         </table>
@@ -149,49 +149,56 @@
         <p>Images for the Generic Head Type filter must follow this exact naming pattern:</p>
         
         <div class="code-block">
-            <code>ss_generic_head_type__[VALUE].svg</code>
+            <code>[FIELD]__[VALUE].svg</code>
         </div>
+        
+        <p>Where <code>[FIELD]</code> is <code>ss_generic_head_type</code> and <code>[VALUE]</code> is the lowercase, hyphenated filter value.</p>
 
-        <h4>Supported Head Types</h4>
+        <h4>Image URL Construction</h4>
+        
+        <p>Based on the actual codebase implementation, images are constructed as follows:</p>
+        
+        <div class="code-block">
+            <code>shopifyFileURL + "/" + field + "__" + filterLabel + extension</code>
+        </div>
+        
+        <p>Where:</p>
+        <ul>
+            <li><code>shopifyFileURL</code> = Base CDN URL from Shopify Files</li>
+            <li><code>field</code> = <code>ss_generic_head_type</code></li>
+            <li><code>filterLabel</code> = Lowercase, hyphenated version of the filter value</li>
+            <li><code>extension</code> = <code>.svg</code> for head type filters</li>
+        </ul>
+
+        <h4>Example Head Types</h4>
         
         <table>
             <thead>
                 <tr>
-                    <th>Head Type</th>
+                    <th>Filter Value</th>
+                    <th>Processed Label</th>
                     <th>Image Filename</th>
-                    <th>Description</th>
+                    <th>Full URL Example</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Flat Head</td>
+                    <td>flat-head</td>
                     <td><code>ss_generic_head_type__flat-head.svg</code></td>
-                    <td>Flat head screws and bolts</td>
+                    <td><code>store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg</code></td>
                 </tr>
                 <tr>
                     <td>Pan Head</td>
+                    <td>pan-head</td>
                     <td><code>ss_generic_head_type__pan-head.svg</code></td>
-                    <td>Pan head fasteners</td>
-                </tr>
-                <tr>
-                    <td>Round Head</td>
-                    <td><code>ss_generic_head_type__round-head.svg</code></td>
-                    <td>Round head screws</td>
+                    <td><code>store.winzer.com/cdn/shop/files/ss_generic_head_type__pan-head.svg</code></td>
                 </tr>
                 <tr>
                     <td>Socket Head</td>
+                    <td>socket-head</td>
                     <td><code>ss_generic_head_type__socket-head.svg</code></td>
-                    <td>Socket head cap screws</td>
-                </tr>
-                <tr>
-                    <td>Button Head</td>
-                    <td><code>ss_generic_head_type__button-head.svg</code></td>
-                    <td>Button head screws</td>
-                </tr>
-                <tr>
-                    <td>Hex Head</td>
-                    <td><code>ss_generic_head_type__hex-head.svg</code></td>
-                    <td>Hex head bolts and screws</td>
+                    <td><code>store.winzer.com/cdn/shop/files/ss_generic_head_type__socket-head.svg</code></td>
                 </tr>
             </tbody>
         </table>
@@ -220,24 +227,24 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Filter Name</strong></td>
-                    <td>Color</td>
-                    <td>Display name in the filter panel</td>
+                    <td><strong>Filter Field</strong></td>
+                    <td><code>generic_color</code></td>
+                    <td>SearchSpring field name for the filter</td>
                 </tr>
                 <tr>
                     <td><strong>Data Source</strong></td>
-                    <td>Product options</td>
-                    <td>Pulls from Shopify product color options</td>
+                    <td>Product metafield</td>
+                    <td>Pulls from custom metafield in Shopify</td>
                 </tr>
                 <tr>
                     <td><strong>Display Type</strong></td>
-                    <td>Color Swatches</td>
-                    <td>Shows color circles/swatches</td>
+                    <td>Palette Options</td>
+                    <td>Shows color swatches in a palette layout</td>
                 </tr>
                 <tr>
                     <td><strong>Image Source</strong></td>
-                    <td>Shopify Files</td>
-                    <td>Color swatch images stored in Shopify Files</td>
+                    <td>Shopify Files CDN</td>
+                    <td>Color swatch images stored in Shopify Files and served via CDN</td>
                 </tr>
             </tbody>
         </table>
@@ -247,8 +254,10 @@
         <p>Color swatch images must follow this exact naming pattern:</p>
         
         <div class="code-block">
-            <code>color-[COLOR-NAME].png</code>
+            <code>[FIELD]__[COLOR-NAME].png</code>
         </div>
+        
+        <p>Where <code>[FIELD]</code> is <code>generic_color</code> and <code>[COLOR-NAME]</code> is the lowercase, hyphenated color name.</p>
 
         <h4>Supported Colors</h4>
         
@@ -345,39 +354,41 @@
 
         <h3>Metafield Mapping</h3>
         
+        <p>Based on the actual SearchSpring codebase, the following field mappings are used:</p>
+        
         <table>
             <thead>
                 <tr>
-                    <th>SearchSpring Filter</th>
-                    <th>Shopify Metafield</th>
-                    <th>Data Type</th>
+                    <th>SearchSpring Field</th>
+                    <th>Display Name</th>
+                    <th>Image Format</th>
+                    <th>Notes</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td><code>ss_generic_head_type</code></td>
                     <td>Generic Head Type</td>
-                    <td><code>custom.head_type</code></td>
-                    <td>Single line text</td>
+                    <td>SVG</td>
+                    <td>Uses <code>field__value.svg</code> naming</td>
                 </tr>
                 <tr>
+                    <td><code>generic_color</code></td>
                     <td>Color</td>
-                    <td><code>custom.color</code></td>
-                    <td>Single line text</td>
+                    <td>PNG</td>
+                    <td>Uses <code>field__value.png</code> naming</td>
                 </tr>
                 <tr>
-                    <td>Material</td>
-                    <td><code>custom.material</code></td>
-                    <td>Single line text</td>
+                    <td><code>variant_head_style</code></td>
+                    <td>Variant Head Style</td>
+                    <td>SVG</td>
+                    <td>Uses <code>field__value.svg</code> naming</td>
                 </tr>
                 <tr>
-                    <td>Size</td>
-                    <td><code>custom.size</code></td>
-                    <td>Single line text</td>
-                </tr>
-                <tr>
-                    <td>Brand</td>
-                    <td><code>custom.brand</code></td>
-                    <td>Single line text</td>
+                    <td><code>ss_category_hierarchy</code></td>
+                    <td>Category Hierarchy</td>
+                    <td>N/A</td>
+                    <td>Hierarchical filter, no images</td>
                 </tr>
             </tbody>
         </table>

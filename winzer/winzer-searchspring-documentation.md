@@ -61,31 +61,44 @@ The Generic Head Type filter allows customers to filter products by the type of 
 
 ### Configuration Details
 
-| Setting          | Value             | Description                            |
-| ---------------- | ----------------- | -------------------------------------- |
-| **Filter Name**  | Generic Head Type | Display name in the filter panel       |
-| **Data Source**  | Product metafield | Pulls from custom metafield in Shopify |
-| **Display Type** | Image Grid        | Shows images in a grid layout          |
-| **Image Source** | Shopify Files     | Images stored in Shopify Files section |
+| Setting          | Value                 | Description                            |
+| ---------------- | --------------------- | -------------------------------------- |
+| **Filter Field** | `ss_generic_head_type` | SearchSpring field name for the filter |
+| **Data Source**  | Product metafield     | Pulls from custom metafield in Shopify |
+| **Display Type** | Palette Options       | Shows images in a palette/grid layout  |
+| **Image Source** | Shopify Files CDN     | Images stored in Shopify Files and served via CDN |
 
 ### Image Naming Convention
 
 Images for the Generic Head Type filter must follow this exact naming pattern:
 
 ```
-ss_generic_head_type__[VALUE].svg
+[FIELD]__[VALUE].svg
 ```
 
-### Supported Head Types
+Where `[FIELD]` is `ss_generic_head_type` and `[VALUE]` is the lowercase, hyphenated filter value.
 
-| Head Type   | Image Filename                              | Description                |
-| ----------- | ------------------------------------------- | -------------------------- |
-| Flat Head   | `ss_generic_head_type__flat-head.svg`       | Flat head screws and bolts |
-| Pan Head    | `ss_generic_head_type__pan-head.svg`        | Pan head fasteners         |
-| Round Head  | `ss_generic_head_type__round-head.svg`      | Round head screws          |
-| Socket Head | `ss_generic_head_type__socket-head.svg`     | Socket head cap screws     |
-| Button Head | `ss_generic_head_type__button-head.svg`     | Button head screws         |
-| Hex Head    | `ss_generic_head_type__hex-head.svg`        | Hex head bolts and screws  |
+### Image URL Construction
+
+Based on the actual codebase implementation, images are constructed as follows:
+
+```
+shopifyFileURL + "/" + field + "__" + filterLabel + extension
+```
+
+Where:
+- `shopifyFileURL` = Base CDN URL from Shopify Files
+- `field` = `ss_generic_head_type`
+- `filterLabel` = Lowercase, hyphenated version of the filter value
+- `extension` = `.svg` for head type filters
+
+### Example Head Types
+
+| Filter Value | Processed Label | Image Filename                          | Full URL Example                                    |
+| ------------ | --------------- | --------------------------------------- | --------------------------------------------------- |
+| Flat Head    | flat-head       | `ss_generic_head_type__flat-head.svg`   | `store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg` |
+| Pan Head     | pan-head        | `ss_generic_head_type__pan-head.svg`    | `store.winzer.com/cdn/shop/files/ss_generic_head_type__pan-head.svg` |
+| Socket Head  | socket-head     | `ss_generic_head_type__socket-head.svg` | `store.winzer.com/cdn/shop/files/ss_generic_head_type__socket-head.svg` |
 
 > **Important:** The image filename must exactly match the filter value in the product data. Case sensitivity matters - use lowercase with hyphens. Images are hosted on Shopify's CDN at `store.winzer.com/cdn/shop/files/`.
 
