@@ -1,316 +1,404 @@
-# SearchSpring Configuration Documentation
+# SearchSpring Custom Implementation Documentation
 
-**Platform:** Winzer eCommerce Sites (Winzer, OneSource, FastServ)  
-**Integration:** SearchSpring + Shopify Plus  
-**Last Updated:** September 26, 2025  
-**Purpose:** Comprehensive guide to SearchSpring filter configuration and management
+**From:** Arcadia Digital  
+**To:** Winzer eCommerce Team  
+**Date:** September 26, 2025  
+**Purpose:** Technical documentation of custom SearchSpring implementations for Winzer brands
 
 ## Table of Contents
 
-1. [SearchSpring Overview](#searchspring-overview)
-2. [Filter Types & Configuration](#filter-types--configuration)
-3. [Image-Based Filters](#image-based-filters)
-4. [Generic Head Type Filter](#generic-head-type-filter)
-5. [Generic Color Filter](#generic-color-filter)
-6. [Filter Visibility Rules](#filter-visibility-rules)
-7. [Shopify Integration](#shopify-integration)
-8. [Filtering & Sorting Mechanism](#filtering--sorting-mechanism)
-9. [Filter Management](#filter-management)
-10. [Troubleshooting](#troubleshooting)
-11. [Best Practices](#best-practices)
+1. [Custom Implementation Overview](#custom-implementation-overview)
+2. [Site-Specific Configurations](#site-specific-configurations)
+3. [Custom Filter Components](#custom-filter-components)
+4. [Image Filter Implementations](#image-filter-implementations)
+5. [Custom Pricing Logic](#custom-pricing-logic)
+6. [Custom Styling & Branding](#custom-styling-branding)
+7. [Dynamic Variant Handling](#dynamic-variant-handling)
+8. [Metafield Integrations](#metafield-integrations)
+9. [Custom Search Behaviors](#custom-search-behaviors)
+10. [Technical Maintenance](#technical-maintenance)
 
 ---
 
-## SearchSpring Overview
+## Custom Implementation Overview
 
-SearchSpring is the search and filtering solution integrated with all three Winzer eCommerce sites. It provides:
+This document details the custom SearchSpring implementations built specifically for the Winzer eCommerce ecosystem. The implementation includes site-specific configurations, custom components, and brand-specific functionality across three distinct stores.
 
-- **Advanced Search:** Intelligent search with typo tolerance and suggestions
-- **Dynamic Filtering:** Real-time product filtering based on attributes
-- **Visual Filters:** Image-based filters for enhanced user experience
-- **Analytics:** Search and filter performance tracking
-- **Mobile Optimization:** Responsive filtering interface
+### Implementation Architecture
 
-> **Note:** SearchSpring pulls filter data from Shopify's product attributes and metafields, then rebuilds its search index. Reindexing happens automatically on a daily basis, with the ability to manually request a reindex when needed.
+- **Multi-Site Configuration:** Single codebase supporting three distinct brand experiences
+- **Custom Components:** Branded filter displays, pricing logic, and variant handling
+- **Site-Specific Features:** Different pricing models, authentication requirements, and styling per brand
+- **Custom Metafield Integration:** Advanced filtering using structured product attributes
+- **Dynamic Variant Selection:** Custom variant handling with image swapping and pricing
 
-## Filter Types & Configuration
+> **Technical Note:** The implementation uses a single SearchSpring codebase with site-specific configurations determined by `window.Resources.searchspring.liquid_data.sitename` to deliver customized experiences for each brand.
 
-### Standard Filter Types
+## Site-Specific Configurations
 
-| Filter Type              | Data Source                | Display Format           | Use Case                          |
-| ------------------------ | -------------------------- | ------------------------ | --------------------------------- |
-| **Text Filters**         | Product attributes, tags   | Checkbox list            | Brand, category, features         |
-| **Range Filters**        | Numeric metafields         | Slider or input fields   | Price, dimensions, specifications |
-| **Image Filters**        | Custom metafields + images | Visual icons with labels | Colors, head types, materials     |
-| **Hierarchical Filters** | Category structure         | Nested tree structure    | Product categories, subcategories |
+The implementation uses site-specific feature flags to deliver different functionality across the three Winzer brands:
 
-## Image-Based Filters
+### Site Feature Configuration
 
-Image-based filters provide a more intuitive shopping experience by allowing customers to filter products using visual cues rather than text alone. These filters require specific naming conventions and file organization.
+| Feature | OneSource | FastServ | Winzer Corp | Description |
+|---------|-----------|----------|-------------|-------------|
+| **Bulk Pricing** | ✅ Enabled | ❌ Disabled | ❌ Disabled | Volume-based pricing calculations |
+| **Force Sign In** | ❌ Disabled | ✅ Enabled | ✅ Enabled | Requires authentication to view pricing |
+| **Exact Pricing** | ❌ Disabled | ✅ Enabled | ✅ Enabled | Real-time pricing via API calls |
+| **B2B Pricing** | ❌ Disabled | ✅ Enabled | ✅ Enabled | Customer-specific pricing tiers |
 
-### Image Filter Requirements
+### Site Identification Logic
 
-- **File Format:** SVG (preferred for scalability) or PNG
-- **Dimensions:** 32x32px minimum, 64x64px recommended
-- **Naming Convention:** Must match filter values exactly with specific prefixes
-- **Storage Location:** Shopify Files (CDN hosted)
-- **Optimization:** Compressed for web performance
-
-## Generic Head Type Filter
-
-The Generic Head Type filter allows customers to filter products by the type of head or connector. This filter uses images to represent different head types, making it easier for customers to identify the specific connector they need.
-
-### Configuration Details
-
-| Setting          | Value                  | Description                                       |
-| ---------------- | ---------------------- | ------------------------------------------------- |
-| **Filter Field** | `ss_generic_head_type` | SearchSpring field name for the filter            |
-| **Data Source**  | Product metafield      | Pulls from custom metafield in Shopify            |
-| **Display Type** | Palette Options        | Shows images in a palette/grid layout             |
-| **Image Source** | Shopify Files CDN      | Images stored in Shopify Files and served via CDN |
-
-### Image Naming Convention
-
-Images for the Generic Head Type filter must follow this exact naming pattern:
-
-```
-[FIELD]__[VALUE].svg
+```javascript
+const stores = {
+  onesource: {
+    storeAddress: "winzeronesource.myshopify.com",
+    siteId: "t047mf"
+  },
+  fastserv: {
+    storeAddress: "winzerfastserv.myshopify.com", 
+    siteId: "wk4j0d"
+  },
+  corp: {
+    storeAddress: "winzercorp.myshopify.com",
+    siteId: "fsqw40"
+  }
+}
 ```
 
-Where `[FIELD]` is `ss_generic_head_type` and `[VALUE]` is the lowercase, hyphenated filter value.
+## Custom Filter Components
 
-### Image URL Construction
+The implementation includes several custom components built specifically for the Winzer brands:
 
-Based on the actual codebase implementation, images are constructed as follows:
+### CustomFacetPaletteOptions
 
-```
-shopifyFileURL + "/" + field + "__" + filterLabel + extension
-```
+Custom implementation for image-based filters that dynamically constructs image URLs and applies site-specific styling:
 
-Where:
-- `shopifyFileURL` = Base CDN URL from Shopify Files
-- `field` = `ss_generic_head_type`
-- `filterLabel` = Lowercase, hyphenated version of the filter value
-- `extension` = `.svg` for head type filters
+```javascript
+const CustomFacetPaletteOptions = ({ facet, values }) => {
+  const { field } = facet;
+  const { label } = facet;
+  const shopifyFileURL = window.Resources.searchspring.shopifyURLs.fileURL.split('/placeholder')[0];
+  let columns = label.includes('olor') ? 4 : 3;
 
-### Example Head Types
+  const transformedValues = useMemo(() => {
+    return values.filter(v => v.label);
+  }, [values]);
 
-| Filter Value | Processed Label | Image Filename                          | Full URL Example                                                        |
-| ------------ | --------------- | --------------------------------------- | ----------------------------------------------------------------------- |
-| Flat Head    | flat-head       | `ss_generic_head_type__flat-head.svg`   | `store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg`   |
-| Pan Head     | pan-head        | `ss_generic_head_type__pan-head.svg`    | `store.winzer.com/cdn/shop/files/ss_generic_head_type__pan-head.svg`    |
-| Socket Head  | socket-head     | `ss_generic_head_type__socket-head.svg` | `store.winzer.com/cdn/shop/files/ss_generic_head_type__socket-head.svg` |
+  const facetCss = useMemo(() => {
+    const styles = {};
+    transformedValues.forEach(v => {
+      let extension = field === "variant_head_style" || field === "ss_generic_head_type" ? ".svg" : ".png";
+      let filterLabel = v.label.replaceAll(' ', '-').toLowerCase();
+      let filterImage = shopifyFileURL + "/" + field + "__" + filterLabel + extension;
+      let background = `url("${filterImage}")`;
+      
+      styles[`& .ss__facet-palette-options__option__palette--${filterLabel}`] = {
+        display: 'block',
+        background: background,
+      };
+    });
+    return [css(styles)];
+  }, [transformedValues]);
 
-> **Important:** The image filename must exactly match the filter value in the product data. Case sensitivity matters - use lowercase with hyphens. Images are hosted on Shopify's CDN at `store.winzer.com/cdn/shop/files/`.
-
-> **Example:** The flat head image is accessible at: https://store.winzer.com/cdn/shop/files/ss_generic_head_type__flat-head.svg
-
-## Generic Color Filter
-
-The Generic Color filter allows customers to filter products by color using visual color swatches. This is particularly useful for products where color is a key differentiator.
-
-### Configuration Details
-
-| Setting          | Value           | Description                                 |
-| ---------------- | --------------- | ------------------------------------------- |
-| **Filter Name**  | Color           | Display name in the filter panel            |
-| **Data Source**  | Product options | Pulls from Shopify product color options    |
-| **Display Type** | Color Swatches  | Shows color circles/swatches                |
-| **Image Source** | Shopify Files   | Color swatch images stored in Shopify Files |
-
-### Color Image Naming Convention
-
-Color swatch images must follow this exact naming pattern:
-
-```
-color-[COLOR-NAME].png
+  return <FacetPaletteOptions css={facetCss} values={transformedValues} facet={facet} columns={columns} hideCount={true} hideIcon gapSize='0px' />;
+};
 ```
 
-### Supported Colors
+### CustomFeaturedFilter
 
-| Color Name | Image Filename     | Hex Code |
-| ---------- | ------------------ | -------- |
-| Black      | `color-black.png`  | #000000  |
-| White      | `color-white.png`  | #FFFFFF  |
-| Red        | `color-red.png`    | #FF0000  |
-| Blue       | `color-blue.png`   | #0000FF  |
-| Green      | `color-green.png`  | #00FF00  |
-| Yellow     | `color-yellow.png` | #FFFF00  |
-| Silver     | `color-silver.png` | #C0C0C0  |
-| Gold       | `color-gold.png`   | #FFD700  |
+Custom carousel component for featured filters with mobile/desktop responsive design:
 
-## Filter Visibility Rules
+```javascript
+const CustomFeaturedFilter = ({ label, url, imageUrl }) => {
+  const isSelected = (window.location.href.includes(label) ? 'selected-filter' : '')
+  return <a href={url.href} className={`ss__featured-filter ${isSelected}`}>
+    <img src={imageUrl} />
+    <span>{label}</span>
+  </a>
+};
+```
 
-SearchSpring automatically manages filter visibility based on several rules to ensure a clean, relevant filtering experience.
+## Custom Pricing Logic
 
-### Automatic Visibility Rules
+The implementation includes sophisticated pricing logic that varies by site and customer authentication status:
 
-- **Minimum Product Count:** Filters only appear if they have 3+ products
-- **Value Variation:** Filters are hidden if all products have the same value
-- **Empty Values:** Filters with empty or null values are automatically hidden
-- **Category Context:** Some filters only appear in specific categories
+### Pricing API Integration
 
-### Manual Filter Management
+For sites with exact pricing enabled (FastServ, Winzer Corp), the system makes real-time API calls to fetch customer-specific pricing:
 
-Administrators can manually control filter visibility through the SearchSpring dashboard:
+```javascript
+const fetchB2BPricing = async () => {
+  const pricing_json_response = await fetch(`${core.url}?view=pricing_json`);
+  const pricing_json = await pricing_json_response.json();
+  setb2bPricing(pricing_json);
+}
 
-1. **Access SearchSpring Dashboard** - Log into the SearchSpring admin panel
-2. **Navigate to Filters** - Go to the Filters section
-3. **Select Filter** - Choose the filter to modify
-4. **Adjust Settings** - Modify visibility rules and display options
-5. **Save Changes** - Apply changes to the live site
+// API call for exact pricing
+fetch(`/apps/pricing-api/customer-product-pricing?current_company_id=${companyId}&product_ids=${productId}`, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+  }
+})
+```
 
-## Shopify Integration
+### Pricing Display Logic
 
-SearchSpring integrates with Shopify through several data sources and synchronization methods.
+```javascript
+// Pricing display based on site features
+if (currentSiteFeatures.b2b_pricing) {
+  // Show B2B pricing with API calls
+} else if (currentSiteFeatures.bulk_pricing) {
+  // Show bulk pricing calculations
+} else {
+  // Show standard Shopify pricing
+}
+```
+
+### Force Sign-In Implementation
+
+For B2B sites, pricing is hidden until user authentication:
+
+```javascript
+export const force_sign_in = (currentSiteFeatures.force_sign_in && !signed_in);
+
+// In component render
+{force_sign_in ? (
+  <span className="not-in-catalog">{plpLocales.not_in_catalog}</span>
+) : (
+  // Show pricing
+)}
+```
+
+## Custom Styling & Branding
+
+The implementation includes extensive custom styling with site-specific branding and responsive design:
+
+### Site-Specific CSS Classes
+
+Each site has dedicated CSS classes for brand-specific styling:
+
+```css
+/* OneSource specific styling */
+.site-winzeronesource .ss__facet-hierarchy-options__option--return:before {
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%23db3700" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%23db3700" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
+}
+
+/* Winzer Corp specific styling */
+.site-winzercorp .ss__facet-hierarchy-options__option--return:before {
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%2300679b" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%2300679b" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
+}
+
+/* FastServ specific styling */
+.site-winzerfastserv .ss__facet-hierarchy-options__option--return:before {
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%23d32028" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%23d32028" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
+}
+```
+
+### Brand Color Implementation
+
+| Brand | Primary Color | Hex Code | Usage |
+|-------|---------------|----------|-------|
+| **OneSource** | Orange/Red | #db3700 | Filter icons, buttons, accents |
+| **Winzer Corp** | Blue | #00679b | Filter icons, buttons, accents |
+| **FastServ** | Red | #d32028 | Filter icons, buttons, accents |
+
+## Dynamic Variant Handling
+
+The implementation includes sophisticated variant selection and display logic that responds to user interactions and search filters:
+
+### Dynamic Variant Configuration
+
+```javascript
+let dynamicVariantsConfig = {
+  field: 'ss_swatches',
+  limit: 4,
+  swap: function(result, variant) {
+    const core = result.mappings.core;
+    const { attributes, custom } = result;
+
+    if(variant.image) {
+      core.imageUrl = variant.image;
+    }
+
+    custom.variantSelected = variant;
+  }
+};
+```
+
+### Variant Weight Calculation
+
+The system calculates variant relevance based on search terms and active filters:
+
+```javascript
+// Filter matching for variant weighting
+currentFilters.forEach((filter, i) => {
+  let filterMultiplier = i + 1;
+  
+  if (simpleData) {
+    variant.weight = calculateWeight(filter, simpleData, variant.weight, 10, filterMultiplier);
+  }
+  groupData.forEach((data) => {
+    variant.weight = calculateWeight(filter, data, variant.weight, 5, filterMultiplier);
+  });
+});
+
+// Sort variants by weight
+attributes[variantsConfig.field].sort((a, b) => {
+  return b.weight - a.weight;
+});
+```
+
+### Variant Image Swapping
+
+When users interact with variant swatches, the main product image updates dynamically:
+
+```javascript
+const handleSelectedClass = (e, index) => {
+  let swatchIndex = e.target.getAttribute('swatchIndex');
+  if(swatchIndex == index) {
+    setSelectedSwatch(swatchIndex);
+  }
+};
+
+const handleSelectedURL = () => {
+  const { custom } = result;
+  const variantURL = custom.variantSelected.url;
+  let variantID = variantURL.slice(-14)
+  setSelectedURL(variantID);
+}
+```
+
+## Metafield Integrations
+
+The implementation leverages multiple Shopify metafields for advanced filtering and product display:
+
+### Product Display Metafields
+
+| Metafield | Usage | Data Type | Example |
+|-----------|-------|-----------|---------|
+| `mfield_cql_badge_label` | Product badge text | String | "New", "Sale", "Featured" |
+| `mfield_cql_product_badges` | JSON array of badges | JSON | ["badge1", "badge2"] |
+| `mfield_cql_swatches_json` | Variant swatch data | JSON | Color/pattern data |
+| `mfield_cql_vendor_name` | Custom vendor display | String | Brand name override |
+| `mfield_cql_promo_messaging` | Promotional text | String | Special offers, discounts |
+| `mfield_cql_attributes_json` | Structured product attributes | JSON | Filterable product specs |
+
+### Filter Processing Logic
+
+The system processes filters through multiple data sources with fallback logic:
+
+```javascript
+function filterVariants(variants, options, filters) {
+  function extractFromAttributes(key, attributesField) {
+    if (!attributesField) {
+      return false;
+    }
+    const attributes_json = JSON.parse(attributesField);
+    const formattedKey = key.replace('ss_', '').split('_').map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(' ');
+    return attributes_json[formattedKey] ?? false;
+  }
+  
+  return variants.filter((v) => {
+    const filter_map = filters.reduce((acc, filter) => {
+      acc[filter.field] = filter.values.map((val) => val.value);
+      return acc;
+    }, {});
+    
+    return Object.keys(filter_map).map((key) => {
+      if (key === "ss_price") {
+        return filter_map[key].low <= parseFloat(v.price) && parseFloat(v.price) <= filter_map[key].high;
+      } else if (v[key]) {
+        return v[key].split('|').some((v) => filter_map[key].indexOf(v) > -1);
+      } else if (extractFromAttributes(key, v.mfield_cql_attributes_json)) {
+        return extractFromAttributes(key, v.mfield_cql_attributes_json).split('|').some((v) => filter_map[key].indexOf(v) > -1);
+      } else {
+        return key.indexOf('ss_generic') === -1;
+      }
+    }).every((t) => t);
+  });
+}
+```
+
+## Custom Search Behaviors
+
+The implementation includes several custom search and filtering behaviors tailored to the Winzer product catalog:
+
+### Sorting Logic
+
+```javascript
+function sortVariants(variants, sortParams) {
+  let sortedVariants = variants.sort((a, b) => {
+    const sortableAttrA = a[sortParams.option].toLowerCase();
+    const sortableAttrB = b[sortParams.option].toLowerCase();
+    
+    if (!isNaN(sortableAttrA) && !isNaN(sortableAttrA)) {
+      return parseFloat(sortableAttrA) - parseFloat(sortableAttrB);
+    }
+    return sortableAttrA > sortableAttrB ? 1 : -1;
+  });
+  
+  if (!sortParams.asc) sortedVariants.reverse();
+  return sortedVariants;
+}
+```
+
+### Filter Visibility Rules
+
+- **Minimum Product Count:** Filters only appear when 3+ products match
+- **Value Variation:** Filters hidden when all values are identical
+- **Site-Specific Logic:** Different visibility rules per brand
+- **Dynamic Updates:** Filters update in real-time as search terms change
+
+### Mobile Optimization
+
+```javascript
+// Mobile-specific filter display
+const { width, height, valuesWithImages } = useMemo(() => {
+  const width = isMobile ? 110 : 120
+  const height = isMobile ? 72 : 80
+  const valuesWithImages = values.filter(value => !!getImageObj(facet.field, value.value))
+  return { width, height, valuesWithImages }
+}, [facet.field, values, isMobile])
+```
+
+## Technical Maintenance
+
+This section covers ongoing maintenance and troubleshooting for the custom SearchSpring implementation:
 
 ### Data Synchronization
 
-- **Product Data:** Daily reindexing of product information
-- **Inventory Levels:** Updated during daily reindex cycle
-- **Pricing:** Automatic price updates during reindex
-- **Categories:** Collection and category structure updates
-- **Attributes:** Product attributes and metafields refreshed daily
-- **Manual Reindex:** Available for immediate updates when needed
+- **Daily Reindexing:** SearchSpring automatically rebuilds its index daily
+- **Manual Reindex:** Available through SearchSpring dashboard when needed
+- **Metafield Updates:** Changes to Shopify metafields require reindexing to appear in filters
+- **Product Updates:** New products and variants are included in next scheduled reindex
 
-### Metafield Mapping
+### Common Issues & Solutions
 
-Based on the actual SearchSpring codebase analysis, the following metafields are used for filtering, sorting, and product display:
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Filter images not displaying | Incorrect file naming or missing files | Verify naming convention: `[field]__[value].[ext]` |
+| Filters not appearing | Insufficient product variation | Ensure 3+ products with different values |
+| Pricing not updating | API connection or authentication issues | Check B2B pricing API status and credentials |
+| Variant selection not working | JavaScript errors or missing metafields | Verify `ss_swatches` metafield data structure |
 
-#### Filter Fields
+### Performance Monitoring
 
-| SearchSpring Field          | Display Name       | Image Format | Usage                              |
-| --------------------------- | ------------------ | ------------ | ---------------------------------- |
-| `ss_generic_head_type`      | Generic Head Type  | SVG          | Palette filter with images         |
-| `generic_color`             | Color              | PNG          | Palette filter with color swatches |
-| `variant_head_style`        | Variant Head Style | SVG          | Palette filter with images         |
-| `ss_category_hierarchy`     | Category Hierarchy | N/A          | Hierarchical filter, no images     |
-| `mfield_cql_generic_colors` | Generic Colors     | PNG          | Grid display filter                |
+- **SearchSpring Dashboard:** Monitor search performance and filter usage
+- **Google Analytics:** Track user interactions with filters and search
+- **API Response Times:** Monitor B2B pricing API performance
+- **Mobile Performance:** Test filter responsiveness on mobile devices
 
-#### Product Display Metafields
+### Code Maintenance
 
-| Metafield                    | Usage                                       | Data Type        |
-| ---------------------------- | ------------------------------------------- | ---------------- |
-| `mfield_cql_badge_label`     | Product badge display                       | Single line text |
-| `mfield_cql_product_badges`  | Multiple product badges (JSON array)        | JSON             |
-| `mfield_cql_swatches_json`   | Color swatch images for variants            | JSON             |
-| `mfield_cql_vendor_name`     | Vendor/brand name display                   | Single line text |
-| `mfield_cql_promo_messaging` | Promotional messaging on products           | Single line text |
-| `mfield_cql_attributes_json` | Structured product attributes for filtering | JSON             |
-| `mfield_cql_package_display` | Package/unit of measure display             | Single line text |
-
-#### Variant-Level Metafields
-
-| Metafield                    | Usage                                  | Data Type        |
-| ---------------------------- | -------------------------------------- | ---------------- |
-| `mfield_cql_package_display` | Unit of measure per variant            | Single line text |
-| `mfield_cql_promo_messaging` | Variant-specific promotional messaging | Single line text |
-
-## Filtering & Sorting Mechanism
-
-### How Filtering Works
-
-Based on the actual codebase implementation, SearchSpring uses a sophisticated filtering system:
-
-#### Filter Processing Logic
-
-1. **Direct Field Matching:** First checks if the filter field exists directly on the variant (e.g., `v[key]`)
-2. **Attributes JSON Extraction:** If not found, extracts from `mfield_cql_attributes_json` using the `extractFromAttributes` function
-3. **Multi-value Support:** Splits values on "|" to handle multi-value fields
-4. **Price Range Filtering:** Special handling for `ss_price` with low/high range matching
-
-#### Attribute Extraction Process
-
-```javascript
-// Converts "ss_generic_color" to "Generic Color" for JSON lookup
-const formattedKey = key.replace('ss_', '').split('_').map(g => 
-    g.charAt(0).toUpperCase() + g.slice(1)
-).join(' ');
-```
-
-### How Sorting Works
-
-Variant sorting is handled by the `sortVariants` function:
-
-- **Numeric Sorting:** Automatically detects numeric values and sorts numerically
-- **Alphabetic Sorting:** Sorts alphabetically for text values
-- **Direction Control:** Supports both ascending and descending order
-- **Case Insensitive:** Converts to lowercase for consistent sorting
-
-### Product Display Integration
-
-Metafields are used throughout the product display system:
-
-- **Badge Display:** `mfield_cql_product_badges` for product badges
-- **Vendor Names:** `mfield_cql_vendor_name` for brand display
-- **Swatch Images:** `mfield_cql_swatches_json` for color variant images
-- **Promotional Messaging:** `mfield_cql_promo_messaging` for special offers
-- **Package Information:** `mfield_cql_package_display` for unit of measure
-
-## Filter Management
-
-### Adding New Filters
-
-1. **Create Metafield** - Add the metafield in Shopify admin
-2. **Populate Data** - Ensure products have values for the new metafield
-3. **Configure in SearchSpring** - Set up the filter in SearchSpring dashboard
-4. **Add Images (if needed)** - Upload filter images following naming conventions
-5. **Test Filter** - Verify the filter works correctly on the frontend
-
-### Modifying Existing Filters
-
-1. **Update Metafield Data** - Modify product data in Shopify
-2. **Adjust Filter Settings** - Update filter configuration in SearchSpring
-3. **Update Images** - Replace or add new filter images as needed
-4. **Clear Cache** - Clear SearchSpring cache to see changes
-
-## Troubleshooting
-
-### Common Issues
-
-> **Filter Not Appearing:** Check if the filter has at least 3 products with different values. Also verify the metafield is properly populated.
-
-> **Images Not Showing:** Verify the image filename exactly matches the filter value. Check that images are uploaded to Shopify Files.
-
-> **Filter Values Not Updating:** Clear the SearchSpring cache and wait for the next sync cycle (usually within 15 minutes).
-
-### Debugging Steps
-
-1. **Check Product Data** - Verify metafields are populated correctly
-2. **Review Filter Settings** - Ensure filter is configured properly in SearchSpring
-3. **Test Image URLs** - Verify image files are accessible
-4. **Clear Caches** - Clear both Shopify and SearchSpring caches
-5. **Check Console** - Look for JavaScript errors in browser console
-
-## Best Practices
-
-### Image Management
-
-- **Consistent Sizing:** Use uniform dimensions for all filter images
-- **High Quality:** Use high-resolution images that scale well
-- **Optimized Files:** Compress images for faster loading
-- **Descriptive Names:** Use clear, descriptive filenames
-- **Backup Images:** Keep backup copies of all filter images
-
-### Filter Organization
-
-- **Logical Ordering:** Arrange filters in order of importance
-- **Clear Labels:** Use descriptive filter names
-- **Consistent Values:** Standardize metafield values across products
-- **Regular Audits:** Periodically review and clean up unused filters
-
-### Performance Optimization
-
-- **Limit Filter Count:** Don't overload the filter panel
-- **Optimize Images:** Use appropriate file sizes and formats
-- **Cache Management:** Clear caches after making changes
-- **Monitor Performance:** Track filter usage and performance metrics
+> **Important:** Any changes to the SearchSpring codebase should be tested on all three sites (OneSource, FastServ, Winzer Corp) to ensure site-specific features continue to function correctly.
 
 ---
 
-## Support & Questions
+## Questions or Issues?
 
-For questions about SearchSpring configuration or filter management, contact:
+For technical questions about this SearchSpring implementation, contact:
 
-**Arcadia Digital Support:** support@arcadiadigital.com  
-**SearchSpring Documentation:** https://docs.searchspring.com
+**Arcadia Digital**  
+[pete@arcadiadigital.com](mailto:pete@arcadiadigital.com)
