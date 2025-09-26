@@ -182,15 +182,15 @@ Each site has dedicated CSS classes for brand-specific styling:
 ```css
 /* OneSource specific styling */
 .site-winzeronesource .ss__facet-hierarchy-options__option--return:before {
-  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%23db3700" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%23db3700" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
+  content: url('data:image/svg+xml,&lt;svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"&gt;&lt;path stroke="%23db3700" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/&gt;&lt;path fill="%23db3700" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/&gt;&lt;/svg&gt;')!important;
 }
 /* Winzer Corp specific styling */
 .site-winzercorp .ss__facet-hierarchy-options__option--return:before {
-  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%2300679b" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%2300679b" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
+  content: url('data:image/svg+xml,&lt;svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"&gt;&lt;path stroke="%2300679b" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/&gt;&lt;path fill="%2300679b" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/&gt;&lt;/svg&gt;')!important;
 }
 /* FastServ specific styling */
 .site-winzerfastserv .ss__facet-hierarchy-options__option--return:before {
-  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%23d32028" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%23d32028" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
+  content: url('data:image/svg+xml,&lt;svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"&gt;&lt;path stroke="%23d32028" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/&gt;&lt;path fill="%23d32028" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/&gt;&lt;/svg&gt;')!important;
 }
 ```
 
