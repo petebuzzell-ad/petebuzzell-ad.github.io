@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winzer SearchSpring Configuration Documentation</title>
+    <link rel="stylesheet" href="arcadia-style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>SearchSpring Configuration Documentation</h1>
+        
+        <div class="doc-meta">
+            <p><strong>Platform:</strong> Winzer eCommerce Sites (Winzer, OneSource, FastServ)</p>
+            <p><strong>Integration:</strong> SearchSpring + Shopify Plus</p>
+            <p><strong>Last Updated:</strong> September 26, 2025</p>
+            <p><strong>Purpose:</strong> Comprehensive guide to SearchSpring filter configuration and management</p>
+        </div>
+
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul class="toc-list">
+                <li><a href="#overview">SearchSpring Overview</a></li>
+                <li><a href="#filter-types">Filter Types & Configuration</a></li>
+                <li><a href="#image-filters">Image-Based Filters</a></li>
+                <li><a href="#generic-head-type">Generic Head Type Filter</a></li>
+                <li><a href="#generic-color-filter">Generic Color Filter</a></li>
+                <li><a href="#filter-visibility">Filter Visibility Rules</a></li>
+                <li><a href="#shopify-integration">Shopify Integration</a></li>
+                <li><a href="#filter-management">Filter Management</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#best-practices">Best Practices</a></li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <h2 id="overview">SearchSpring Overview</h2>
+        
+        <p>SearchSpring is the search and filtering solution integrated with all three Winzer eCommerce sites. It provides:</p>
+        
+        <ul>
+            <li><strong>Advanced Search:</strong> Intelligent search with typo tolerance and suggestions</li>
+            <li><strong>Dynamic Filtering:</strong> Real-time product filtering based on attributes</li>
+            <li><strong>Visual Filters:</strong> Image-based filters for enhanced user experience</li>
+            <li><strong>Analytics:</strong> Search and filter performance tracking</li>
+            <li><strong>Mobile Optimization:</strong> Responsive filtering interface</li>
+        </ul>
+
+        <div class="alert-box alert-info">
+            <strong>Note:</strong> SearchSpring pulls filter data directly from Shopify's product attributes and metafields, ensuring real-time synchronization with product data.
+        </div>
+
+        <h2 id="filter-types">Filter Types & Configuration</h2>
+
+        <h3>Standard Filter Types</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Filter Type</th>
+                    <th>Data Source</th>
+                    <th>Display Format</th>
+                    <th>Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Text Filters</strong></td>
+                    <td>Product attributes, tags</td>
+                    <td>Checkbox list</td>
+                    <td>Brand, category, features</td>
+                </tr>
+                <tr>
+                    <td><strong>Range Filters</strong></td>
+                    <td>Numeric metafields</td>
+                    <td>Slider or input fields</td>
+                    <td>Price, dimensions, specifications</td>
+                </tr>
+                <tr>
+                    <td><strong>Image Filters</strong></td>
+                    <td>Custom metafields + images</td>
+                    <td>Visual icons with labels</td>
+                    <td>Colors, head types, materials</td>
+                </tr>
+                <tr>
+                    <td><strong>Hierarchical Filters</strong></td>
+                    <td>Category structure</td>
+                    <td>Nested tree structure</td>
+                    <td>Product categories, subcategories</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="image-filters">Image-Based Filters</h2>
+
+        <p>Image-based filters provide a more intuitive shopping experience by allowing customers to filter products using visual cues rather than text alone. These filters require specific naming conventions and file organization.</p>
+
+        <h3>Image Filter Requirements</h3>
+        
+        <ul>
+            <li><strong>File Format:</strong> PNG or SVG (preferred for scalability)</li>
+            <li><strong>Dimensions:</strong> 32x32px minimum, 64x64px recommended</li>
+            <li><strong>Naming Convention:</strong> Must match filter values exactly</li>
+            <li><strong>Storage Location:</strong> Shopify Files or CDN</li>
+            <li><strong>Optimization:</strong> Compressed for web performance</li>
+        </ul>
+
+        <h2 id="generic-head-type">Generic Head Type Filter</h2>
+
+        <p>The Generic Head Type filter allows customers to filter products by the type of head or connector. This filter uses images to represent different head types, making it easier for customers to identify the specific connector they need.</p>
+
+        <h3>Configuration Details</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Setting</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Filter Name</strong></td>
+                    <td>Generic Head Type</td>
+                    <td>Display name in the filter panel</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Source</strong></td>
+                    <td>Product metafield</td>
+                    <td>Pulls from custom metafield in Shopify</td>
+                </tr>
+                <tr>
+                    <td><strong>Display Type</strong></td>
+                    <td>Image Grid</td>
+                    <td>Shows images in a grid layout</td>
+                </tr>
+                <tr>
+                    <td><strong>Image Source</strong></td>
+                    <td>Shopify Files</td>
+                    <td>Images stored in Shopify Files section</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Image Naming Convention</h3>
+        
+        <p>Images for the Generic Head Type filter must follow this exact naming pattern:</p>
+        
+        <div class="code-block">
+            <code>head-type-[VALUE].png</code>
+        </div>
+
+        <h4>Supported Head Types</h4>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Head Type</th>
+                    <th>Image Filename</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Flat Head</td>
+                    <td><code>head-type-flat.png</code></td>
+                    <td>Flat head screws and bolts</td>
+                </tr>
+                <tr>
+                    <td>Pan Head</td>
+                    <td><code>head-type-pan.png</code></td>
+                    <td>Pan head fasteners</td>
+                </tr>
+                <tr>
+                    <td>Round Head</td>
+                    <td><code>head-type-round.png</code></td>
+                    <td>Round head screws</td>
+                </tr>
+                <tr>
+                    <td>Socket Head</td>
+                    <td><code>head-type-socket.png</code></td>
+                    <td>Socket head cap screws</td>
+                </tr>
+                <tr>
+                    <td>Button Head</td>
+                    <td><code>head-type-button.png</code></td>
+                    <td>Button head screws</td>
+                </tr>
+                <tr>
+                    <td>Hex Head</td>
+                    <td><code>head-type-hex.png</code></td>
+                    <td>Hex head bolts and screws</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert-box alert-warning">
+            <strong>Important:</strong> The image filename must exactly match the filter value in the product data. Case sensitivity matters - use lowercase with hyphens.
+        </div>
+
+        <h2 id="generic-color-filter">Generic Color Filter</h2>
+
+        <p>The Generic Color filter allows customers to filter products by color using visual color swatches. This is particularly useful for products where color is a key differentiator.</p>
+
+        <h3>Configuration Details</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Setting</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Filter Name</strong></td>
+                    <td>Color</td>
+                    <td>Display name in the filter panel</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Source</strong></td>
+                    <td>Product options</td>
+                    <td>Pulls from Shopify product color options</td>
+                </tr>
+                <tr>
+                    <td><strong>Display Type</strong></td>
+                    <td>Color Swatches</td>
+                    <td>Shows color circles/swatches</td>
+                </tr>
+                <tr>
+                    <td><strong>Image Source</strong></td>
+                    <td>Shopify Files</td>
+                    <td>Color swatch images stored in Shopify Files</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Color Image Naming Convention</h3>
+        
+        <p>Color swatch images must follow this exact naming pattern:</p>
+        
+        <div class="code-block">
+            <code>color-[COLOR-NAME].png</code>
+        </div>
+
+        <h4>Supported Colors</h4>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Color Name</th>
+                    <th>Image Filename</th>
+                    <th>Hex Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Black</td>
+                    <td><code>color-black.png</code></td>
+                    <td>#000000</td>
+                </tr>
+                <tr>
+                    <td>White</td>
+                    <td><code>color-white.png</code></td>
+                    <td>#FFFFFF</td>
+                </tr>
+                <tr>
+                    <td>Red</td>
+                    <td><code>color-red.png</code></td>
+                    <td>#FF0000</td>
+                </tr>
+                <tr>
+                    <td>Blue</td>
+                    <td><code>color-blue.png</code></td>
+                    <td>#0000FF</td>
+                </tr>
+                <tr>
+                    <td>Green</td>
+                    <td><code>color-green.png</code></td>
+                    <td>#00FF00</td>
+                </tr>
+                <tr>
+                    <td>Yellow</td>
+                    <td><code>color-yellow.png</code></td>
+                    <td>#FFFF00</td>
+                </tr>
+                <tr>
+                    <td>Silver</td>
+                    <td><code>color-silver.png</code></td>
+                    <td>#C0C0C0</td>
+                </tr>
+                <tr>
+                    <td>Gold</td>
+                    <td><code>color-gold.png</code></td>
+                    <td>#FFD700</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="filter-visibility">Filter Visibility Rules</h2>
+
+        <p>SearchSpring automatically manages filter visibility based on several rules to ensure a clean, relevant filtering experience.</p>
+
+        <h3>Automatic Visibility Rules</h3>
+        
+        <ul>
+            <li><strong>Minimum Product Count:</strong> Filters only appear if they have 3+ products</li>
+            <li><strong>Value Variation:</strong> Filters are hidden if all products have the same value</li>
+            <li><strong>Empty Values:</strong> Filters with empty or null values are automatically hidden</li>
+            <li><strong>Category Context:</strong> Some filters only appear in specific categories</li>
+        </ul>
+
+        <h3>Manual Filter Management</h3>
+        
+        <p>Administrators can manually control filter visibility through the SearchSpring dashboard:</p>
+        
+        <ol>
+            <li><strong>Access SearchSpring Dashboard</strong> - Log into the SearchSpring admin panel</li>
+            <li><strong>Navigate to Filters</strong> - Go to the Filters section</li>
+            <li><strong>Select Filter</strong> - Choose the filter to modify</li>
+            <li><strong>Adjust Settings</strong> - Modify visibility rules and display options</li>
+            <li><strong>Save Changes</strong> - Apply changes to the live site</li>
+        </ol>
+
+        <h2 id="shopify-integration">Shopify Integration</h2>
+
+        <p>SearchSpring integrates with Shopify through several data sources and synchronization methods.</p>
+
+        <h3>Data Synchronization</h3>
+        
+        <ul>
+            <li><strong>Product Data:</strong> Real-time sync of product information</li>
+            <li><strong>Inventory Levels:</strong> Live inventory status updates</li>
+            <li><strong>Pricing:</strong> Automatic price synchronization</li>
+            <li><strong>Categories:</strong> Collection and category structure sync</li>
+            <li><strong>Attributes:</strong> Product attributes and metafields sync</li>
+        </ul>
+
+        <h3>Metafield Mapping</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>SearchSpring Filter</th>
+                    <th>Shopify Metafield</th>
+                    <th>Data Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Generic Head Type</td>
+                    <td><code>custom.head_type</code></td>
+                    <td>Single line text</td>
+                </tr>
+                <tr>
+                    <td>Color</td>
+                    <td><code>custom.color</code></td>
+                    <td>Single line text</td>
+                </tr>
+                <tr>
+                    <td>Material</td>
+                    <td><code>custom.material</code></td>
+                    <td>Single line text</td>
+                </tr>
+                <tr>
+                    <td>Size</td>
+                    <td><code>custom.size</code></td>
+                    <td>Single line text</td>
+                </tr>
+                <tr>
+                    <td>Brand</td>
+                    <td><code>custom.brand</code></td>
+                    <td>Single line text</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="filter-management">Filter Management</h2>
+
+        <h3>Adding New Filters</h3>
+        
+        <ol>
+            <li><strong>Create Metafield</strong> - Add the metafield in Shopify admin</li>
+            <li><strong>Populate Data</strong> - Ensure products have values for the new metafield</li>
+            <li><strong>Configure in SearchSpring</strong> - Set up the filter in SearchSpring dashboard</li>
+            <li><strong>Add Images (if needed)</strong> - Upload filter images following naming conventions</li>
+            <li><strong>Test Filter</strong> - Verify the filter works correctly on the frontend</li>
+        </ol>
+
+        <h3>Modifying Existing Filters</h3>
+        
+        <ol>
+            <li><strong>Update Metafield Data</strong> - Modify product data in Shopify</li>
+            <li><strong>Adjust Filter Settings</strong> - Update filter configuration in SearchSpring</li>
+            <li><strong>Update Images</strong> - Replace or add new filter images as needed</li>
+            <li><strong>Clear Cache</strong> - Clear SearchSpring cache to see changes</li>
+        </ol>
+
+        <h2 id="troubleshooting">Troubleshooting</h2>
+
+        <h3>Common Issues</h3>
+        
+        <div class="alert-box alert-warning">
+            <strong>Filter Not Appearing:</strong> Check if the filter has at least 3 products with different values. Also verify the metafield is properly populated.
+        </div>
+        
+        <div class="alert-box alert-warning">
+            <strong>Images Not Showing:</strong> Verify the image filename exactly matches the filter value. Check that images are uploaded to Shopify Files.
+        </div>
+        
+        <div class="alert-box alert-warning">
+            <strong>Filter Values Not Updating:</strong> Clear the SearchSpring cache and wait for the next sync cycle (usually within 15 minutes).
+        </div>
+
+        <h3>Debugging Steps</h3>
+        
+        <ol>
+            <li><strong>Check Product Data</strong> - Verify metafields are populated correctly</li>
+            <li><strong>Review Filter Settings</strong> - Ensure filter is configured properly in SearchSpring</li>
+            <li><strong>Test Image URLs</strong> - Verify image files are accessible</li>
+            <li><strong>Clear Caches</strong> - Clear both Shopify and SearchSpring caches</li>
+            <li><strong>Check Console</strong> - Look for JavaScript errors in browser console</li>
+        </ol>
+
+        <h2 id="best-practices">Best Practices</h2>
+
+        <h3>Image Management</h3>
+        
+        <ul>
+            <li><strong>Consistent Sizing:</strong> Use uniform dimensions for all filter images</li>
+            <li><strong>High Quality:</strong> Use high-resolution images that scale well</li>
+            <li><strong>Optimized Files:</strong> Compress images for faster loading</li>
+            <li><strong>Descriptive Names:</strong> Use clear, descriptive filenames</li>
+            <li><strong>Backup Images:</strong> Keep backup copies of all filter images</li>
+        </ul>
+
+        <h3>Filter Organization</h3>
+        
+        <ul>
+            <li><strong>Logical Ordering:</strong> Arrange filters in order of importance</li>
+            <li><strong>Clear Labels:</strong> Use descriptive filter names</li>
+            <li><strong>Consistent Values:</strong> Standardize metafield values across products</li>
+            <li><strong>Regular Audits:</strong> Periodically review and clean up unused filters</li>
+        </ul>
+
+        <h3>Performance Optimization</h3>
+        
+        <ul>
+            <li><strong>Limit Filter Count:</strong> Don't overload the filter panel</li>
+            <li><strong>Optimize Images:</strong> Use appropriate file sizes and formats</li>
+            <li><strong>Cache Management:</strong> Clear caches after making changes</li>
+            <li><strong>Monitor Performance:</strong> Track filter usage and performance metrics</li>
+        </ul>
+
+        <hr>
+
+        <div class="contact-section">
+            <h3>Support & Questions</h3>
+            <p>For questions about SearchSpring configuration or filter management, contact:</p>
+            <p><strong>Arcadia Digital Support:</strong> <a href="mailto:support@arcadiadigital.com">support@arcadiadigital.com</a></p>
+            <p><strong>SearchSpring Documentation:</strong> <a href="https://docs.searchspring.com" target="_blank">https://docs.searchspring.com</a></p>
+        </div>
+
+        <div class="download-section">
+            <h3>Download Documentation</h3>
+            <p>Download this documentation in markdown format for offline reference:</p>
+            <a href="winzer-searchspring-documentation.md" class="download-button">Download Markdown</a>
+        </div>
+    </div>
+</body>
+</html>
