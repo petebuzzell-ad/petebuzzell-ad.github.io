@@ -40,12 +40,12 @@ The implementation uses site-specific feature flags to deliver different functio
 
 ### Site Feature Configuration
 
-| Feature | OneSource | FastServ | Winzer Corp | Description |
-|---------|-----------|----------|-------------|-------------|
-| **Bulk Pricing** | ✅ Enabled | ❌ Disabled | ❌ Disabled | Volume-based pricing calculations |
-| **Force Sign In** | ❌ Disabled | ✅ Enabled | ✅ Enabled | Requires authentication to view pricing |
-| **Exact Pricing** | ❌ Disabled | ✅ Enabled | ✅ Enabled | Real-time pricing via API calls |
-| **B2B Pricing** | ❌ Disabled | ✅ Enabled | ✅ Enabled | Customer-specific pricing tiers |
+| Feature           | OneSource  | FastServ   | Winzer Corp | Description                             |
+| ----------------- | ---------- | ---------- | ----------- | --------------------------------------- |
+| **Bulk Pricing**  | ✅ Enabled  | ❌ Disabled | ❌ Disabled  | Volume-based pricing calculations       |
+| **Force Sign In** | ❌ Disabled | ✅ Enabled  | ✅ Enabled   | Requires authentication to view pricing |
+| **Exact Pricing** | ❌ Disabled | ✅ Enabled  | ✅ Enabled   | Real-time pricing via API calls         |
+| **B2B Pricing**   | ❌ Disabled | ✅ Enabled  | ✅ Enabled   | Customer-specific pricing tiers         |
 
 ### Site Identification Logic
 
@@ -184,12 +184,10 @@ Each site has dedicated CSS classes for brand-specific styling:
 .site-winzeronesource .ss__facet-hierarchy-options__option--return:before {
   content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%23db3700" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%23db3700" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
 }
-
 /* Winzer Corp specific styling */
 .site-winzercorp .ss__facet-hierarchy-options__option--return:before {
   content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%2300679b" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%2300679b" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
 }
-
 /* FastServ specific styling */
 .site-winzerfastserv .ss__facet-hierarchy-options__option--return:before {
   content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 10"><path stroke="%23d32028" stroke-linecap="round" stroke-width="1.2" d="M5 1 1 5l4 4"/><path fill="%23d32028" d="M9.535 5.606a.6.6 0 1 0 0-1.2v1.2Zm-8 0h8v-1.2h-8v1.2Z"/></svg>')!important;
@@ -198,11 +196,11 @@ Each site has dedicated CSS classes for brand-specific styling:
 
 ### Brand Color Implementation
 
-| Brand | Primary Color | Hex Code | Usage |
-|-------|---------------|----------|-------|
-| **OneSource** | Orange/Red | #db3700 | Filter icons, buttons, accents |
-| **Winzer Corp** | Blue | #00679b | Filter icons, buttons, accents |
-| **FastServ** | Red | #d32028 | Filter icons, buttons, accents |
+| Brand           | Primary Color | Hex Code | Usage                          |
+| --------------- | ------------- | -------- | ------------------------------ |
+| **OneSource**   | Orange/Red    | #db3700  | Filter icons, buttons, accents |
+| **Winzer Corp** | Blue          | #00679b  | Filter icons, buttons, accents |
+| **FastServ**    | Red           | #d32028  | Filter icons, buttons, accents |
 
 ## Dynamic Variant Handling
 
@@ -276,14 +274,14 @@ The implementation leverages multiple Shopify metafields for advanced filtering 
 
 ### Product Display Metafields
 
-| Metafield | Usage | Data Type | Example |
-|-----------|-------|-----------|---------|
-| `mfield_cql_badge_label` | Product badge text | String | "New", "Sale", "Featured" |
-| `mfield_cql_product_badges` | JSON array of badges | JSON | ["badge1", "badge2"] |
-| `mfield_cql_swatches_json` | Variant swatch data | JSON | Color/pattern data |
-| `mfield_cql_vendor_name` | Custom vendor display | String | Brand name override |
-| `mfield_cql_promo_messaging` | Promotional text | String | Special offers, discounts |
-| `mfield_cql_attributes_json` | Structured product attributes | JSON | Filterable product specs |
+| Metafield                    | Usage                         | Data Type | Example                   |
+| ---------------------------- | ----------------------------- | --------- | ------------------------- |
+| `mfield_cql_badge_label`     | Product badge text            | String    | "New", "Sale", "Featured" |
+| `mfield_cql_product_badges`  | JSON array of badges          | JSON      | ["badge1", "badge2"]      |
+| `mfield_cql_swatches_json`   | Variant swatch data           | JSON      | Color/pattern data        |
+| `mfield_cql_vendor_name`     | Custom vendor display         | String    | Brand name override       |
+| `mfield_cql_promo_messaging` | Promotional text              | String    | Special offers, discounts |
+| `mfield_cql_attributes_json` | Structured product attributes | JSON      | Filterable product specs  |
 
 ### Filter Processing Logic
 
@@ -376,12 +374,12 @@ This section covers ongoing maintenance and troubleshooting for the custom Searc
 
 ### Common Issues & Solutions
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Filter images not displaying | Incorrect file naming or missing files | Verify naming convention: `[field]__[value].[ext]` |
-| Filters not appearing | Insufficient product variation | Ensure 3+ products with different values |
-| Pricing not updating | API connection or authentication issues | Check B2B pricing API status and credentials |
-| Variant selection not working | JavaScript errors or missing metafields | Verify `ss_swatches` metafield data structure |
+| Issue                         | Cause                                   | Solution                                           |
+| ----------------------------- | --------------------------------------- | -------------------------------------------------- |
+| Filter images not displaying  | Incorrect file naming or missing files  | Verify naming convention: `[field]__[value].[ext]` |
+| Filters not appearing         | Insufficient product variation          | Ensure 3+ products with different values           |
+| Pricing not updating          | API connection or authentication issues | Check B2B pricing API status and credentials       |
+| Variant selection not working | JavaScript errors or missing metafields | Verify `ss_swatches` metafield data structure      |
 
 ### Performance Monitoring
 
