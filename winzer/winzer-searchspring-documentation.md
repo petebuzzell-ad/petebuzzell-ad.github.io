@@ -368,7 +368,9 @@ This section covers ongoing maintenance and troubleshooting for the custom Searc
 ### Data Synchronization
 
 - **Daily Reindexing:** SearchSpring automatically rebuilds its index daily
-- **Manual Reindex:** Available through SearchSpring dashboard when needed
+- **Manual Reindex:** Available through SearchSpring dashboard when needed.
+  - Takes anywhere from 10 - 30 minutes to complete.
+  - Once index has rebuilt, it takes ~5 minutes for changes to appear on the Shopify storefront.
 - **Metafield Updates:** Changes to Shopify metafields require reindexing to appear in filters
 - **Product Updates:** New products and variants are included in next scheduled reindex
 
@@ -387,6 +389,7 @@ This section covers ongoing maintenance and troubleshooting for the custom Searc
 - **Google Analytics:** Track user interactions with filters and search
 - **API Response Times:** Monitor B2B pricing API performance
 - **Mobile Performance:** Test filter responsiveness on mobile devices
+- **Cumulative Layout Shift:** Searchspring gets loaded late on the page. Monitor for any layout shifts that could impact user experience and core web vitals.
 
 ### Code Maintenance
 
@@ -399,4 +402,11 @@ This section covers ongoing maintenance and troubleshooting for the custom Searc
 For technical questions about this SearchSpring implementation, contact:
 
 **Arcadia Digital**  
-[pete@arcadiadigital.com](mailto:pete@arcadiadigital.com)
+[pete.buzzell@arcadiadigital.com](mailto:pete.buzzell@arcadiadigital.com)
+
+## Additional Resources
+
+For general SearchSpring questions and documentation:
+
+- **SearchSpring User Documentation:** [https://help.searchspring.net/hc/en-us](https://help.searchspring.net/hc/en-us)
+- **SearchSpring API Reference:** [https://docs.searchspring.com/reference/getting-started-welcome](https://docs.searchspring.com/reference/getting-started-welcome)

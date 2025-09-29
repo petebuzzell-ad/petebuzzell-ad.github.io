@@ -484,7 +484,11 @@ const { width, height, valuesWithImages } = useMemo(() => {
         
         <ul>
             <li><strong>Daily Reindexing:</strong> SearchSpring automatically rebuilds its index daily</li>
-            <li><strong>Manual Reindex:</strong> Available through SearchSpring dashboard when needed</li>
+            <li><strong>Manual Reindex:</strong> Available through SearchSpring dashboard when needed.</li>
+            <ul>
+                <li>Takes anywhere from 10 - 30 minutes to complete.</li>
+                <li>Once index has rebuilt, it takes ~5 minutes for changes to appear on the Shopify storefront.</li>
+            </ul>
             <li><strong>Metafield Updates:</strong> Changes to Shopify metafields require reindexing to appear in filters</li>
             <li><strong>Product Updates:</strong> New products and variants are included in next scheduled reindex</li>
         </ul>
@@ -530,6 +534,7 @@ const { width, height, valuesWithImages } = useMemo(() => {
             <li><strong>Google Analytics:</strong> Track user interactions with filters and search</li>
             <li><strong>API Response Times:</strong> Monitor B2B pricing API performance</li>
             <li><strong>Mobile Performance:</strong> Test filter responsiveness on mobile devices</li>
+            <li><strong>Cumulative Layout Shift:</strong> Searchspring gets loaded late on the page. Monitor for any layout shifts that could impact user experience and core web vitals.</li>
         </ul>
 
         <h3>Code Maintenance</h3>
@@ -551,6 +556,13 @@ const { width, height, valuesWithImages } = useMemo(() => {
             <p>For technical questions about this SearchSpring implementation, contact:</p>
             <p><strong>Arcadia Digital</strong><br />
             <a href="mailto:pete.buzzell@arcadiadigital.com">pete.buzzell@arcadiadigital.com</a></p>
+            
+            <h3>Additional Resources</h3>
+            <p>For general SearchSpring questions and documentation:</p>
+            <ul>
+                <li><strong>SearchSpring User Documentation:</strong> <a href="https://help.searchspring.net/hc/en-us" target="_blank">https://help.searchspring.net/hc/en-us</a></li>
+                <li><strong>SearchSpring API Reference:</strong> <a href="https://docs.searchspring.com/reference/getting-started-welcome" target="_blank">https://docs.searchspring.com/reference/getting-started-welcome</a></li>
+            </ul>
         </div>
         </div>
     </div>
