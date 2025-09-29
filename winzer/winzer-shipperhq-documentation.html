@@ -68,7 +68,7 @@
                 <tr>
                     <td><strong>Data Type</strong></td>
                     <td>String</td>
-                    <td>Comma-separated list of shipping restriction values</td>
+                    <td>Hash-delimited list of shipping restriction values</td>
                 </tr>
                 <tr>
                     <td><strong>Scope</strong></td>
@@ -85,22 +85,25 @@
 
         <h3>Data Format</h3>
         
-        <p>The metafield contains a hashbang-delimited string of shipping restriction identifiers. ShipperHQ expects the <code>#!</code> delimiter to separate different restriction values:</p>
+        <p>The metafield contains a hash-delimited string of shipping restriction identifiers. ShipperHQ expects the <code>#</code> delimiter to separate different restriction values:</p>
         
         <div class="code-block">
-            <code>// Example shipping groups values (hashbang-delimited format)
-"SMALL#!CA#!NY"                  // Small product restricted from CA and NY
-"Hazardous Products#!SMALL"      // Hazmat small product
-"LARGE#!TX#!FL"                  // Large product restricted from TX and FL
+            <code>// Example shipping groups values (hash-delimited format)
+"SMALL#CA#NY"                    // Small product restricted from CA and NY
+"Hazardous Products#SMALL"       // Hazmat small product
+"LARGE#TX#FL"                    // Large product restricted from TX and FL
 "MEDIUM"                         // Medium product with no restrictions
 ""                               // No shipping restrictions
 
+// Real example from SKU J91.4004
+"CA#Hazardous Products#MEDIUM"   // Hazmat medium product restricted from CA
+
 // Multiple restrictions example
-"Hazardous Products#!SMALL#!CA#!NY#!TX"  // Hazmat small product restricted from CA, NY, and TX</code>
+"Hazardous Products#SMALL#CA#NY#TX"  // Hazmat small product restricted from CA, NY, and TX</code>
         </div>
 
         <div class="alert-box alert-warning">
-            <strong>Critical Format Note:</strong> ShipperHQ requires the hashbang delimiter (<code>#!</code>) to properly parse shipping restriction values. Using commas or other delimiters will cause the restrictions to not be recognized.
+            <strong>Critical Format Note:</strong> ShipperHQ requires the hash delimiter (<code>#</code>) to properly parse shipping restriction values. Using commas or other delimiters will cause the restrictions to not be recognized.
         </div>
 
         <h2 id="shipping-group-values">Shipping Group Values</h2>
@@ -157,7 +160,7 @@
 
         <h3>State Restrictions</h3>
         
-        <p>Products can be restricted from shipping to specific states using state abbreviation codes. When used in the SHIPPING_GROUPS metafield, state codes must be separated by the hashbang delimiter:</p>
+        <p>Products can be restricted from shipping to specific states using state abbreviation codes. When used in the SHIPPING_GROUPS metafield, state codes must be separated by the hash delimiter:</p>
         
         <div class="code-block">
             <code>// Individual state codes (for reference)
@@ -169,11 +172,11 @@
 "PA"    // Pennsylvania
 // ... all 50 state abbreviations supported
 
-// State restrictions in SHIPPING_GROUPS metafield (hashbang-delimited)
-"CA#!NY#!TX"                     // Restricted from CA, NY, and TX
-"FL#!IL"                         // Restricted from FL and IL
+// State restrictions in SHIPPING_GROUPS metafield (hash-delimited)
+"CA#NY#TX"                       // Restricted from CA, NY, and TX
+"FL#IL"                          // Restricted from FL and IL
 "CA"                             // Restricted from CA only
-"SMALL#!CA#!NY"                  // Small product restricted from CA and NY</code>
+"SMALL#CA#NY"                    // Small product restricted from CA and NY</code>
         </div>
 
         <h2 id="shipping-rules-logic">Shipping Rules Logic</h2>
@@ -183,8 +186,8 @@
         <h3>State Restriction Logic</h3>
         
         <div class="code-block">
-            <code>// State restriction processing (ShipperHQ parses hashbang-delimited data)
-shipping_groups = product.shipping_groups.split("#!")
+            <code>// State restriction processing (ShipperHQ parses hash-delimited data)
+shipping_groups = product.shipping_groups.split("#")
 restricted_states = shipping_groups.filter(group => isStateCode(group))
 
 if (restricted_states.contains(customer_state)) {
@@ -192,15 +195,15 @@ if (restricted_states.contains(customer_state)) {
     available_shipping_methods = filter_by_excluded_states(customer_state)
 }
 
-// Example: "SMALL#!CA#!NY" becomes ["SMALL", "CA", "NY"]
+// Example: "SMALL#CA#NY" becomes ["SMALL", "CA", "NY"]
 // ShipperHQ identifies "CA" and "NY" as state restrictions</code>
         </div>
 
         <h3>Hazardous Material Logic</h3>
         
         <div class="code-block">
-            <code>// Hazardous material processing (ShipperHQ parses hashbang-delimited data)
-shipping_groups = product.shipping_groups.split("#!")
+            <code>// Hazardous material processing (ShipperHQ parses hash-delimited data)
+shipping_groups = product.shipping_groups.split("#")
 
 if (shipping_groups.contains("Hazardous Products")) {
     // Exclude restricted shipping methods
@@ -210,15 +213,15 @@ if (shipping_groups.contains("Hazardous Products")) {
     ])
 }
 
-// Example: "Hazardous Products#!SMALL#!CA" 
+// Example: "Hazardous Products#SMALL#CA" 
 // ShipperHQ identifies "Hazardous Products" and applies hazmat restrictions</code>
         </div>
 
         <h3>Size Classification Logic</h3>
         
         <div class="code-block">
-            <code>// Size-based shipping method filtering (ShipperHQ parses hashbang-delimited data)
-shipping_groups = product.shipping_groups.split("#!")
+            <code>// Size-based shipping method filtering (ShipperHQ parses hash-delimited data)
+shipping_groups = product.shipping_groups.split("#")
 size_classification = shipping_groups.find(group => ["SMALL", "MEDIUM", "LARGE"].contains(group))
 
 switch (size_classification) {
@@ -233,13 +236,13 @@ switch (size_classification) {
         break
 }
 
-// Example: "LARGE#!TX#!FL" 
+// Example: "LARGE#TX#FL" 
 // ShipperHQ identifies "LARGE" and applies large package shipping rules</code>
         </div>
 
         <h3>Real-World Examples</h3>
         
-        <p>Here are practical examples of how the hashbang-delimited SHIPPING_GROUPS metafield works in different scenarios:</p>
+        <p>Here are practical examples of how the hash-delimited SHIPPING_GROUPS metafield works in different scenarios:</p>
         
         <table>
             <thead>
@@ -252,7 +255,7 @@ switch (size_classification) {
             <tbody>
                 <tr>
                     <td>Small hazmat product restricted from CA and NY</td>
-                    <td><code>"Hazardous Products#!SMALL#!CA#!NY"</code></td>
+                    <td><code>"Hazardous Products#SMALL#CA#NY"</code></td>
                     <td>Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA or NY; uses small package methods</td>
                 </tr>
                 <tr>
@@ -262,18 +265,23 @@ switch (size_classification) {
                 </tr>
                 <tr>
                     <td>Medium product restricted from multiple states</td>
-                    <td><code>"MEDIUM#!TX#!FL#!IL#!PA"</code></td>
+                    <td><code>"MEDIUM#TX#FL#IL#PA"</code></td>
                     <td>Uses standard shipping methods; cannot ship to TX, FL, IL, or PA</td>
                 </tr>
                 <tr>
                     <td>Hazmat product with state restrictions</td>
-                    <td><code>"Hazardous Products#!CA#!NY#!TX"</code></td>
+                    <td><code>"Hazardous Products#CA#NY#TX"</code></td>
                     <td>Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA, NY, or TX</td>
                 </tr>
                 <tr>
                     <td>Small product with single state restriction</td>
-                    <td><code>"SMALL#!CA"</code></td>
+                    <td><code>"SMALL#CA"</code></td>
                     <td>Uses small package methods; cannot ship to California only</td>
+                </tr>
+                <tr>
+                    <td><strong>Real Example (SKU J91.4004)</strong></td>
+                    <td><code>"CA#Hazardous Products#MEDIUM"</code></td>
+                    <td>Hazmat medium product restricted from California; cannot ship via UPS Next Day Air or 2 Day Air</td>
                 </tr>
                 <tr>
                     <td>Product with no shipping restrictions</td>

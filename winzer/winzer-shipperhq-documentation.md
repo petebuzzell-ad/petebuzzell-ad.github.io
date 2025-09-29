@@ -41,27 +41,30 @@ The core of the shipping rules system is the `global.SHIPPING_GROUPS` variant me
 | Property       | Value                    | Description                                            |
 | -------------- | ------------------------ | ------------------------------------------------------ |
 | **Field Name** | `global.SHIPPING_GROUPS` | Variant-level metafield identifier                     |
-| **Data Type**  | String                   | Hashbang-delimited list of shipping restriction values |
+| **Data Type**  | String                   | Hash-delimited list of shipping restriction values |
 | **Scope**      | Variant                  | Applied to individual product variants, not products   |
 | **Required**   | No                       | Only populated for products with shipping restrictions |
 
 ### Data Format
 
-The metafield contains a hashbang-delimited string of shipping restriction identifiers. ShipperHQ expects the `#!` delimiter to separate different restriction values:
+The metafield contains a hash-delimited string of shipping restriction identifiers. ShipperHQ expects the `#` delimiter to separate different restriction values:
 
 ```javascript
-// Example shipping groups values (hashbang-delimited format)
-"SMALL#!CA#!NY"                  // Small product restricted from CA and NY
-"Hazardous Products#!SMALL"      // Hazmat small product
-"LARGE#!TX#!FL"                  // Large product restricted from TX and FL
+// Example shipping groups values (hash-delimited format)
+"SMALL#CA#NY"                    // Small product restricted from CA and NY
+"Hazardous Products#SMALL"       // Hazmat small product
+"LARGE#TX#FL"                    // Large product restricted from TX and FL
 "MEDIUM"                         // Medium product with no restrictions
 ""                               // No shipping restrictions
 
+// Real example from SKU J91.4004
+"CA#Hazardous Products#MEDIUM"   // Hazmat medium product restricted from CA
+
 // Multiple restrictions example
-"Hazardous Products#!SMALL#!CA#!NY#!TX"  // Hazmat small product restricted from CA, NY, and TX
+"Hazardous Products#SMALL#CA#NY#TX"  // Hazmat small product restricted from CA, NY, and TX
 ```
 
-> **Critical Format Note:** ShipperHQ requires the hashbang delimiter (`#!`) to properly parse shipping restriction values. Using commas or other delimiters will cause the restrictions to not be recognized.
+> **Critical Format Note:** ShipperHQ requires the hash delimiter (`#`) to properly parse shipping restriction values. Using commas or other delimiters will cause the restrictions to not be recognized.
 
 ## Shipping Group Values
 
@@ -83,7 +86,7 @@ The shipping groups system uses several types of identifiers to control shipping
 
 ### State Restrictions
 
-Products can be restricted from shipping to specific states using state abbreviation codes. When used in the SHIPPING_GROUPS metafield, state codes must be separated by the hashbang delimiter:
+Products can be restricted from shipping to specific states using state abbreviation codes. When used in the SHIPPING_GROUPS metafield, state codes must be separated by the hash delimiter:
 
 ```javascript
 // Individual state codes (for reference)
@@ -95,11 +98,11 @@ Products can be restricted from shipping to specific states using state abbrevia
 "PA"    // Pennsylvania
 // ... all 50 state abbreviations supported
 
-// State restrictions in SHIPPING_GROUPS metafield (hashbang-delimited)
-"CA#!NY#!TX"                     // Restricted from CA, NY, and TX
-"FL#!IL"                         // Restricted from FL and IL
+// State restrictions in SHIPPING_GROUPS metafield (hash-delimited)
+"CA#NY#TX"                       // Restricted from CA, NY, and TX
+"FL#IL"                          // Restricted from FL and IL
 "CA"                             // Restricted from CA only
-"SMALL#!CA#!NY"                  // Small product restricted from CA and NY
+"SMALL#CA#NY"                    // Small product restricted from CA and NY
 ```
 
 ## Shipping Rules Logic
@@ -109,8 +112,8 @@ ShipperHQ processes the shipping groups data to apply specific shipping rules du
 ### State Restriction Logic
 
 ```javascript
-// State restriction processing (ShipperHQ parses hashbang-delimited data)
-shipping_groups = product.shipping_groups.split("#!")
+// State restriction processing (ShipperHQ parses hash-delimited data)
+shipping_groups = product.shipping_groups.split("#")
 restricted_states = shipping_groups.filter(group => isStateCode(group))
 
 if (restricted_states.contains(customer_state)) {
@@ -118,15 +121,15 @@ if (restricted_states.contains(customer_state)) {
     available_shipping_methods = filter_by_excluded_states(customer_state)
 }
 
-// Example: "SMALL#!CA#!NY" becomes ["SMALL", "CA", "NY"]
+// Example: "SMALL#CA#NY" becomes ["SMALL", "CA", "NY"]
 // ShipperHQ identifies "CA" and "NY" as state restrictions
 ```
 
 ### Hazardous Material Logic
 
 ```javascript
-// Hazardous material processing (ShipperHQ parses hashbang-delimited data)
-shipping_groups = product.shipping_groups.split("#!")
+// Hazardous material processing (ShipperHQ parses hash-delimited data)
+shipping_groups = product.shipping_groups.split("#")
 
 if (shipping_groups.contains("Hazardous Products")) {
     // Exclude restricted shipping methods
@@ -136,15 +139,15 @@ if (shipping_groups.contains("Hazardous Products")) {
     ])
 }
 
-// Example: "Hazardous Products#!SMALL#!CA" 
+// Example: "Hazardous Products#SMALL#CA" 
 // ShipperHQ identifies "Hazardous Products" and applies hazmat restrictions
 ```
 
 ### Size Classification Logic
 
 ```javascript
-// Size-based shipping method filtering (ShipperHQ parses hashbang-delimited data)
-shipping_groups = product.shipping_groups.split("#!")
+// Size-based shipping method filtering (ShipperHQ parses hash-delimited data)
+shipping_groups = product.shipping_groups.split("#")
 size_classification = shipping_groups.find(group => ["SMALL", "MEDIUM", "LARGE"].contains(group))
 
 switch (size_classification) {
@@ -159,22 +162,23 @@ switch (size_classification) {
         break
 }
 
-// Example: "LARGE#!TX#!FL" 
+// Example: "LARGE#TX#FL" 
 // ShipperHQ identifies "LARGE" and applies large package shipping rules
 ```
 
 ### Real-World Examples
 
-Here are practical examples of how the hashbang-delimited SHIPPING_GROUPS metafield works in different scenarios:
+Here are practical examples of how the hash-delimited SHIPPING_GROUPS metafield works in different scenarios:
 
-| Product Scenario | SHIPPING_GROUPS Value | Shipping Behavior |
-|------------------|----------------------|-------------------|
-| Small hazmat product restricted from CA and NY | `"Hazardous Products#!SMALL#!CA#!NY"` | Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA or NY; uses small package methods |
-| Large product with no restrictions | `"LARGE"` | Uses large package shipping methods; no state or carrier restrictions |
-| Medium product restricted from multiple states | `"MEDIUM#!TX#!FL#!IL#!PA"` | Uses standard shipping methods; cannot ship to TX, FL, IL, or PA |
-| Hazmat product with state restrictions | `"Hazardous Products#!CA#!NY#!TX"` | Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA, NY, or TX |
-| Small product with single state restriction | `"SMALL#!CA"` | Uses small package methods; cannot ship to California only |
-| Product with no shipping restrictions | `""` or empty | All standard shipping methods available; no restrictions |
+| Product Scenario                               | SHIPPING_GROUPS Value                 | Shipping Behavior                                                                                  |
+| ---------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Small hazmat product restricted from CA and NY | `"Hazardous Products#SMALL#CA#NY"`    | Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA or NY; uses small package methods |
+| Large product with no restrictions             | `"LARGE"`                             | Uses large package shipping methods; no state or carrier restrictions                              |
+| Medium product restricted from multiple states | `"MEDIUM#TX#FL#IL#PA"`                | Uses standard shipping methods; cannot ship to TX, FL, IL, or PA                                   |
+| Hazmat product with state restrictions         | `"Hazardous Products#CA#NY#TX"`       | Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA, NY, or TX                        |
+| Small product with single state restriction    | `"SMALL#CA"`                          | Uses small package methods; cannot ship to California only                                         |
+| **Real Example (SKU J91.4004)**                | `"CA#Hazardous Products#MEDIUM"`      | Hazmat medium product restricted from California; cannot ship via UPS Next Day Air or 2 Day Air    |
+| Product with no shipping restrictions          | `""` or empty                         | All standard shipping methods available; no restrictions                                           |
 
 ## ShipperHQ Integration
 
