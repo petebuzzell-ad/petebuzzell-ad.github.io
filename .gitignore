@@ -22,13 +22,12 @@ analyze_*.py
 *.docx
 *.doc
 
+
 # Data exports
 *.csv
 *.xlsx
 
 # Temporary directories
-winzer-main/
-winzer-middleware/
 
 # IDE files
 .vscode/
