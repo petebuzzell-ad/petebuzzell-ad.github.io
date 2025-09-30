@@ -1,10 +1,5 @@
 # ShipperHQ Shipping Rules Documentation
 
-**From:** Arcadia Digital  
-**To:** Winzer eCommerce Team  
-**Date:** September 26, 2025  
-**Purpose:** Technical documentation of ShipperHQ shipping rules implementation for Winzer brands
-
 ## Table of Contents
 
 1. [Shipping Rules Overview](#shipping-rules-overview)

@@ -1,10 +1,5 @@
 # SearchSpring Custom Implementation Documentation
 
-**From:** Arcadia Digital  
-**To:** Winzer eCommerce Team  
-**Date:** September 26, 2025  
-**Purpose:** Technical documentation of custom SearchSpring implementations for Winzer brands
-
 ## Table of Contents
 
 1. [Custom Implementation Overview](#custom-implementation-overview)
