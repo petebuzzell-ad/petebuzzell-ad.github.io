@@ -41,7 +41,7 @@ The core of the shipping rules system is the `global.SHIPPING_GROUPS` variant me
 | Property       | Value                    | Description                                            |
 | -------------- | ------------------------ | ------------------------------------------------------ |
 | **Field Name** | `global.SHIPPING_GROUPS` | Variant-level metafield identifier                     |
-| **Data Type**  | String                   | Hash-delimited list of shipping restriction values |
+| **Data Type**  | String                   | Hash-delimited list of shipping restriction values     |
 | **Scope**      | Variant                  | Applied to individual product variants, not products   |
 | **Required**   | No                       | Only populated for products with shipping restrictions |
 
@@ -170,15 +170,15 @@ switch (size_classification) {
 
 Here are practical examples of how the hash-delimited SHIPPING_GROUPS metafield works in different scenarios:
 
-| Product Scenario                               | SHIPPING_GROUPS Value                 | Shipping Behavior                                                                                  |
-| ---------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Small hazmat product restricted from CA and NY | `"Hazardous Products#SMALL#CA#NY"`    | Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA or NY; uses small package methods |
-| Large product with no restrictions             | `"LARGE"`                             | Uses large package shipping methods; no state or carrier restrictions                              |
-| Medium product restricted from multiple states | `"MEDIUM#TX#FL#IL#PA"`                | Uses standard shipping methods; cannot ship to TX, FL, IL, or PA                                   |
-| Hazmat product with state restrictions         | `"Hazardous Products#CA#NY#TX"`       | Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA, NY, or TX                        |
-| Small product with single state restriction    | `"SMALL#CA"`                          | Uses small package methods; cannot ship to California only                                         |
-| **Real Example (SKU J91.4004)**                | `"CA#Hazardous Products#MEDIUM"`      | Hazmat medium product restricted from California; cannot ship via UPS Next Day Air or 2 Day Air    |
-| Product with no shipping restrictions          | `""` or empty                         | All standard shipping methods available; no restrictions                                           |
+| Product Scenario                               | SHIPPING_GROUPS Value              | Shipping Behavior                                                                                  |
+| ---------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Small hazmat product restricted from CA and NY | `"Hazardous Products#SMALL#CA#NY"` | Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA or NY; uses small package methods |
+| Large product with no restrictions             | `"LARGE"`                          | Uses large package shipping methods; no state or carrier restrictions                              |
+| Medium product restricted from multiple states | `"MEDIUM#TX#FL#IL#PA"`             | Uses standard shipping methods; cannot ship to TX, FL, IL, or PA                                   |
+| Hazmat product with state restrictions         | `"Hazardous Products#CA#NY#TX"`    | Cannot ship via UPS Next Day Air or 2 Day Air; cannot ship to CA, NY, or TX                        |
+| Small product with single state restriction    | `"SMALL#CA"`                       | Uses small package methods; cannot ship to California only                                         |
+| **Real Example (SKU J91.4004)**                | `"CA#Hazardous Products#MEDIUM"`   | Hazmat medium product restricted from California; cannot ship via UPS Next Day Air or 2 Day Air    |
+| Product with no shipping restrictions          | `""` or empty                      | All standard shipping methods available; no restrictions                                           |
 
 ## ShipperHQ Integration
 

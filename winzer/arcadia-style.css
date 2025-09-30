@@ -550,3 +550,54 @@ tr:nth-child(even) {
     white-space: pre;
     display: block;
 }
+
+/* Flow diagram styling */
+.flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--newsprint-white);
+    border-radius: 8px;
+    border: 1px solid var(--digital-gray-1);
+}
+
+.flow-step {
+    background: var(--forest-green);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-family: var(--font-secondary);
+    text-align: center;
+    min-width: 120px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.flow-arrow {
+    color: var(--sage-green);
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: var(--font-secondary);
+}
+
+/* Responsive flow diagram */
+@media (max-width: 768px) {
+    .flow-diagram {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .flow-arrow {
+        transform: rotate(90deg);
+        font-size: 1.2rem;
+    }
+    
+    .flow-step {
+        min-width: 100px;
+        padding: 0.5rem 1rem;
+    }
+}
