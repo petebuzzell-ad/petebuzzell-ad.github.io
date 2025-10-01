@@ -1,9 +1,9 @@
-# Brighton Shopify Middleware #
+# Winzer Shopify Middleware #
 
 ## What is this repository for? ##
 
 This is a middleware library built / intended for execution in AWS Lambdas.
-The functions will be used to integrate Brighton's Shopify storefront with third party and backoffice systems, including:
+The functions will be used to integrate Winzer's Shopify storefront with third party and backoffice systems, including:
 * Inventory import feed
 * Order Export/OMS connector
 * Salsify/PIM connector
@@ -47,7 +47,7 @@ dotnet tool restore
 
 Setup
 * `npm install -g serverless`
-* `cd src/Brighton.ShopifyMiddleware.AWS`
+* `cd src/Winzer.ShopifyMiddleware.AWS`
 * Useful commands:
     * `serverless invoke local -f inventoryFeedHandler -p events/inventoryFeedHandlerRequest.json`
     * `serverless deploy`
@@ -55,7 +55,7 @@ Setup
 
 ### Debugging ###
 
-Example payloads are stored in the `events/` folder of the Brighton.ShopifyMiddleware.AWS project.
+Example payloads are stored in the `events/` folder of the Winzer.ShopifyMiddleware.AWS project.
 
 #### Mock Lambda Test Tool ####
 
@@ -75,12 +75,12 @@ To connect to it, use sftp://demo@localhost with password demo
 
 *local invoke:*
 ```
-cd src/Brighton.ShopifyMiddleware.AWS
+cd src/Winzer.ShopifyMiddleware.AWS
 serverless invoke local -f inventoryFeedHandler -p events/inventoryFeedHandlerRequest.json
 ```
 *remote invoke:*
 ```
-cd src/Brighton.ShopifyMiddleware.AWS
+cd src/Winzer.ShopifyMiddleware.AWS
 ./build.sh
 serverless deploy --stage dev
 serverless invoke -f inventoryFeedHandler -p events/inventoryFeedHandlerRequest.json
@@ -93,7 +93,7 @@ There are also images that are pushed up to ECR that are used for running long-r
 
 ### Automatic Deployments ###
 Deployments are integrated into the bitbucket build pipeline as a manual step.  After the tests pass, press the button to run the "Deploy Staging" step.  Staging is pointed at CQL's AWS instance.
-To deploy to production, create a new tag with the format YYYY-MM-DD and it will trigger a pipeline run.  After the tests pass, press run the button to run the "Deploy Production" step.  Production is pointed at Brighton's AWS instance.
+To deploy to production, create a new tag with the format YYYY-MM-DD and it will trigger a pipeline run.  After the tests pass, press run the button to run the "Deploy Production" step.  Production is pointed at Winzer's AWS instance.
 
 ### AWS Setup ###
 Before Deploying the Product Feed or Inventory Feed images to ECR, you must create the ECR repository to hold them.  This is only required the first time.
@@ -102,15 +102,15 @@ Before Deploying the Product Feed or Inventory Feed images to ECR, you must crea
 Create the ECR repository to hold the images.
 *Create new Repos* (First Time Only):
 ```
-aws --profile brighton ecr create-repository --repository-name inventory-feed-repository
-aws --profile brighton ecr create-repository --repository-name salsify-inventory-feed-repository
-aws --profile brighton ecr create-repository --repository-name product-feed-repository
+aws --profile Winzer ecr create-repository --repository-name inventory-feed-repository
+aws --profile Winzer ecr create-repository --repository-name salsify-inventory-feed-repository
+aws --profile Winzer ecr create-repository --repository-name product-feed-repository
 ```
 
 #### ECS Setup ####
 *Create Task Definition*:
 In ECS
-- Create Cluster if there's not one already (brighton-shopify-middleware)
+- Create Cluster if there's not one already (Winzer-shopify-middleware)
 - Create Task Definition (e.g. inventory-feed-task)
   - linux
   - fargate/EC2
@@ -121,7 +121,7 @@ In ECS
 *Create Event Rule*
 In Event Bridge, Create new Rule:
 AWS Service
- - Your Cluster (brighton-shopify-middleware)
+ - Your Cluster (Winzer-shopify-middleware)
  - Your Task (e.g. inventory-feed-task)
 Network
  - find default VPC
@@ -134,9 +134,9 @@ Use Existing Role
 
 The Lambdas are deployed with Serverless:
 ```
-cd src/Brighton.ShopifyMiddleware.AWS
+cd src/Winzer.ShopifyMiddleware.AWS
 ./build.sh
-INVENTORY_ACCESS_TOKEN_VALUE=TOKEN ORDER_ACCESS_TOKEN_VALUE=TOKEN FULFILLMENT_ACCESS_TOKEN_VALUE=TOKEN SFTP_PASSWORD=PASSWORD KWI_SFTP_PASSWORD=PASSWORD CRM_AUTHORIZATION_HEADER=TOKEN serverless deploy --aws-profile brighton --stage prod
+INVENTORY_ACCESS_TOKEN_VALUE=TOKEN ORDER_ACCESS_TOKEN_VALUE=TOKEN FULFILLMENT_ACCESS_TOKEN_VALUE=TOKEN SFTP_PASSWORD=PASSWORD KWI_SFTP_PASSWORD=PASSWORD CRM_AUTHORIZATION_HEADER=TOKEN serverless deploy --aws-profile Winzer --stage prod
 ```
 
 ### Manual Build and Deploy Inventory Feed Image
@@ -144,7 +144,7 @@ INVENTORY_ACCESS_TOKEN_VALUE=TOKEN ORDER_ACCESS_TOKEN_VALUE=TOKEN FULFILLMENT_AC
 *Step 1* - Build image:
 
 ```
-cd Brighton.ShopifyMiddleware.InventoryFeedConsoleApp
+cd Winzer.ShopifyMiddleware.InventoryFeedConsoleApp
 ./build.sh
 docker build -t inventory-feed -f Dockerfile .
 ```
@@ -157,7 +157,7 @@ docker run -it --rm inventory-feed
 
 ```
 docker tag inventory-feed 023486447297.dkr.ecr.us-east-1.amazonaws.com/inventory-feed-repository
-aws --profile brighton ecr get-login-password | docker login --username AWS --password-stdin 023486447297.dkr.ecr.us-east-1.amazonaws.com
+aws --profile Winzer ecr get-login-password | docker login --username AWS --password-stdin 023486447297.dkr.ecr.us-east-1.amazonaws.com
 docker push 023486447297.dkr.ecr.us-east-1.amazonaws.com/inventory-feed-repository:latest
 docker push 023486447297.dkr.ecr.us-east-1.amazonaws.com/inventory-feed-repository:YYYY-MM-DD
 ```
@@ -167,7 +167,7 @@ docker push 023486447297.dkr.ecr.us-east-1.amazonaws.com/inventory-feed-reposito
 *Step 1* - Build image:
 
 ```
-cd Brighton.ShopifyMiddleware.SalsifyInventoryFeedConsoleApp
+cd Winzer.ShopifyMiddleware.SalsifyInventoryFeedConsoleApp
 ./build.sh
 docker build -t salsify-inventory-feed -f Dockerfile .
 ```
@@ -180,7 +180,7 @@ docker run -it --rm salsify-inventory-feed
 
 ```
 docker tag salsify-inventory-feed 023486447297.dkr.ecr.us-east-1.amazonaws.com/salsify-inventory-feed-repository
-aws --profile brighton ecr get-login-password | docker login --username AWS --password-stdin 023486447297.dkr.ecr.us-east-1.amazonaws.com
+aws --profile Winzer ecr get-login-password | docker login --username AWS --password-stdin 023486447297.dkr.ecr.us-east-1.amazonaws.com
 docker push 023486447297.dkr.ecr.us-east-1.amazonaws.com/salsify-inventory-feed-repository:latest
 docker push 023486447297.dkr.ecr.us-east-1.amazonaws.com/salsify-inventory-feed-repository:YYYY-MM-DD
 ```
@@ -190,7 +190,7 @@ docker push 023486447297.dkr.ecr.us-east-1.amazonaws.com/salsify-inventory-feed-
 *Step 1* - Build image:
 
 ```
-cd Brighton.ShopifyMiddleware.ProductFeedConsoleApp
+cd Winzer.ShopifyMiddleware.ProductFeedConsoleApp
 ./build.sh
 docker build -t product-feed -f Dockerfile .
 ```
@@ -203,7 +203,7 @@ docker run -it --rm product-feed
 
 ```
 docker tag product-feed 023486447297.dkr.ecr.us-east-1.amazonaws.com/product-feed-repository
-aws --profile brighton ecr get-login-password | docker login --username AWS --password-stdin 023486447297.dkr.ecr.us-east-1.amazonaws.com
+aws --profile Winzer ecr get-login-password | docker login --username AWS --password-stdin 023486447297.dkr.ecr.us-east-1.amazonaws.com
 docker push 023486447297.dkr.ecr.us-east-1.amazonaws.com/product-feed-repository:latest
 docker push 023486447297.dkr.ecr.us-east-1.amazonaws.com/product-feed-repository:YYYY-MM-DD
 ```
